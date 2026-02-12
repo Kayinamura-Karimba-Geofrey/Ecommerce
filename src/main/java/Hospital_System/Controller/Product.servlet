@@ -7,16 +7,93 @@ import jakarta.servlet.http.HttpServletResponse;
 import rca.mis.services.StudentServices;
 
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet(name = "", value = "/")
-public class  extends HttpServlet {
+@WebServlet("/products")
+public class Product extends HttpServlet {
+ private  ProductService productService ;
+
+ @Override
+ public void init(){
+ productService= new ProductService();
+ }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    if (action==null){
+    listProducts(request, response);
+    }else{
+    switch(action){
+    case "view":
+    viewProduct(request,response);
+    break;
+    case "delete":
+    deleteProduct(request,response);
+    break;
+    default:
+    listProducts(request,response);
+    break;
+    }
+    }
 
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    String action = request.getParameter("action");
+    if(action.equals("add")){
+    addProduct(request, response);
+    }else if (action.equals("update")){
+    updateProduct(request,response);
+    }
+    }
+
+    private void listProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    List<Product> products = productService.getAllProducts();
+    request.setAttribute("products",products);
+    request.getRequestDispatcher("pages/products.jsp").forward(request,response);
+
+    }
+    private void viewProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    int id = Integer.parseInt(request.getParameter("id");
+    Product product = ProductService.getProductById(id);
+    request.setAttribute("product", product);
+    request.getRequestDispatcher("pages/product-details.jsp").forward(request,response);
+
+    }
+    private void  addProduct(HttpServletRequest request, HttpServletResponse response) throw IOException{
+    String name = request.getParameter("name");
+    String description = request.getParameter("description");
+    double price = Double.parseDouble(request.getParameter("price"));
+    int stock = Integer.parseInt(request.getParameter("stock"));
+    String imageUrl= request.getParameter("imageUrl");
+    String category = request.getParameter("category");
+
+    Product product = new Product(name, description , price , stock, imageUrl, category);
+    productService. saveProduct(product);
+    response.sendRedirect("products");
+    }
+    private void updateProduct(HttpServletRequest request, HttpServletResponse response)
+    throws IOException{
+    int  id = Integer.parseInt(request.getParameter("id"));
+    Product product = ProductService. getProductById(id);
+    product.setName(request.getParameter("name"));
+    product.SetDescription(request.getParameter("description"));
+    product.setPrice(Double.parseDouble(request.getParameter("price")));
+    product.setStock(Integer.parseInt( request.getParameter("stock")));
+    product.setImageUrl(request.getParameter("imageUrl"));
+    product.setCategory(request.getParameter("category"));
+
+    }
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response)
+                throws IOException {
+
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            productDAO.deleteProduct(id);
+
+            response.sendRedirect("products");
+        }
     }
 }
