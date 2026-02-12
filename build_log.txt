@@ -1,0 +1,22 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< org.javaproject:demo1 >------------------------
+[INFO] Building demo1 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ demo1 ---
+[INFO] Deleting C:\Users\HP\demo1\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ demo1 ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ demo1 ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 16 source files with javac [debug target 21] to target\classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.880 s
+[INFO] Finished at: 2026-02-12T20:03:56+02:00
+[INFO] ------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-package Hospital_System.Util;
+package ecommerce.Util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -10,7 +10,7 @@ public class HibernateUtil {
     static {
         try {
             sessionFactory = new Configuration()
-                    .configure("hibernate.cfg.xml")
+                    .configure("hibernate.config.xml")
                     .buildSessionFactory();
         } catch (Throwable ex) {
             System.err.println("SessionFactory creation failed: " + ex);
