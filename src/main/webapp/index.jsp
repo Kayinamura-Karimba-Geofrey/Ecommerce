@@ -2,12 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Ecommerce System</title>
+    <meta http-equiv="refresh" content="0; url=products" />
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
-<br/>
-<a href="hello-servlet">Hello Servlet</a>
+    <p>Redirecting to <a href="products">Products</a>...</p>
 </body>
 </html>
