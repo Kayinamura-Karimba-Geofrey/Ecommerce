@@ -5,52 +5,40 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "cart_items")
 public class CartItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int userId;
-    private int productId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
     private int quantity;
 
-    public CartItem() {
-    }
+    public CartItem() {}
 
-    public CartItem(int id, int userId, int productId, int quantity) {
-        this.id = id;
-        this.userId = userId;
-        this.productId = productId;
+    public CartItem(User user, Product product, int quantity) {
+        this.user = user;
+        this.product = product;
         this.quantity = quantity;
     }
 
-    public int getId() {
-        return id;
-    }
+    // Getters and Setters
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public int getUserId() {
-        return userId;
-    }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+    public Product getProduct() { return product; }
+    public void setProduct(Product product) { this.product = product; }
 
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 }
