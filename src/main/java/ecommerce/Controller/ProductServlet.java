@@ -19,9 +19,11 @@ public class ProductServlet extends HttpServlet {
         productDAO = new ProductService();
     }
 
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
 
         String action = request.getParameter("action");
 
