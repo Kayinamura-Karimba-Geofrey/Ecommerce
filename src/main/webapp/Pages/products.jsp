@@ -122,6 +122,10 @@
                onclick="return confirm('Are you sure you want to delete this product?');">
                 Delete
             </a>
+            <a href="products?action=edit&id=${product.id}"
+               class="btn btn-sm btn-warning">
+                Edit
+            </a>
 
         </div>
 
