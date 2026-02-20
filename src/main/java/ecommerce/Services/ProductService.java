@@ -34,12 +34,17 @@ public class ProductService {
 
     public void updateProduct(Product product) {
         Transaction transaction = null;
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
             transaction = session.beginTransaction();
-            session.merge(product);
+            session.update(product);
             transaction.commit();
+
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         }
     }
