@@ -1,21 +1,66 @@
 package ecommerce.Controller;
-import jakarta.servlet.ServletException;
+
+import ecommerce.Services.CartItemService;
+import ecommerce.Services.ProductService;
+import ecommerce.Model.Product;
+import ecommerce.Model.User;
+
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+import jakarta.servlet.*;
 
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet(name = "CartItemServlet", value = "/cart")
+@WebServlet("/cart")
 public class CartItemServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    private CartItemService cartDAO;
+    private ProductService productDAO;
+
+    @Override
+    public void init() {
+        cartDAO= new CartItemService();
+        productDAO = new ProductService();
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
+        String action = request.getParameter("action");
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        if (user == null) {
+            response.sendRedirect("pages/login.jsp");
+            return;
+        }
+
+        if ("add".equals(action)) {
+
+            int productId = Integer.parseInt(request.getParameter("id"));
+            Product product = productDAO.getProductById(productId);
+
+            cartDAO.addToCart(user, product);
+
+            response.sendRedirect("cart");
+
+        } else if ("remove".equals(action)) {
+
+            int cartItemId = Integer.parseInt(request.getParameter("id"));
+            cartDAO.removeItem(cartItemId);
+
+            response.sendRedirect("cart");
+
+        } else {
+
+            List<?> cartItems = cartDAO.getUserCart(user);
+            request.setAttribute("cartItems", cartItems);
+
+            request.getRequestDispatcher("pages/cart.jsp")
+                    .forward(request, response);
+        }
     }
 }
