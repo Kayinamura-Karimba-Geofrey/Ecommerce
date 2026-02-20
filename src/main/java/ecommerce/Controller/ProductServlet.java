@@ -23,6 +23,12 @@ public class ProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("loggedUser") == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
 
         String action = request.getParameter("action");
