@@ -54,4 +54,18 @@ public class UserService {
             return query.uniqueResult() != null;
         }
     }
+    public User findByEmail(String email) {
+
+        try (Session session =
+                     HibernateUtil.getSessionFactory().openSession()) {
+
+            Query<User> query = session.createQuery(
+                    "FROM User WHERE email = :email",
+                    User.class);
+
+            query.setParameter("email", email);
+
+            return query.uniqueResult();
+        }
+    }
 }

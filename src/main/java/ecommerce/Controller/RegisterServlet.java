@@ -6,6 +6,7 @@ import ecommerce.Services.UserService;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import jakarta.servlet.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +24,13 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
             throws ServletException, IOException {
+        String rawPassword = request.getParameter("password");
+
+// 🔐 Hash password
+        String hashedPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
+
+        User user = new User(fullname, email, hashedPassword);
+        userDAO.saveUser(user);
 
         String name = request.getParameter("fullname");
         String email = request.getParameter("email");
