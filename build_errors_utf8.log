@@ -1,0 +1,75 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< org.javaproject:demo1 >------------------------
+[INFO] Building demo1 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ demo1 ---
+[INFO] Deleting C:\Users\HP\demo1\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ demo1 ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ demo1 ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 19 source files with javac [debug target 21] to target\classes
+[INFO] /C:/Users/HP/demo1/src/main/java/ecommerce/Services/ProductService.java: Some input files use or override a deprecated API.
+[INFO] /C:/Users/HP/demo1/src/main/java/ecommerce/Services/ProductService.java: Recompile with -Xlint:deprecation for details.
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/filter/AutFilter.java:[16,8] class AuthFilter is public, should be declared in a file named AuthFilter.java
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/RegisterServlet.java:[32,30] cannot find symbol
+  symbol:   variable fullname
+  location: class ecommerce.Controller.RegisterServlet
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/RegisterServlet.java:[32,40] cannot find symbol
+  symbol:   variable email
+  location: class ecommerce.Controller.RegisterServlet
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/RegisterServlet.java:[48,14] variable user is already defined in method doPost(jakarta.servlet.http.HttpServletRequest,jakarta.servlet.http.HttpServletResponse)
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/RegisterServlet.java:[48,30] cannot find symbol
+  symbol:   variable fullname
+  location: class ecommerce.Controller.RegisterServlet
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/LoginServlet.java:[29,41] cannot find symbol
+  symbol:   variable email
+  location: class ecommerce.Controller.LoginServlet
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/LoginServlet.java:[31,44] cannot find symbol
+  symbol:   variable password
+  location: class ecommerce.Controller.LoginServlet
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/LoginServlet.java:[49,21] variable user is already defined in method doPost(jakarta.servlet.http.HttpServletRequest,jakarta.servlet.http.HttpServletResponse)
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/LoginServlet.java:[49,38] incompatible types: ecommerce.Model.User cannot be converted to ecommerce.Services.UserService
+[INFO] 9 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.701 s
+[INFO] Finished at: 2026-02-21T00:33:08+02:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project demo1: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/filter/AutFilter.java:[16,8] class AuthFilter is public, should be declared in a file named AuthFilter.java
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/RegisterServlet.java:[32,30] cannot find symbol
+[ERROR]   symbol:   variable fullname
+[ERROR]   location: class ecommerce.Controller.RegisterServlet
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/RegisterServlet.java:[32,40] cannot find symbol
+[ERROR]   symbol:   variable email
+[ERROR]   location: class ecommerce.Controller.RegisterServlet
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/RegisterServlet.java:[48,14] variable user is already defined in method doPost(jakarta.servlet.http.HttpServletRequest,jakarta.servlet.http.HttpServletResponse)
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/RegisterServlet.java:[48,30] cannot find symbol
+[ERROR]   symbol:   variable fullname
+[ERROR]   location: class ecommerce.Controller.RegisterServlet
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/LoginServlet.java:[29,41] cannot find symbol
+[ERROR]   symbol:   variable email
+[ERROR]   location: class ecommerce.Controller.LoginServlet
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/LoginServlet.java:[31,44] cannot find symbol
+[ERROR]   symbol:   variable password
+[ERROR]   location: class ecommerce.Controller.LoginServlet
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/LoginServlet.java:[49,21] variable user is already defined in method doPost(jakarta.servlet.http.HttpServletRequest,jakarta.servlet.http.HttpServletResponse)
+[ERROR] /C:/Users/HP/demo1/src/main/java/ecommerce/Controller/LoginServlet.java:[49,38] incompatible types: ecommerce.Model.User cannot be converted to ecommerce.Services.UserService
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

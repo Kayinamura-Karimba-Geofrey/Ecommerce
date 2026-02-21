@@ -43,7 +43,7 @@ public class ProductServlet extends HttpServlet {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Product product = productDAO.getProductById(id);
                 request.setAttribute("product", product);
-                request.getRequestDispatcher("edit-product.jsp")
+                request.getRequestDispatcher("/edit-product.jsp")
                         .forward(request, response);
                 break;
 
@@ -56,7 +56,7 @@ public class ProductServlet extends HttpServlet {
             default:
                 List<Product> list = productDAO.getAllProducts();
                 request.setAttribute("productList", list);
-                request.getRequestDispatcher("products.jsp")
+                request.getRequestDispatcher("/products.jsp")
                         .forward(request, response);
                 break;
         }

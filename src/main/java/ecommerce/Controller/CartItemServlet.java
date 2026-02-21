@@ -31,10 +31,10 @@ public class CartItemServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("loggedUser");
 
         if (user == null) {
-            response.sendRedirect("pages/login.jsp");
+            response.sendRedirect("login.jsp");
             return;
         }
 
@@ -59,7 +59,7 @@ public class CartItemServlet extends HttpServlet {
             List<?> cartItems = cartDAO.getUserCart(user);
             request.setAttribute("cartItems", cartItems);
 
-            request.getRequestDispatcher("pages/cart.jsp")
+            request.getRequestDispatcher("cart.jsp")
                     .forward(request, response);
         }
     }
