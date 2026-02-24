@@ -60,6 +60,7 @@
                     font-weight: 700;
                     background: linear-gradient(to right, #6366f1, #10b981);
                     -webkit-background-clip: text;
+                    background-clip: text;
                     -webkit-text-fill-color: transparent;
                 }
 
@@ -262,82 +263,82 @@
         </head>
 
         <body>
+            <%@ include file="navbar.jsp" %>
 
-            <div class="container">
-                <header class="header">
-                    <div>
-                        <a href="products" class="back-link">← Back to Shopping</a>
-                        <h1>Your Cart</h1>
-                    </div>
-                </header>
+                <div class="container">
+                    <header class="header">
+                        <div>
+                            <h1>Your Cart</h1>
+                        </div>
+                    </header>
 
-                <div class="cart-card">
-                    <c:choose>
-                        <c:when test="${not empty cartItems}">
-                            <table class="cart-table">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach var="item" items="${cartItems}">
-                                        <tr class="cart-item">
-                                            <td>
-                                                <div class="product-info">
-                                                    <img src="${item.product.imageUrl}" alt="${item.product.name}"
-                                                        class="product-img">
-                                                    <div>
-                                                        <div class="product-name">${item.product.name}</div>
-                                                        <div class="product-cat">${item.product.category}</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span class="price">$${item.product.price}</span>
-                                            </td>
-                                            <td>
-                                                <div class="qty-controls">
-                                                    <a href="cart?action=update&id=${item.id}&quantity=${item.quantity - 1}"
-                                                        class="qty-btn">-</a>
-                                                    <span class="qty-val">${item.quantity}</span>
-                                                    <a href="cart?action=update&id=${item.id}&quantity=${item.quantity + 1}"
-                                                        class="qty-btn">+</a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span class="total-col">$${item.total}</span>
-                                            </td>
-                                            <td>
-                                                <a href="cart?action=remove&id=${item.id}" class="remove-btn"
-                                                    onclick="return confirm('Remove item?')">Remove</a>
-                                            </td>
+                    <div class="cart-card">
+                        <c:choose>
+                            <c:when test="${not empty cartItems}">
+                                <table class="cart-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th></th>
                                         </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="item" items="${cartItems}">
+                                            <tr class="cart-item">
+                                                <td>
+                                                    <div class="product-info">
+                                                        <img src="${item.product.imageUrl}" alt="${item.product.name}"
+                                                            class="product-img">
+                                                        <div>
+                                                            <div class="product-name">${item.product.name}</div>
+                                                            <div class="product-cat">${item.product.category}</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="price">$${item.product.price}</span>
+                                                </td>
+                                                <td>
+                                                    <div class="qty-controls">
+                                                        <a href="cart?action=update&id=${item.id}&quantity=${item.quantity - 1}"
+                                                            class="qty-btn">-</a>
+                                                        <span class="qty-val">${item.quantity}</span>
+                                                        <a href="cart?action=update&id=${item.id}&quantity=${item.quantity + 1}"
+                                                            class="qty-btn">+</a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="total-col">$${item.total}</span>
+                                                </td>
+                                                <td>
+                                                    <a href="cart?action=remove&id=${item.id}" class="remove-btn"
+                                                        onclick="return confirm('Remove item?')">Remove</a>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
 
-                            <div class="cart-footer">
-                                <div class="grand-total">
-                                    <p>Grand Total</p>
-                                    <h2>$${cartTotal}</h2>
+                                <div class="cart-footer">
+                                    <div class="grand-total">
+                                        <p>Grand Total</p>
+                                        <h2>$${cartTotal}</h2>
+                                    </div>
+                                    <a href="checkout" class="btn-checkout">Checkout Now</a>
                                 </div>
-                                <a href="checkout" class="btn-checkout">Checkout Now</a>
-                            </div>
-                        </c:when>
-                        <c:otherwise>
-                            <div class="empty-cart">
-                                <p>Your cart feels a bit light...</p>
-                                <a href="products" class="btn-shop">Explore Collection</a>
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="empty-cart">
+                                    <p>Your cart feels a bit light...</p>
+                                    <a href="products" class="btn-shop">Explore Collection</a>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
                 </div>
-            </div>
 
         </body>
 

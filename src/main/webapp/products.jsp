@@ -43,7 +43,7 @@
                 }
 
                 .header {
-                    padding: 60px 20px 40px;
+                    padding: 40px 20px 40px;
                     text-align: center;
                 }
 
@@ -53,6 +53,7 @@
                     margin-bottom: 10px;
                     background: linear-gradient(to right, #6366f1, #10b981);
                     -webkit-background-clip: text;
+                    background-clip: text;
                     -webkit-text-fill-color: transparent;
                 }
 
@@ -142,6 +143,7 @@
                     margin-bottom: 20px;
                     display: -webkit-box;
                     -webkit-line-clamp: 2;
+                    line-clamp: 2;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                 }
@@ -217,42 +219,43 @@
         </head>
 
         <body>
+            <%@ include file="navbar.jsp" %>
 
-            <header class="header">
-                <div class="container">
-                    <h1>Premium Collections</h1>
-                    <p>Experience the finest selection of curated products</p>
-                </div>
-            </header>
+                <header class="header">
+                    <div class="container">
+                        <h1>Premium Collections</h1>
+                        <p>Experience the finest selection of curated products</p>
+                    </div>
+                </header>
 
-            <main class="container">
-                <div class="products-grid">
-                    <c:forEach var="product" items="${products}">
-                        <div class="product-card">
-                            <div class="image-container">
-                                <img src="${product.imageUrl}" alt="${product.name}">
-                                <span class="category-badge">${product.category}</span>
-                            </div>
+                <main class="container">
+                    <div class="products-grid">
+                        <c:forEach var="product" items="${products}">
+                            <div class="product-card">
+                                <div class="image-container">
+                                    <img src="${product.imageUrl}" alt="${product.name}">
+                                    <span class="category-badge">${product.category}</span>
+                                </div>
 
-                            <div class="content">
-                                <h2 class="product-name">${product.name}</h2>
-                                <p class="product-desc">${product.description}</p>
+                                <div class="content">
+                                    <h2 class="product-name">${product.name}</h2>
+                                    <p class="product-desc">${product.description}</p>
 
-                                <div class="footer-action">
-                                    <span class="price">$${product.price}</span>
-                                    <a href="cart?action=add&id=${product.id}" class="btn-buy">Add to Cart</a>
+                                    <div class="footer-action">
+                                        <span class="price">$${product.price}</span>
+                                        <a href="cart?action=add&id=${product.id}" class="btn-buy">Add to Cart</a>
+                                    </div>
+                                </div>
+
+                                <div class="admin-controls">
+                                    <a href="products?action=edit&id=${product.id}" class="btn-admin btn-edit">Edit</a>
+                                    <a href="products?action=delete&id=${product.id}" class="btn-admin btn-del"
+                                        onclick="return confirm('Are you sure?');">Delete</a>
                                 </div>
                             </div>
-
-                            <div class="admin-controls">
-                                <a href="products?action=edit&id=${product.id}" class="btn-admin btn-edit">Edit</a>
-                                <a href="products?action=delete&id=${product.id}" class="btn-admin btn-del"
-                                    onclick="return confirm('Are you sure?');">Delete</a>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div>
-            </main>
+                        </c:forEach>
+                    </div>
+                </main>
 
         </body>
 
