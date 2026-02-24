@@ -41,4 +41,8 @@ public class CartItem {
 
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
+
+    public double getTotal() {
+        return product != null ? product.getPrice() * quantity : 0.0;
+    }
 }

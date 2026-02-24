@@ -78,4 +78,25 @@ public class CartItemService {
             e.printStackTrace();
         }
     }
+
+    // 🔹 Update quantity
+    public void updateQuantity(int cartItemId, int newQuantity) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            CartItem item = session.get(CartItem.class, cartItemId);
+            if (item != null) {
+                if (newQuantity > 0) {
+                    item.setQuantity(newQuantity);
+                    session.merge(item);
+                } else {
+                    session.remove(item);
+                }
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
 }
