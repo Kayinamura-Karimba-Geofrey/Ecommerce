@@ -13,8 +13,8 @@ public class CartItemService {
 
     // 🔹 Add product to cart
     public void addToCart(User user, Product product) {
-        System.out.println("[CartItemService] addToCart started for User: " + (user != null ? user.getEmail() : "null") + 
-                           ", Product: " + (product != null ? product.getName() : "null"));
+        System.out.println("[CartItemService] addToCart started. User ID: " + (user != null ? user.getId() : "null") + 
+                           ", Product ID: " + (product != null ? product.getId() : "null"));
         
         Session session = null;
         Transaction transaction = null;
@@ -23,100 +23,88 @@ public class CartItemService {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
 
-            // Ensure we are working with persistent/managed entities
+            // Refetch to ensure management
             User managedUser = session.get(User.class, user.getId());
             Product managedProduct = session.get(Product.class, product.getId());
             
-            System.out.println("[CartItemService] Managed User ID: " + (managedUser != null ? managedUser.getId() : "null"));
-            System.out.println("[CartItemService] Managed Product ID: " + (managedProduct != null ? managedProduct.getId() : "null"));
-
             if (managedUser == null || managedProduct == null) {
-                System.out.println("[CartItemService] Error: User or Product not found in database.");
+                System.out.println("[CartItemService] Error: User or Product not found.");
                 return;
             }
 
-            // Check if item already exists
+            // Check if item already exists - Using IDs in query for robustness
             CartItem existingItem = session.createQuery(
-                            "FROM CartItem WHERE user = :user AND product = :product",
+                            "FROM CartItem WHERE user.id = :userId AND product.id = :productId",
                             CartItem.class)
-                    .setParameter("user", managedUser)
-                    .setParameter("product", managedProduct)
+                    .setParameter("userId", managedUser.getId())
+                    .setParameter("productId", managedProduct.getId())
                     .uniqueResult();
 
             if (existingItem != null) {
-                System.out.println("[CartItemService] Item already exists. Increasing quantity from " + existingItem.getQuantity());
+                System.out.println("[CartItemService] Updating existing item ID: " + existingItem.getId());
                 existingItem.setQuantity(existingItem.getQuantity() + 1);
                 session.merge(existingItem);
             } else {
-                System.out.println("[CartItemService] Item does not exist. Creating new CartItem.");
+                System.out.println("[CartItemService] Persisting new CartItem.");
                 CartItem cartItem = new CartItem(managedUser, managedProduct, 1);
                 session.persist(cartItem);
             }
 
             transaction.commit();
-            System.out.println("[CartItemService] Transaction committed successfully.");
+            System.out.println("[CartItemService] Transaction committed.");
         } catch (Exception e) {
-            System.out.println("[CartItemService] Transaction failed. Rolling back.");
+            System.out.println("[CartItemService] Exception in addToCart: " + e.getMessage());
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
             e.printStackTrace();
         } finally {
-            if (session != null) {
-                session.close();
-                System.out.println("[CartItemService] Session closed.");
-            }
+            if (session != null) session.close();
         }
     }
 
     // 🔹 Get user's cart
     public List<CartItem> getUserCart(User user) {
-        System.out.println("[CartItemService] Fetching cart for User: " + (user != null ? user.getEmail() : "null"));
+        System.out.println("[CartItemService] getUserCart for User ID: " + (user != null ? user.getId() : "null"));
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // Querying by user.id to avoid issues with detached user objects in session
             List<CartItem> items = session.createQuery(
-                            "FROM CartItem WHERE user = :user",
+                            "FROM CartItem WHERE user.id = :userId",
                             CartItem.class)
-                    .setParameter("user", user)
+                    .setParameter("userId", user.getId())
                     .list();
-            System.out.println("[CartItemService] Found " + items.size() + " items in cart.");
+            System.out.println("[CartItemService] Database returned " + items.size() + " items.");
             return items;
+        } catch (Exception e) {
+            System.out.println("[CartItemService] Exception in getUserCart: " + e.getMessage());
+            e.printStackTrace();
+            return List.of();
         }
     }
 
     // 🔹 Remove item
     public void removeItem(int cartItemId) {
-        System.out.println("[CartItemService] Removing CartItem ID: " + cartItemId);
         Session session = null;
         Transaction transaction = null;
-
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-
             CartItem item = session.get(CartItem.class, cartItemId);
             if (item != null) {
                 session.remove(item);
-                System.out.println("[CartItemService] Item removed.");
-            } else {
-                System.out.println("[CartItemService] Item not found.");
+                System.out.println("[CartItemService] Removed CartItem ID: " + cartItemId);
             }
-
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
+            if (transaction != null && transaction.isActive()) transaction.rollback();
             e.printStackTrace();
         } finally {
-            if (session != null) {
-                session.close();
-            }
+            if (session != null) session.close();
         }
     }
 
     // 🔹 Update quantity
     public void updateQuantity(int cartItemId, int newQuantity) {
-        System.out.println("[CartItemService] Updating CartItem ID: " + cartItemId + " to Quantity: " + newQuantity);
         Session session = null;
         Transaction transaction = null;
         try {
@@ -127,24 +115,16 @@ public class CartItemService {
                 if (newQuantity > 0) {
                     item.setQuantity(newQuantity);
                     session.merge(item);
-                    System.out.println("[CartItemService] Quantity updated.");
                 } else {
                     session.remove(item);
-                    System.out.println("[CartItemService] Quantity reached 0. Item removed.");
                 }
-            } else {
-                System.out.println("[CartItemService] Item not found.");
             }
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
+            if (transaction != null && transaction.isActive()) transaction.rollback();
             e.printStackTrace();
         } finally {
-            if (session != null) {
-                session.close();
-            }
+            if (session != null) session.close();
         }
     }
 }
