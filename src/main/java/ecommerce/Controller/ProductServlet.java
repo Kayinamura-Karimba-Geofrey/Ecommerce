@@ -23,14 +23,6 @@ public class ProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-
-        if (session == null || session.getAttribute("loggedUser") == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
-
         String action = request.getParameter("action");
 
         if (action == null) {
@@ -55,7 +47,7 @@ public class ProductServlet extends HttpServlet {
 
             default:
                 List<Product> list = productDAO.getAllProducts();
-                request.setAttribute("productList", list);
+                request.setAttribute("products", list);
                 request.getRequestDispatcher("/products.jsp")
                         .forward(request, response);
                 break;
