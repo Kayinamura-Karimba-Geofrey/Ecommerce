@@ -31,8 +31,10 @@ public class AuthFilter implements Filter {
         String path = req.getRequestURI().substring(req.getContextPath().length());
 
         if (user != null) {
+            System.out.println("[AuthFilter] Authenticated user: " + user.getEmail() + ", Role: " + user.getRole() + ", Requesting: " + path);
             // Role-based access for admin
             if (path.startsWith("/admin") && !"ADMIN".equals(user.getRole())) {
+                System.out.println("[AuthFilter] Access Denied: User role is " + user.getRole() + ", but ADMIN required.");
                 res.sendRedirect(req.getContextPath() + "/products");
                 return;
             }

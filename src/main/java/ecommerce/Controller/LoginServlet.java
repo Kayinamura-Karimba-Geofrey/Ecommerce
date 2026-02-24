@@ -34,6 +34,7 @@ public class LoginServlet extends HttpServlet {
         if (user != null && BCrypt.checkpw(password, user.getPassword())) {
             HttpSession session = request.getSession();
             session.setAttribute("loggedUser", user);
+            System.out.println("[LoginServlet] User logged in: " + user.getEmail() + ", Role: " + user.getRole());
             response.sendRedirect("products");
         } else {
             request.setAttribute("error", "Invalid email or password!");

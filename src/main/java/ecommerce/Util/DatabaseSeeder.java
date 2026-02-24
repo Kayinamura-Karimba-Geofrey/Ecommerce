@@ -8,6 +8,21 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class DatabaseSeeder {
     public static void main(String[] args) {
+        // Seed Admin User
+        UserService userService = new UserService();
+        if (!userService.emailExists("john@gmail.com")) {
+            System.out.println("Seeding admin user...");
+            User admin = new User();
+            admin.setFullname("John Admin");
+            admin.setEmail("john@gmail.com");
+            admin.setPassword(BCrypt.hashpw("1234", BCrypt.gensalt()));
+            admin.setRole("ADMIN");
+            userService.saveUser(admin);
+            System.out.println("Admin user seeded: john@gmail.com / 1234");
+        } else {
+            System.out.println("Admin user already exists.");
+        }
+
         ProductService productService = new ProductService();
         
         Product[] products = {
@@ -60,21 +75,6 @@ public class DatabaseSeeder {
             System.out.println("Saved: " + p.getName());
         }
         System.out.println("Database seeding completed successfully.");
-
-        // Seed Admin User
-        UserService userService = new UserService();
-        if (!userService.emailExists("john@gmail.com")) {
-            System.out.println("Seeding admin user...");
-            User admin = new User();
-            admin.setFullname("John Admin");
-            admin.setEmail("john@gmail.com");
-            admin.setPassword(BCrypt.hashpw("1234", BCrypt.gensalt()));
-            admin.setRole("ADMIN");
-            userService.saveUser(admin);
-            System.out.println("Admin user seeded: john@gmail.com / 1234");
-        } else {
-            System.out.println("Admin user already exists.");
-        }
         
         System.exit(0);
     }
