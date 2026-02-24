@@ -1,5 +1,6 @@
 package ecommerce.filter;
 
+import ecommerce.Model.User;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,13 +9,11 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-/*
 @WebFilter(urlPatterns = {
         "/products",
         "/cart",
-        "/checkout"
+        "/admin"
 })
-*/
 public class AuthFilter implements Filter {
 
     @Override
@@ -27,11 +26,16 @@ public class AuthFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         HttpSession session = req.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("loggedUser") : null;
 
-        boolean loggedIn = (session != null &&
-                session.getAttribute("loggedUser") != null);
+        String path = req.getRequestURI().substring(req.getContextPath().length());
 
-        if (loggedIn) {
+        if (user != null) {
+            // Role-based access for admin
+            if (path.startsWith("/admin") && !"ADMIN".equals(user.getRole())) {
+                res.sendRedirect(req.getContextPath() + "/products");
+                return;
+            }
             chain.doFilter(request, response);
         } else {
             res.sendRedirect(req.getContextPath() + "/login.jsp");

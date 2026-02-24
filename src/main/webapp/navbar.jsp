@@ -107,6 +107,9 @@
                 <div class="nav-links">
                     <a href="products" class="nav-link">Store</a>
                     <a href="cart" class="nav-link">Cart</a>
+                    <c:if test="${loggedUser.role == 'ADMIN'}">
+                        <a href="admin" class="nav-link">Admin</a>
+                    </c:if>
 
                     <c:choose>
                         <c:when test="${not empty loggedUser}">
