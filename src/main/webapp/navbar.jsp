@@ -98,9 +98,30 @@
             body {
                 padding-top: 70px;
             }
+
+            /* Debug Overlay */
+            .debug-overlay {
+                position: fixed;
+                top: 75px;
+                right: 20px;
+                background: rgba(239, 68, 68, 0.9);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 12px;
+                font-size: 0.8rem;
+                font-weight: 700;
+                z-index: 9999;
+                pointer-events: none;
+                border: 2px solid white;
+            }
         </style>
 
         <nav class="navbar">
+            <c:if test="${not empty loggedUser}">
+                <div class="debug-overlay">
+                    DEBUG: ${loggedUser.email} | Role: ${loggedUser.role}
+                </div>
+            </c:if>
             <div class="nav-container">
                 <a href="products" class="nav-logo">PREMIUM STORE</a>
 
