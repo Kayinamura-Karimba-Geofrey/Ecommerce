@@ -24,20 +24,19 @@ public class SeedServlet extends HttpServlet {
 
         try {
             UserService userService = new UserService();
-            User existingUser = userService.findByEmail("john@gmail.com");
+            User existingUser = userService.findByEmail("admin@gmail.com");
 
             if (existingUser != null) {
-                out.println("User john@gmail.com found. Current Role: " + existingUser.getRole());
+                out.println("User admin@gmail.com found. Current Role: " + existingUser.getRole());
                 out.println("Force-updating role back to ADMIN...");
                 existingUser.setRole("ADMIN");
-                // Explicitly update to ensure persistence
                 userService.saveUser(existingUser); 
                 out.println("Role updated successfully.");
             } else {
-                out.println("User john@gmail.com not found. Creating new admin...");
+                out.println("User admin@gmail.com not found. Creating new admin...");
                 User admin = new User();
-                admin.setFullname("John Admin");
-                admin.setEmail("john@gmail.com");
+                admin.setFullname("Admin User");
+                admin.setEmail("admin@gmail.com");
                 admin.setPassword(BCrypt.hashpw("1234", BCrypt.gensalt()));
                 admin.setRole("ADMIN");
                 userService.saveUser(admin);
@@ -45,10 +44,10 @@ public class SeedServlet extends HttpServlet {
             }
 
             out.println("\n--- Result Summary ---");
-            User verifiedUser = userService.findByEmail("john@gmail.com");
+            User verifiedUser = userService.findByEmail("admin@gmail.com");
             out.println("Final Role for " + verifiedUser.getEmail() + ": " + verifiedUser.getRole());
             
-            out.println("\nNext Step: LOGOUT and LOGIN again to refresh your session!");
+            out.println("\nNext Step: LOGOUT and LOGIN again with admin@gmail.com / 1234 to refresh your session!");
             
         } catch (Exception e) {
             out.println("ERROR: Seeding failed!");

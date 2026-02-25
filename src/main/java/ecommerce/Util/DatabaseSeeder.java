@@ -10,15 +10,15 @@ public class DatabaseSeeder {
     public static void main(String[] args) {
         // Seed Admin User
         UserService userService = new UserService();
-        if (!userService.emailExists("john@gmail.com")) {
+        if (!userService.emailExists("admin@gmail.com")) {
             System.out.println("Seeding admin user...");
             User admin = new User();
-            admin.setFullname("John Admin");
-            admin.setEmail("john@gmail.com");
+            admin.setFullname("Admin User");
+            admin.setEmail("admin@gmail.com");
             admin.setPassword(BCrypt.hashpw("1234", BCrypt.gensalt()));
             admin.setRole("ADMIN");
             userService.saveUser(admin);
-            System.out.println("Admin user seeded: john@gmail.com / 1234");
+            System.out.println("Admin user seeded: admin@gmail.com / 1234");
         } else {
             System.out.println("Admin user already exists.");
         }
