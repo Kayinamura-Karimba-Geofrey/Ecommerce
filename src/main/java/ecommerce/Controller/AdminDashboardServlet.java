@@ -3,6 +3,7 @@ import java.util.List;
 
 
 import ecommerce.Util.HibernateUtil;
+import ecommerce.Model.Order;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -42,13 +43,17 @@ public class AdminDashboardServlet extends HttpServlet {
                 totalRevenue = 0.0;
             }
 
+            List<Order> recentOrders = session.createQuery(
+                            "FROM Order o ORDER BY o.orderDate DESC",
+                            Order.class)
+                    .setMaxResults(5)
+                    .list();
+
             request.setAttribute("totalUsers", totalUsers);
             request.setAttribute("totalProducts", totalProducts);
             request.setAttribute("totalOrders", totalOrders);
             request.setAttribute("totalRevenue", totalRevenue);
-
-            request.getRequestDispatcher("/admin/dashboard.jsp")
-                    .forward(request, response);
+            request.setAttribute("recentOrders", recentOrders);
         }
     }
 }
