@@ -2,8 +2,8 @@ package ecommerce.Controller;
 import ecommerce.Services.UserService;
 import ecommerce.Model.User;
 
-import ecommerce.Services.UserService;
 import jakarta.servlet.annotation.WebServlet;
+
 import jakarta.servlet.http.*;
 import jakarta.servlet.*;
 import org.mindrot.jbcrypt.BCrypt;

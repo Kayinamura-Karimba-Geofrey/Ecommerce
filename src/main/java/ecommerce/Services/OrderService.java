@@ -17,7 +17,8 @@ public class OrderService {
 
             transaction = session.beginTransaction();
 
-            session.save(order);
+            session.persist(order);
+
 
             transaction.commit();
 

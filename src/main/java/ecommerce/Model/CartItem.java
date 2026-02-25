@@ -45,4 +45,8 @@ public class CartItem {
     public double getTotal() {
         return product != null ? product.getPrice() * quantity : 0.0;
     }
+
+    public double getTotalPrice() {
+        return getTotal();
+    }
 }
