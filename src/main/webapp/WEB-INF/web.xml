@@ -78,6 +78,25 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-class>ecommerce.Controller.CheckoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <url-pattern>/checkout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>ecommerce.Controller.OrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/orders</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>ecommerce.filter.AuthFilter</filter-class>
