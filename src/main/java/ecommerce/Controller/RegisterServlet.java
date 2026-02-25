@@ -28,6 +28,10 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String rawPassword = request.getParameter("password");
         String role = request.getParameter("role");
+        if (role == null || role.isEmpty()) {
+            role = "USER";
+        }
+
 
         if (userDAO.emailExists(email)) {
             request.setAttribute("error", "Email already registered!");

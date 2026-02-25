@@ -10,10 +10,10 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter(urlPatterns = {
-        "/products",
         "/cart",
         "/admin"
 })
+
 public class AuthFilter implements Filter {
 
     @Override

@@ -14,8 +14,9 @@ public class UserService {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.persist(user);
+            session.merge(user);
             transaction.commit();
+
         } catch (Exception e) {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
