@@ -1,7 +1,5 @@
 package ecommerce.Controller;
 import java.util.List;
-
-
 import ecommerce.Util.HibernateUtil;
 import ecommerce.Model.Order;
 import jakarta.servlet.*;
