@@ -42,7 +42,7 @@ public class RegisterServlet extends HttpServlet {
         // 🔐 Hash password
         String hashedPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
 
-        User user = new User(fullname, email, hashedPassword, role);
+        User user = new User(fullname, email, hashedPassword, "customer");
         userDAO.saveUser(user);
 
         response.sendRedirect("login.jsp");
