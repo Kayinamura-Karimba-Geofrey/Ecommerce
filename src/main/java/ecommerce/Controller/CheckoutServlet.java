@@ -1,4 +1,4 @@
 package ecommerce.Controller;
 
-public class OrderServlet {
+public class CheckoutServlet {
 }
