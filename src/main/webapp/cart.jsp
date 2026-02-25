@@ -327,6 +327,11 @@
                                         <p>Grand Total</p>
                                         <h2>$${cartTotal}</h2>
                                     </div>
+                                    <form action="checkout" method="post">
+                                        <button class="btn btn-primary">
+                                            Proceed to Checkout
+                                        </button>
+                                    </form>
                                     <a href="checkout" class="btn-checkout">Checkout Now</a>
                                 </div>
                             </c:when>
