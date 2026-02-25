@@ -2,11 +2,11 @@ package ecommerce.Services;
 
 
 import ecommerce.Model.Order;
-import com.yourpackage.util.HibernateUtil;
+import ecommerce.Util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class OrderDAO {
+public class OrderService {
 
     public void saveOrder(Order order) {
 
