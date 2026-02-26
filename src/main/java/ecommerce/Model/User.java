@@ -12,12 +12,12 @@ public class User {
     private String email;
     private String password;
     private String role;
-    private boolean twoFactorEnabled;
+    private Boolean twoFactorEnabled = false;
     private String secretKey; // TOTP secret
 
     // Getters and setters
-    public boolean isTwoFactorEnabled() { return twoFactorEnabled; }
-    public void setTwoFactorEnabled(boolean twoFactorEnabled) { this.twoFactorEnabled = twoFactorEnabled; }
+    public Boolean isTwoFactorEnabled() { return twoFactorEnabled; }
+    public void setTwoFactorEnabled(Boolean twoFactorEnabled) { this.twoFactorEnabled = twoFactorEnabled; }
 
     public String getSecretKey() { return secretKey; }
     public void setSecretKey(String secretKey) { this.secretKey = secretKey; }

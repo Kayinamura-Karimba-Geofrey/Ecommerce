@@ -28,6 +28,7 @@
 
         <!-- Mapping -->
         <mapping class="ecommerce.Model.Product"/>
+        <mapping class="ecommerce.Model.Category"/>
         <mapping class="ecommerce.Model.User"/>
         <mapping class="ecommerce.Model.Order"/>
         <mapping class="ecommerce.Model.CartItem"/>
