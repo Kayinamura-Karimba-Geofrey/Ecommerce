@@ -9,49 +9,59 @@
 <body class="bg-light">
 
 <div class="container mt-5">
-    <h2 class="mb-4">Manage Products</h2>
+    <h2>Manage Products</h2>
 
-    <table class="table table-bordered table-hover shadow">
+    <!-- Search -->
+    <form method="get" class="mb-3">
+        <input type="text" name="search"
+               value="${search}"
+               placeholder="Search product..."
+               class="form-control w-25 d-inline" />
+        <button class="btn btn-primary">Search</button>
+    </form>
+
+    <table class="table table-bordered shadow">
         <thead class="table-dark">
         <tr>
-            <th>ID</th>
+            <th>Image</th>
             <th>Name</th>
+            <th>Category</th>
             <th>Price</th>
             <th>Stock</th>
-            <th width="200">Actions</th>
         </tr>
         </thead>
         <tbody>
 
         <c:forEach var="p" items="${products}">
             <tr>
-                <td>${p.id}</td>
+                <td>
+                    <img src="${pageContext.request.contextPath}/${p.imagePath}"
+                         width="60"/>
+                </td>
                 <td>${p.name}</td>
+                <td>${p.category.name}</td>
                 <td>$${p.price}</td>
                 <td>${p.stock}</td>
-                <td>
-
-                    <a href="products?action=edit&id=${p.id}"
-                       class="btn btn-sm btn-warning">
-                        Edit
-                    </a>
-
-                    <a href="products?action=delete&id=${p.id}"
-                       class="btn btn-sm btn-danger"
-                       onclick="return confirm('Delete this product?')">
-                        Delete
-                    </a>
-
-                </td>
             </tr>
         </c:forEach>
 
         </tbody>
     </table>
 
-    <a href="add-product.jsp" class="btn btn-primary">
-        Add New Product
-    </a>
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination">
+            <c:forEach begin="1" end="${totalPages}" var="i">
+                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                    <a class="page-link"
+                       href="products?page=${i}&search=${search}">
+                            ${i}
+                    </a>
+                </li>
+            </c:forEach>
+        </ul>
+    </nav>
+
 </div>
 
 </body>
