@@ -23,7 +23,6 @@ public class AdminDashboardServlet extends HttpServlet {
         try (Session session =
                      HibernateUtil.getSessionFactory().openSession()) {
 
-            // ===== Dashboard Statistics =====
 
             Long totalUsers = session.createQuery(
                             "SELECT COUNT(u) FROM User u", Long.class)
@@ -46,7 +45,6 @@ public class AdminDashboardServlet extends HttpServlet {
                 totalRevenue = 0.0;
             }
 
-            // ===== Recent Orders =====
 
             List<Order> recentOrders = session.createQuery(
                             "FROM Order o ORDER BY o.orderDate DESC",
@@ -54,8 +52,6 @@ public class AdminDashboardServlet extends HttpServlet {
                     .setMaxResults(5)
                     .list();
 
-            // ===== Monthly Sales for Chart =====
-            // Format: Month Name -> Revenue
 
             List<Object[]> results = session.createQuery(
                             "SELECT MONTH(o.orderDate), SUM(o.totalAmount) " +
@@ -79,32 +75,30 @@ public class AdminDashboardServlet extends HttpServlet {
                 monthlySales.put(months[monthNumber], revenue);
             }
 
-            // Convert to Chart.js format
+
             StringBuilder labels = new StringBuilder();
             StringBuilder data = new StringBuilder();
 
             for (Map.Entry<String, Double> entry : monthlySales.entrySet()) {
                 if (labels.length() > 0) labels.append(",");
                 if (data.length() > 0) data.append(",");
-                
+
                 labels.append("'").append(entry.getKey()).append("'");
                 data.append(entry.getValue());
+
+
+                request.setAttribute("totalUsers", totalUsers);
+                request.setAttribute("totalProducts", totalProducts);
+                request.setAttribute("totalOrders", totalOrders);
+                request.setAttribute("totalRevenue", totalRevenue);
+                request.setAttribute("recentOrders", recentOrders);
+
+                request.setAttribute("salesLabels", labels.toString());
+                request.setAttribute("salesData", data.toString());
             }
 
-            // ===== Set Attributes =====
-
-            request.setAttribute("totalUsers", totalUsers);
-            request.setAttribute("totalProducts", totalProducts);
-            request.setAttribute("totalOrders", totalOrders);
-            request.setAttribute("totalRevenue", totalRevenue);
-            request.setAttribute("recentOrders", recentOrders);
-
-            request.setAttribute("salesLabels", labels.toString());
-            request.setAttribute("salesData", data.toString());
+            request.getRequestDispatcher("/dashboard.jsp")
+                    .forward(request, response);
         }
-
-        // Forward to JSP
-        request.getRequestDispatcher("/dashboard.jsp")
-                .forward(request, response);
     }
 }
