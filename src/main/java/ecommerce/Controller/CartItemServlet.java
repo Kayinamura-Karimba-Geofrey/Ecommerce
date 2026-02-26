@@ -54,9 +54,13 @@ public class CartItemServlet extends HttpServlet {
             response.sendRedirect("cart");
 
         } else if ("update".equals(action)) {
-            int cartItemId = Integer.parseInt(request.getParameter("id"));
-            int quantity = Integer.parseInt(request.getParameter("quantity"));
-            cartDAO.updateQuantity(cartItemId, quantity);
+            try {
+                int cartItemId = Integer.parseInt(request.getParameter("id"));
+                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                cartDAO.updateQuantity(cartItemId, quantity);
+            } catch (NumberFormatException e) {
+                System.out.println("[CartItemServlet] Invalid number format in update: " + e.getMessage());
+            }
             response.sendRedirect("cart");
 
         } else {

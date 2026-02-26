@@ -248,11 +248,13 @@
                                     </div>
                                 </div>
 
-                                <div class="admin-controls">
-                                    <a href="admin?action=edit&id=${product.id}" class="btn-admin btn-edit">Edit</a>
-                                    <a href="admin?action=delete&id=${product.id}" class="btn-admin btn-del"
-                                        onclick="return confirm('Are you sure?');">Delete</a>
-                                </div>
+                                <c:if test="${loggedUser.role == 'ADMIN'}">
+                                    <div class="admin-controls">
+                                        <a href="admin?action=edit&id=${product.id}" class="btn-admin btn-edit">Edit</a>
+                                        <a href="admin?action=delete&id=${product.id}" class="btn-admin btn-del"
+                                            onclick="return confirm('Are you sure?');">Delete</a>
+                                    </div>
+                                </c:if>
                             </div>
                         </c:forEach>
                     </div>

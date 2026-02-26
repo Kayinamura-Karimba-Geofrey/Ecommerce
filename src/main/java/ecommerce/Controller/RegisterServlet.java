@@ -24,14 +24,10 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
             throws ServletException, IOException {
-        String fullname = request.getParameter("fullname");
+        String name = request.getParameter("name");
         String email = request.getParameter("email");
         String rawPassword = request.getParameter("password");
-        String role = request.getParameter("role");
-        if (role == null || role.isEmpty()) {
-            role = "USER";
-        }
-
+        String role = "USER";
 
         if (userDAO.emailExists(email)) {
             request.setAttribute("error", "Email already registered!");
@@ -42,7 +38,7 @@ public class RegisterServlet extends HttpServlet {
         // 🔐 Hash password
         String hashedPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
 
-        User user = new User(fullname, email, hashedPassword, role);
+        User user = new User(name, email, hashedPassword, role);
         userDAO.saveUser(user);
 
         response.sendRedirect("login.jsp");

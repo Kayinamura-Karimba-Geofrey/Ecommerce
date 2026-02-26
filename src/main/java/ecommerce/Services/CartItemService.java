@@ -123,8 +123,10 @@ public class CartItemService {
                 if (newQuantity > 0) {
                     item.setQuantity(newQuantity);
                     session.merge(item);
+                    System.out.println("[CartItemService] Updated CartItem ID: " + cartItemId + " to quantity: " + newQuantity);
                 } else {
                     session.remove(item);
+                    System.out.println("[CartItemService] Quantity <= 0, removing CartItem ID: " + cartItemId);
                 }
             }
             transaction.commit();
