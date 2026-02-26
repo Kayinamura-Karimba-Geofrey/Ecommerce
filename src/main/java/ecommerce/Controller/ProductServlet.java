@@ -1,84 +1,97 @@
 package ecommerce.Controller;
 
 import ecommerce.Model.Product;
-import ecommerce.Services.ProductService;
-import jakarta.servlet.ServletException;
+import ecommerce.Util.HibernateUtil;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/products")
+@WebServlet("/admin/products")
 public class ProductServlet extends HttpServlet {
 
-    private ProductService productDAO;
-
     @Override
-    public void init() {
-        productDAO = new ProductService();
-    }
-
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response)
             throws ServletException, IOException {
+
         String action = request.getParameter("action");
 
-        if (action == null) {
-            action = "list";
-        }
+        try (Session session =
+                     HibernateUtil.getSessionFactory().openSession()) {
 
-        switch (action) {
+            // ===== EDIT =====
+            if ("edit".equals(action)) {
 
-            case "edit":
                 int id = Integer.parseInt(request.getParameter("id"));
-                Product product = productDAO.getProductById(id);
+                Product product = session.get(Product.class, id);
+
                 request.setAttribute("product", product);
-                request.getRequestDispatcher("/edit-product.jsp")
+                request.getRequestDispatcher("/admin/edit-product.jsp")
                         .forward(request, response);
-                break;
+                return;
+            }
 
-            case "delete":
-                int deleteId = Integer.parseInt(request.getParameter("id"));
-                productDAO.deleteProduct(deleteId);
+            // ===== DELETE =====
+            if ("delete".equals(action)) {
+
+                int id = Integer.parseInt(request.getParameter("id"));
+
+                Transaction tx = session.beginTransaction();
+                Product product = session.get(Product.class, id);
+
+                if (product != null) {
+                    session.remove(product);
+                }
+
+                tx.commit();
                 response.sendRedirect("products");
-                break;
+                return;
+            }
 
-            default:
-                List<Product> list = productDAO.getAllProducts();
-                request.setAttribute("products", list);
-                request.getRequestDispatcher("/products.jsp")
-                        .forward(request, response);
-                break;
+            // ===== LIST PRODUCTS =====
+            List<Product> products =
+                    session.createQuery("FROM Product",
+                            Product.class).list();
+
+            request.setAttribute("products", products);
         }
+
+        request.getRequestDispatcher("/admin/manage-products.jsp")
+                .forward(request, response);
     }
 
+    // ===== UPDATE PRODUCT =====
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
             throws ServletException, IOException {
 
-        int id = 0;
-        if (request.getParameter("id") != null &&
-                !request.getParameter("id").isEmpty()) {
-            id = Integer.parseInt(request.getParameter("id"));
-        }
-
+        int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         double price = Double.parseDouble(request.getParameter("price"));
         int stock = Integer.parseInt(request.getParameter("stock"));
-        String imageUrl = request.getParameter("imageurl");
-        String category = request.getParameter("category");
 
-        Product product = new Product(name, description, price,
-                stock, imageUrl, category);
+        try (Session session =
+                     HibernateUtil.getSessionFactory().openSession()) {
 
-        if (id > 0) {
-            product.setId(id);
-            productDAO.updateProduct(product);
-        } else {
-            productDAO.saveProduct(product);
+            Transaction tx = session.beginTransaction();
+
+            Product product = session.get(Product.class, id);
+
+            product.setName(name);
+            product.setDescription(description);
+            product.setPrice(price);
+            product.setStock(stock);
+
+            session.merge(product);
+
+            tx.commit();
         }
 
         response.sendRedirect("products");
