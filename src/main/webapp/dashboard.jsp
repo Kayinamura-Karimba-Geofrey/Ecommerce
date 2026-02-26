@@ -78,6 +78,17 @@
             </div>
           </div>
         </div>
+        <!-- Sales Chart -->
+        <div class="row mt-5">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-body">
+                <h5 class="mb-4">Monthly Sales Overview</h5>
+                <canvas id="salesChart" height="100"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- Products -->
         <div class="col-md-3">
