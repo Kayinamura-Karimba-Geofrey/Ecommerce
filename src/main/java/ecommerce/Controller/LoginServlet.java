@@ -68,7 +68,7 @@ public class LoginServlet extends HttpServlet {
                 }
             }
 
-            // 2FA passed or not required → login
+
             session.setAttribute("loggedUser", user);
             session.removeAttribute("tempUser"); // cleanup temp user
             System.out.println("[LoginServlet] User logged in: " + user.getEmail() + ", Role: " + user.getRole());
