@@ -148,6 +148,37 @@
 
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('salesChart').getContext('2d');
+
+  const salesChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: [${salesLabels}],
+      datasets: [{
+        label: 'Revenue ($)',
+        data: [${salesData}],
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderRadius: 5
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
 
 </body>
 </html>
