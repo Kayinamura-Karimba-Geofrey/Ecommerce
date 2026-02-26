@@ -25,6 +25,7 @@ public class ProductServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String search = request.getParameter("search");
+        String category = request.getParameter("category");
         int page = 1;
 
         if (request.getParameter("page") != null) {
@@ -34,16 +35,20 @@ public class ProductServlet extends HttpServlet {
         try (Session session =
                      HibernateUtil.getSessionFactory().openSession()) {
 
-            String hql = "FROM Product p";
-
+            StringBuilder hql = new StringBuilder("FROM Product p WHERE 1=1");
             if (search != null && !search.isEmpty()) {
-                hql += " WHERE p.name LIKE :search";
+                hql.append(" AND p.name LIKE :search");
+            }
+            if (category != null && !category.isEmpty()) {
+                hql.append(" AND p.category.name = :category");
             }
 
-            var query = session.createQuery(hql, Product.class);
-
+            var query = session.createQuery(hql.toString(), Product.class);
             if (search != null && !search.isEmpty()) {
                 query.setParameter("search", "%" + search + "%");
+            }
+            if (category != null && !category.isEmpty()) {
+                query.setParameter("category", category);
             }
 
             query.setFirstResult((page - 1) * PAGE_SIZE);
@@ -51,17 +56,33 @@ public class ProductServlet extends HttpServlet {
 
             List<Product> products = query.list();
 
-            Long totalProducts = session.createQuery(
-                    "SELECT COUNT(p.id) FROM Product p",
-                    Long.class).uniqueResult();
+            StringBuilder countHql = new StringBuilder("SELECT COUNT(p.id) FROM Product p WHERE 1=1");
+            if (search != null && !search.isEmpty()) {
+                countHql.append(" AND p.name LIKE :search");
+            }
+            if (category != null && !category.isEmpty()) {
+                countHql.append(" AND p.category.name = :category");
+            }
 
+            var countQuery = session.createQuery(countHql.toString(), Long.class);
+            if (search != null && !search.isEmpty()) {
+                countQuery.setParameter("search", "%" + search + "%");
+            }
+            if (category != null && !category.isEmpty()) {
+                countQuery.setParameter("category", category);
+            }
+
+            Long totalProducts = countQuery.uniqueResult();
             int totalPages = (int) Math.ceil((double) totalProducts / PAGE_SIZE);
 
+            List<ecommerce.Model.Category> categories = session.createQuery("FROM Category", ecommerce.Model.Category.class).list();
+
             request.setAttribute("products", products);
+            request.setAttribute("categories", categories);
             request.setAttribute("currentPage", page);
             request.setAttribute("totalPages", totalPages);
             request.setAttribute("search", search);
-
+            request.setAttribute("selectedCategory", category);
         }
         
         String path = request.getServletPath();

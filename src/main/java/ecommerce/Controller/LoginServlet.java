@@ -40,12 +40,16 @@ public class LoginServlet extends HttpServlet {
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String totpCode = request.getParameter("totp"); // may be null initially
+        String totpCode = request.getParameter("totp");
 
-        User user = userDAO.findByEmail(email);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("tempUser");
+
+        if (user == null) {
+            user = userDAO.findByEmail(email);
+        }
 
         if (user != null && BCrypt.checkpw(password, user.getPassword())) {
-            HttpSession session = request.getSession();
             session.setAttribute("tempUser", user); // store temp user until 2FA verified
 
             if (Boolean.TRUE.equals(user.isTwoFactorEnabled())) {
@@ -63,12 +67,20 @@ public class LoginServlet extends HttpServlet {
 
                 if (!isCodeValid) {
                     request.setAttribute("error", "Invalid 2FA code!");
+                    request.setAttribute("email", user.getEmail()); // Pass email for 2FA page
                     request.getRequestDispatcher("/2fa.jsp").forward(request, response);
                     return;
                 }
             }
 
-
+            // 2FA passed or not required → login
+            if (user.getRole() == null || user.getRole().isEmpty()) {
+                user.setRole("USER");
+            }
+            if (user.getFullname() == null || user.getFullname().isEmpty()) {
+                user.setFullname("Valued Customer");
+            }
+            
             session.setAttribute("loggedUser", user);
             session.removeAttribute("tempUser"); // cleanup temp user
             System.out.println("[LoginServlet] User logged in: " + user.getEmail() + ", Role: " + user.getRole());

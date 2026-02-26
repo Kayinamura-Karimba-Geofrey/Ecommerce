@@ -31,4 +31,23 @@ public class AdminManageOrdersServlet extends HttpServlet {
                     .forward(request, response);
         }
     }
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
+        String newStatus = request.getParameter("status");
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            var tx = session.beginTransaction();
+            Order order = session.get(Order.class, orderId);
+            if (order != null) {
+                order.setStatus(newStatus);
+                session.merge(order);
+                System.out.println("[AdminManageOrdersServlet] Updated Order #" + orderId + " to " + newStatus);
+            }
+            tx.commit();
+        }
+        response.sendRedirect(request.getContextPath() + "/admin/manage-orders");
+    }
 }

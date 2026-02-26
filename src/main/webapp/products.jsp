@@ -225,6 +225,23 @@
                     <div class="container">
                         <h1>Premium Collections</h1>
                         <p>Experience the finest selection of curated products</p>
+
+                        <!-- Category Filter -->
+                        <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+                            <form action="products" method="get" id="filterForm">
+                                <select name="category" onchange="document.getElementById('filterForm').submit()"
+                                    style="padding: 10px 20px; border-radius: 12px; background: var(--card-bg); color: var(--text-main); border: 1px solid var(--glass-border);">
+                                    <option value="">All Categories</option>
+                                    <c:forEach var="cat" items="${categories}">
+                                        <option value="${cat.name}" ${selectedCategory==cat.name ? 'selected' : '' }>
+                                            ${cat.name}</option>
+                                    </c:forEach>
+                                </select>
+                                <c:if test="${not empty search}">
+                                    <input type="hidden" name="search" value="${search}">
+                                </c:if>
+                            </form>
+                        </div>
                     </div>
                 </header>
 
@@ -232,21 +249,25 @@
                     <div class="products-grid">
                         <c:forEach var="product" items="${products}">
                             <div class="product-card">
-                                <div class="image-container">
-                                    <img src="${pageContext.request.contextPath}/${product.imagePath}"
-                                        alt="${product.name}">
-                                    <span class="category-badge">${product.category.name}</span>
-                                </div>
-
-                                <div class="content">
-                                    <h2 class="product-name">${product.name}</h2>
-                                    <p class="product-desc">${product.description}</p>
-
-                                    <div class="footer-action">
-                                        <span class="price">$${product.price}</span>
-                                        <a href="cart?action=add&id=${product.id}" class="btn-buy">Add to Cart</a>
+                                <a href="product-details?id=${product.id}"
+                                    style="text-decoration: none; color: inherit;">
+                                    <div class="image-container">
+                                        <img src="${pageContext.request.contextPath}/${product.imagePath}"
+                                            alt="${product.name}">
+                                        <span class="category-badge">${product.category.name}</span>
                                     </div>
-                                </div>
+
+                                    <div class="content">
+                                        <h2 class="product-name">${product.name}</h2>
+                                        <p class="product-desc">${product.description}</p>
+
+                                        <div class="footer-action">
+                                            <span class="price">$${product.price}</span>
+                                            <a href="cart?action=add&id=${product.id}" class="btn-buy"
+                                                onclick="event.stopPropagation()">Add to Cart</a>
+                                        </div>
+                                    </div>
+                                </a>
 
                                 <c:if test="${loggedUser.role == 'ADMIN'}">
                                     <div class="admin-controls">

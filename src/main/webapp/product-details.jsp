@@ -116,13 +116,13 @@
                 </p>
 
                 <!-- Add To Cart (next feature) -->
-                <a href="../cart?action=add&id=${product.id}" class="btn btn-cart">
+                <a href="cart?action=add&id=${product.id}" class="btn btn-cart">
                     Add to Cart
                 </a>
 
                 <br>
 
-                <a href="../products" class="btn btn-back">
+                <a href="products" class="btn btn-back">
                     Back to Products
                 </a>
 

@@ -46,16 +46,22 @@
                                         <td>$${order.totalAmount}</td>
 
                                         <td>
-                                            <span class="badge
-                                <c:choose>
-                                    <c:when test=" ${order.status=='PENDING' }">bg-warning</c:when>
-                                                <c:when test="${order.status == 'SHIPPED'}">bg-primary</c:when>
-                                                <c:when test="${order.status == 'DELIVERED'}">bg-success</c:when>
-                                                <c:otherwise>bg-secondary</c:otherwise>
-                                                </c:choose>
-                                                ">
-                                                ${order.status}
-                                            </span>
+                                            <form action="${pageContext.request.contextPath}/admin/manage-orders"
+                                                method="post" style="display:inline;">
+                                                <input type="hidden" name="orderId" value="${order.id}">
+                                                <select name="status" onchange="this.form.submit()"
+                                                    class="form-select form-select-sm"
+                                                    style="width: 130px; background-color: transparent; border-color: rgba(255,255,255,0.1); color: var(--text-dark);">
+                                                    <option value="PENDING" ${order.status=='PENDING' ? 'selected' : ''
+                                                        }>PENDING</option>
+                                                    <option value="SHIPPED" ${order.status=='SHIPPED' ? 'selected' : ''
+                                                        }>SHIPPED</option>
+                                                    <option value="DELIVERED" ${order.status=='DELIVERED' ? 'selected'
+                                                        : '' }>DELIVERED</option>
+                                                    <option value="CANCELLED" ${order.status=='CANCELLED' ? 'selected'
+                                                        : '' }>CANCELLED</option>
+                                                </select>
+                                            </form>
                                         </td>
 
                                         <td>
