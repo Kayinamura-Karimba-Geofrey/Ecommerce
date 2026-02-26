@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
     public void init() {
         userDAO = new UserService();
 
-        // Initialize TOTP code verifier
+
         DefaultCodeGenerator codeGenerator = new DefaultCodeGenerator();
         SystemTimeProvider timeProvider = new SystemTimeProvider();
         codeVerifier = new DefaultCodeVerifier(codeGenerator, timeProvider);
@@ -40,22 +40,21 @@ public class LoginServlet extends HttpServlet {
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String totpCode = request.getParameter("totp"); // optional, null for first step
+        String totpCode = request.getParameter("totp");
 
         User user = userDAO.findByEmail(email);
 
         if (user != null && BCrypt.checkpw(password, user.getPassword())) {
             HttpSession session = request.getSession();
-            session.setAttribute("tempUser", user); // store temp user until 2FA verified
+            session.setAttribute("tempUser", user);
 
-            if (user.isTwoFactorEnabled()) { // assuming your User model has this flag
-                // If TOTP code is not yet provided, redirect to 2FA page
+            if (user.isTwoFactorEnabled()) {
                 if (totpCode == null) {
                     request.getRequestDispatcher("/2fa.jsp").forward(request, response);
                     return;
                 }
 
-                // Verify TOTP code using dev.samstevens.totp
+
                 boolean isCodeValid = false;
                 try {
                     int code = Integer.parseInt(totpCode);
@@ -71,9 +70,9 @@ public class LoginServlet extends HttpServlet {
                 }
             }
 
-            // 2FA passed or not required → login
+
             session.setAttribute("loggedUser", user);
-            session.removeAttribute("tempUser"); // cleanup temp user
+            session.removeAttribute("tempUser");
             System.out.println("[LoginServlet] User logged in: " + user.getEmail() + ", Role: " + user.getRole());
 
             if ("ADMIN".equals(user.getRole())) {
