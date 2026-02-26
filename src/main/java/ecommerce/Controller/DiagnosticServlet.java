@@ -20,7 +20,7 @@ public class DiagnosticServlet extends HttpServlet {
         out.println("=== Store Diagnostics ===");
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // Check current user
+
             HttpSession httpSession = request.getSession(false);
             User loggedUser = (httpSession != null) ? (User) httpSession.getAttribute("loggedUser") : null;
             if (loggedUser != null) {

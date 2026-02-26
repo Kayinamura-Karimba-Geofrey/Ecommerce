@@ -57,7 +57,7 @@ public class AdminServlet extends HttpServlet {
         double price = (priceStr != null) ? Double.parseDouble(priceStr) : 0;
         int stock = (stockStr != null) ? Integer.parseInt(stockStr) : 0;
 
-        // Handle Image Upload
+
         Part imagePart = request.getPart("image");
         String imagePath = null;
         
