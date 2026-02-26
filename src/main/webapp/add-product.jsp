@@ -1,97 +1,101 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add New Product</title>
+    <!DOCTYPE html>
+    <html>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            margin: 0;
-            padding: 40px;
-        }
+    <head>
+        <title>Add New Product</title>
 
-        .form-container {
-            max-width: 500px;
-            margin: auto;
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f6f9;
+                margin: 0;
+                padding: 40px;
+            }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+            .form-container {
+                max-width: 500px;
+                margin: auto;
+                background: #ffffff;
+                padding: 25px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
 
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 12px;
-        }
+            h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
 
-        input, textarea {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
+            label {
+                font-weight: bold;
+                display: block;
+                margin-top: 12px;
+            }
 
-        textarea {
-            resize: vertical;
-            height: 80px;
-        }
+            input,
+            textarea {
+                width: 100%;
+                padding: 8px;
+                margin-top: 5px;
+                border-radius: 4px;
+                border: 1px solid #ccc;
+            }
 
-        .btn {
-            margin-top: 20px;
-            padding: 10px;
-            width: 100%;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 15px;
-        }
+            textarea {
+                resize: vertical;
+                height: 80px;
+            }
 
-        .btn:hover {
-            background-color: #218838;
-        }
-    </style>
-</head>
-<body>
+            .btn {
+                margin-top: 20px;
+                padding: 10px;
+                width: 100%;
+                background-color: #28a745;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 15px;
+            }
 
-<div class="form-container">
-    <h2>Add New Product</h2>
+            .btn:hover {
+                background-color: #218838;
+            }
+        </style>
+    </head>
 
-    <form action="../products?action=add" method="post">
+    <body>
 
-        <label>Product Name</label>
-        <input type="text" name="name" required>
+        <div class="form-container">
+            <h2>Add New Product</h2>
 
-        <label>Description</label>
-        <textarea name="description" required></textarea>
+            <form action="admin?action=add" method="post">
 
-        <label>Price</label>
-        <input type="number" name="price" step="0.01" required>
+                <label>Product Name</label>
+                <input type="text" name="name" required>
 
-        <label>Stock</label>
-        <input type="number" name="stock" required>
+                <label>Description</label>
+                <textarea name="description" required></textarea>
 
-        <label>Image URL</label>
-        <input type="text" name="imageUrl" required>
+                <label>Price</label>
+                <input type="number" name="price" step="0.01" required>
 
-        <label>Category</label>
-        <input type="text" name="category" required>
+                <label>Stock</label>
+                <input type="number" name="stock" required>
 
-        <button type="submit" class="btn">Add Product</button>
+                <label>Image URL</label>
+                <input type="text" name="imageUrl" required>
 
-    </form>
-</div>
+                <label>Category</label>
+                <input type="text" name="category" required>
 
-</body>
-</html>
+                <button type="submit" class="btn">Add Product</button>
+
+            </form>
+        </div>
+
+    </body>
+
+    </html>

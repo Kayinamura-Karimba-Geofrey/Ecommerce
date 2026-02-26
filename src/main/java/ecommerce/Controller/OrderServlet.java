@@ -25,9 +25,9 @@ public class OrderServlet extends HttpServlet {
                      HibernateUtil.getSessionFactory().openSession()) {
 
             List<Order> orders = hibernateSession
-                    .createQuery("FROM Order WHERE user = :user",
+                    .createQuery("FROM Order WHERE user.id = :userId",
                             Order.class)
-                    .setParameter("user", user)
+                    .setParameter("userId", user.getId())
                     .list();
 
             request.setAttribute("orders", orders);

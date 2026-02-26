@@ -42,12 +42,20 @@ public class CartItemService {
 
             if (existingItem != null) {
                 System.out.println("[CartItemService] Updating existing item ID: " + existingItem.getId());
-                existingItem.setQuantity(existingItem.getQuantity() + 1);
-                session.merge(existingItem);
+                if (managedProduct.getStock() > existingItem.getQuantity()) {
+                    existingItem.setQuantity(existingItem.getQuantity() + 1);
+                    session.merge(existingItem);
+                } else {
+                    System.out.println("[CartItemService] Cannot increment quantity: Out of stock. Current stock: " + managedProduct.getStock());
+                }
             } else {
                 System.out.println("[CartItemService] Persisting new CartItem.");
-                CartItem cartItem = new CartItem(managedUser, managedProduct, 1);
-                session.persist(cartItem);
+                if (managedProduct.getStock() > 0) {
+                    CartItem cartItem = new CartItem(managedUser, managedProduct, 1);
+                    session.persist(cartItem);
+                } else {
+                    System.out.println("[CartItemService] Cannot add to cart: Out of stock.");
+                }
             }
 
             transaction.commit();

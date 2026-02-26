@@ -248,8 +248,8 @@
                                 </div>
 
                                 <div class="admin-controls">
-                                    <a href="products?action=edit&id=${product.id}" class="btn-admin btn-edit">Edit</a>
-                                    <a href="products?action=delete&id=${product.id}" class="btn-admin btn-del"
+                                    <a href="admin?action=edit&id=${product.id}" class="btn-admin btn-edit">Edit</a>
+                                    <a href="admin?action=delete&id=${product.id}" class="btn-admin btn-del"
                                         onclick="return confirm('Are you sure?');">Delete</a>
                                 </div>
                             </div>

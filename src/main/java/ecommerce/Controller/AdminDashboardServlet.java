@@ -84,8 +84,11 @@ public class AdminDashboardServlet extends HttpServlet {
             StringBuilder data = new StringBuilder();
 
             for (Map.Entry<String, Double> entry : monthlySales.entrySet()) {
-                labels.append("'").append(entry.getKey()).append("',");
-                data.append(entry.getValue()).append(",");
+                if (labels.length() > 0) labels.append(",");
+                if (data.length() > 0) data.append(",");
+                
+                labels.append("'").append(entry.getKey()).append("'");
+                data.append(entry.getValue());
             }
 
             // ===== Set Attributes =====

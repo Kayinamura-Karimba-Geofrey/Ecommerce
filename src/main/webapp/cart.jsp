@@ -290,11 +290,11 @@
                                             <tr class="cart-item">
                                                 <td>
                                                     <div class="product-info">
-                                                        <img src="${item.product.imageUrl}" alt="${item.product.name}"
+                                                        <img src="${item.product.imagePath}" alt="${item.product.name}"
                                                             class="product-img">
                                                         <div>
                                                             <div class="product-name">${item.product.name}</div>
-                                                            <div class="product-cat">${item.product.category}</div>
+                                                            <div class="product-cat">${item.product.category.name}</div>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -328,11 +328,11 @@
                                         <h2>$${cartTotal}</h2>
                                     </div>
                                     <form action="checkout" method="post">
-                                        <button class="btn btn-primary">
-                                            Proceed to Checkout
+                                        <button type="submit" class="btn-checkout"
+                                            style="border: none; cursor: pointer;">
+                                            Checkout Now
                                         </button>
                                     </form>
-                                    <a href="checkout" class="btn-checkout">Checkout Now</a>
                                 </div>
                             </c:when>
                             <c:otherwise>
