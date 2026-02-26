@@ -119,7 +119,8 @@
         <nav class="navbar">
             <c:if test="${not empty loggedUser}">
                 <div class="debug-overlay">
-                    DEBUG: ${loggedUser.email} | Role: ${loggedUser.role}
+                    DEBUG: ${loggedUser.email} | ID: ${loggedUser.id} | Role: ${loggedUser.role} | Name:
+                    ${loggedUser.fullname}
                 </div>
             </c:if>
             <div class="nav-container">
