@@ -215,7 +215,8 @@
                             <tbody>
                                 <c:forEach var="p" items="${products}">
                                     <tr>
-                                        <td><img src="${p.imagePath}" class="product-thumb"></td>
+                                        <td><img src="${pageContext.request.contextPath}/${p.imagePath}"
+                                                class="product-thumb"></td>
                                         <td style="font-weight: 600">${p.name}</td>
                                         <td><span style="opacity: 0.7">${p.category.name}</span></td>
                                         <td style="color: var(--accent); font-weight: 700">$${p.price}</td>
@@ -227,7 +228,8 @@
                                                     data-price="${p.price}" data-stock="${p.stock}"
                                                     data-image="${p.imagePath}" data-description="${p.description}"
                                                     onclick="handleEdit(this)">Edit</a>
-                                                <a href="admin?action=delete&id=${p.id}" class="btn-action btn-del"
+                                                <a href="${pageContext.request.contextPath}/admin?action=delete&id=${p.id}"
+                                                    class="btn-action btn-del"
                                                     onclick="return confirm('Delete this product?')">Delete</a>
                                             </div>
                                         </td>
@@ -242,7 +244,8 @@
                 <div id="productModal" class="modal">
                     <div class="modal-content">
                         <h2 id="modalTitle" style="margin-bottom: 25px;">Add Product</h2>
-                        <form action="admin" method="POST">
+                        <form action="${pageContext.request.contextPath}/admin" method="POST"
+                            enctype="multipart/form-data">
                             <input type="hidden" name="action" id="formAction" value="add">
                             <input type="hidden" name="id" id="productId">
 
@@ -265,8 +268,10 @@
                                 <input type="number" name="stock" id="pStock" required>
                             </div>
                             <div class="form-group">
-                                <label>Image URL</label>
-                                <input type="text" name="imageUrl" id="pImg" required>
+                                <label>Product Image</label>
+                                <input type="file" name="image" id="pImage">
+                                <small id="pImageHint"
+                                    style="color: var(--text-muted); display: block; margin-top: 5px;"></small>
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
@@ -294,8 +299,10 @@
                             document.getElementById('pCategory').value = '';
                             document.getElementById('pPrice').value = '';
                             document.getElementById('pStock').value = '';
-                            document.getElementById('pImg').value = '';
-                            document.getElementById('pDesc').value = '';
+                            document.getElementById('pImageHint').innerText = '';
+                            document.getElementById('pImage').required = true;
+                        } else {
+                            document.getElementById('pImage').required = false;
                         }
                     }
 
@@ -321,7 +328,7 @@
                         document.getElementById('pCategory').value = cat;
                         document.getElementById('pPrice').value = price;
                         document.getElementById('pStock').value = stock;
-                        document.getElementById('pImg').value = img;
+                        document.getElementById('pImageHint').innerText = 'Current: ' + img;
                         document.getElementById('pDesc').value = desc;
                     }
                 </script>

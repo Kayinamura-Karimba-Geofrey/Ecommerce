@@ -233,7 +233,8 @@
                         <c:forEach var="product" items="${products}">
                             <div class="product-card">
                                 <div class="image-container">
-                                    <img src="${product.imagePath}" alt="${product.name}">
+                                    <img src="${pageContext.request.contextPath}/${product.imagePath}"
+                                        alt="${product.name}">
                                     <span class="category-badge">${product.category.name}</span>
                                 </div>
 

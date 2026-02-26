@@ -71,7 +71,8 @@
         <div class="form-container">
             <h2>Add New Product</h2>
 
-            <form action="admin?action=add" method="post">
+            <form action="${pageContext.request.contextPath}/admin?action=add" method="post"
+                enctype="multipart/form-data">
 
                 <label>Product Name</label>
                 <input type="text" name="name" required>
@@ -85,8 +86,8 @@
                 <label>Stock</label>
                 <input type="number" name="stock" required>
 
-                <label>Image URL</label>
-                <input type="text" name="imageUrl" required>
+                <label>Product Image</label>
+                <input type="file" name="image" required>
 
                 <label>Category</label>
                 <input type="text" name="category" required>

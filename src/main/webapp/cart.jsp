@@ -290,8 +290,8 @@
                                             <tr class="cart-item">
                                                 <td>
                                                     <div class="product-info">
-                                                        <img src="${item.product.imagePath}" alt="${item.product.name}"
-                                                            class="product-img">
+                                                        <img src="${pageContext.request.contextPath}/${item.product.imagePath}"
+                                                            alt="${item.product.name}" class="product-img">
                                                         <div>
                                                             <div class="product-name">${item.product.name}</div>
                                                             <div class="product-cat">${item.product.category.name}</div>

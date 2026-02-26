@@ -51,7 +51,7 @@
           <a href="${pageContext.request.contextPath}/add-product.jsp">➕ Add Product</a>
           <a href="${pageContext.request.contextPath}/admin">📦 Manage Products</a>
           <a href="manage-orders">🛒 Orders</a>
-          <a href="users">👥 Users</a>
+          <a href="${pageContext.request.contextPath}/admin/users">👥 Users</a>
           <a href="logout">🚪 Logout</a>
         </div>
 
@@ -131,7 +131,7 @@
                 Add Product
               </a>
 
-              <a href="manage-orders" class="btn btn-warning">
+              <a href="${pageContext.request.contextPath}/admin/manage-orders" class="btn btn-warning">
                 Manage Orders
               </a>
 

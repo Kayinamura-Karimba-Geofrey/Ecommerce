@@ -126,10 +126,10 @@
                 <a href="products" class="nav-logo">PREMIUM STORE</a>
 
                 <div class="nav-links">
-                    <a href="products" class="nav-link">Store</a>
-                    <a href="cart" class="nav-link">Cart</a>
+                    <a href="${pageContext.request.contextPath}/products" class="nav-link">Store</a>
+                    <a href="${pageContext.request.contextPath}/cart" class="nav-link">Cart</a>
                     <c:if test="${loggedUser.role == 'ADMIN'}">
-                        <a href="admin" class="nav-link">Admin</a>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard" class="nav-link">Admin</a>
                     </c:if>
 
                     <c:choose>
@@ -138,7 +138,8 @@
                                 <span style="color: var(--text-muted); font-size: 0.9rem; align-self: center;">
                                     Hello, ${loggedUser.fullname}
                                 </span>
-                                <a href="logout" class="btn-nav btn-logout">Logout</a>
+                                <a href="${pageContext.request.contextPath}/logout"
+                                    class="btn-nav btn-logout">Logout</a>
                             </div>
                         </c:when>
                         <c:otherwise>

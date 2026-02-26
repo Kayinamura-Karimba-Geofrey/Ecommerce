@@ -5,6 +5,7 @@ import ecommerce.Util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import java.util.List;
 
 public class UserService {
 
@@ -57,6 +58,18 @@ public class UserService {
                     User.class);
             query.setParameter("email", email);
             return query.uniqueResult();
+        }
+    }
+
+    public List<User> findAllUsers() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM User", User.class).list();
+        }
+    }
+
+    public User findById(int id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(User.class, id);
         }
     }
 }
