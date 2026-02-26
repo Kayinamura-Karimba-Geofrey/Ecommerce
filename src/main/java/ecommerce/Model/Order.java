@@ -15,7 +15,9 @@ public class Order {
     private User user;
 
     private double totalAmount;
+    @Column(nullable = false)
     private String status;
+
     private java.time.LocalDateTime orderDate;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
