@@ -29,7 +29,7 @@ public class DiagnosticServlet extends HttpServlet {
                 out.println("  Role in session: " + loggedUser.getRole());
                 out.println("  Name in session: " + loggedUser.getFullname());
 
-                // Refetch from DB
+
                 User dbUser = session.get(User.class, loggedUser.getId());
                 if (dbUser != null) {
                     out.println("  DB Status: FOUND");
@@ -43,21 +43,21 @@ public class DiagnosticServlet extends HttpServlet {
                 out.println("No user logged in session.");
             }
 
-            // Check All Users
+
             out.println("\nAll Users in DB:");
             List<User> users = session.createQuery("FROM User", User.class).list();
             for (User u : users) {
                 out.println("- " + u.getEmail() + " (ID: " + u.getId() + ", Role: " + u.getRole() + ", Name: " + u.getFullname() + ")");
             }
 
-            // Check Products
+
             out.println("\nTop 5 Products:");
             List<Product> products = session.createQuery("FROM Product", Product.class).setMaxResults(5).list();
             for (Product p : products) {
                 out.println("- " + p.getName() + " (ID: " + p.getId() + ", Stock: " + p.getStock() + ", Price: " + p.getPrice() + ")");
             }
 
-            // Check Cart for current user
+
             if (loggedUser != null) {
                 out.println("\nCart Items for User " + loggedUser.getId() + ":");
                 List<CartItem> items = session.createQuery("FROM CartItem WHERE user.id = :uid", CartItem.class)
