@@ -24,7 +24,7 @@ public class AdminOrderDetailsServlet extends HttpServlet {
 
             request.setAttribute("order", order);
 
-            request.getRequestDispatcher("/admin/order-details.jsp")
+            request.getRequestDispatcher("/order-details.jsp")
                     .forward(request, response);
         }
     }

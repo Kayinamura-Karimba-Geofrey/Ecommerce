@@ -30,7 +30,7 @@ public class AdminManageOrdersServlet extends HttpServlet {
 
             request.setAttribute("orders", orders);
 
-            request.getRequestDispatcher("/admin/manage-orders.jsp")
+            request.getRequestDispatcher("/manage-orders.jsp")
                     .forward(request, response);
         }
     }

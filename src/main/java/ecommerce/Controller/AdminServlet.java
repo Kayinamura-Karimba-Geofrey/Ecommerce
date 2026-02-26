@@ -17,10 +17,12 @@ import java.util.List;
 public class AdminServlet extends HttpServlet {
 
     private ProductService productService;
+    private ecommerce.Services.CategoryService categoryService;
 
     @Override
     public void init() {
         productService = new ProductService();
+        categoryService = new ecommerce.Services.CategoryService();
     }
 
     @Override
@@ -50,11 +52,13 @@ public class AdminServlet extends HttpServlet {
         String description = request.getParameter("description");
 
         if ("add".equals(action)) {
-            Product product = new Product(name, description, price, stock, imageUrl, category);
+            ecommerce.Model.Category catObj = categoryService.getOrCreateByName(category);
+            Product product = new Product(name, description, price, stock, imageUrl, catObj);
             productService.saveProduct(product);
         } else if ("edit".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
-            Product product = new Product(id, name, description, price, stock, imageUrl, category);
+            ecommerce.Model.Category catObj = categoryService.getOrCreateByName(category);
+            Product product = new Product(id, name, description, price, stock, imageUrl, catObj);
             productService.updateProduct(product);
         }
 

@@ -215,15 +215,18 @@
                             <tbody>
                                 <c:forEach var="p" items="${products}">
                                     <tr>
-                                        <td><img src="${p.imageUrl}" class="product-thumb"></td>
+                                        <td><img src="${p.imagePath}" class="product-thumb"></td>
                                         <td style="font-weight: 600">${p.name}</td>
-                                        <td><span style="opacity: 0.7">${p.category}</span></td>
+                                        <td><span style="opacity: 0.7">${p.category.name}</span></td>
                                         <td style="color: var(--accent); font-weight: 700">$${p.price}</td>
                                         <td>${p.stock}</td>
                                         <td>
                                             <div class="action-btns">
-                                                <a href="#" class="btn-action btn-edit"
-                                                    onclick="editProduct(${p.id}, '${p.name}', '${p.category}', ${p.price}, ${p.stock}, '${p.imageUrl}', '${p.description}')">Edit</a>
+                                                <a href="#" class="btn-action btn-edit" data-id="${p.id}"
+                                                    data-name="${p.name}" data-category="${p.category.name}"
+                                                    data-price="${p.price}" data-stock="${p.stock}"
+                                                    data-image="${p.imagePath}" data-description="${p.description}"
+                                                    onclick="handleEdit(this)">Edit</a>
                                                 <a href="admin?action=delete&id=${p.id}" class="btn-action btn-del"
                                                     onclick="return confirm('Delete this product?')">Delete</a>
                                             </div>
@@ -298,6 +301,17 @@
 
                     function hideModal() {
                         document.getElementById('productModal').style.display = 'none';
+                    }
+
+                    function handleEdit(btn) {
+                        const id = btn.getAttribute('data-id');
+                        const name = btn.getAttribute('data-name');
+                        const cat = btn.getAttribute('data-category');
+                        const price = btn.getAttribute('data-price');
+                        const stock = btn.getAttribute('data-stock');
+                        const img = btn.getAttribute('data-image');
+                        const desc = btn.getAttribute('data-description');
+                        editProduct(id, name, cat, price, stock, img, desc);
                     }
 
                     function editProduct(id, name, cat, price, stock, img, desc) {

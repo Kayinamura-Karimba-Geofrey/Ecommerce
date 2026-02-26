@@ -1,4 +1,4 @@
-package ecommerce.filter;
+package ecommerce.Filter;
 
 import ecommerce.Model.User;
 import jakarta.servlet.*;
@@ -11,9 +11,11 @@ import java.io.IOException;
 
 @WebFilter(urlPatterns = {
         "/cart",
-        "/admin"
+        "/admin",
+        "/admin/*",
+        "/checkout",
+        "/orders"
 })
-
 public class AuthFilter implements Filter {
 
     @Override
@@ -31,15 +33,17 @@ public class AuthFilter implements Filter {
         String path = req.getRequestURI().substring(req.getContextPath().length());
 
         if (user != null) {
-            System.out.println("[AuthFilter] Authenticated user: " + user.getEmail() + ", Role: " + user.getRole() + ", Requesting: " + path);
-            // Role-based access for admin
-            if (path.startsWith("/admin") && !"ADMIN".equals(user.getRole())) {
-                System.out.println("[AuthFilter] Access Denied: User role is " + user.getRole() + ", but ADMIN required.");
-                res.sendRedirect(req.getContextPath() + "/products");
-                return;
+            // Role-based access for admin routes
+            if (path.startsWith("/admin")) {
+                if (!"ADMIN".equals(user.getRole())) {
+                    System.out.println("[AuthFilter] Access Denied: User role is " + user.getRole() + ", but ADMIN required for " + path);
+                    res.sendRedirect(req.getContextPath() + "/products");
+                    return;
+                }
             }
             chain.doFilter(request, response);
         } else {
+            System.out.println("[AuthFilter] Unauthorized access to " + path + ". Redirecting to login.");
             res.sendRedirect(req.getContextPath() + "/login.jsp");
         }
     }

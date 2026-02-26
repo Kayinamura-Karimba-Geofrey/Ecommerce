@@ -101,7 +101,7 @@ public class AdminDashboardServlet extends HttpServlet {
         }
 
         // Forward to JSP
-        request.getRequestDispatcher("/admin/dashboard.jsp")
+        request.getRequestDispatcher("/dashboard.jsp")
                 .forward(request, response);
     }
 }

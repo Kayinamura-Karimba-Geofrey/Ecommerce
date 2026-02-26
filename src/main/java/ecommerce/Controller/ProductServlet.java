@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/admin/products")
+@WebServlet({"/products", "/admin/products"})
 @MultipartConfig
 public class ProductServlet extends HttpServlet {
 
@@ -63,9 +63,10 @@ public class ProductServlet extends HttpServlet {
             request.setAttribute("search", search);
 
         }
-
-        request.getRequestDispatcher("/admin/manage-products.jsp")
-                .forward(request, response);
+        
+        String path = request.getServletPath();
+        String targetJsp = path.contains("/admin") ? "/manage-products.jsp" : "/products.jsp";
+        request.getRequestDispatcher(targetJsp).forward(request, response);
     }
 
     @Override
@@ -109,6 +110,6 @@ public class ProductServlet extends HttpServlet {
             tx.commit();
         }
 
-        response.sendRedirect("products");
+        response.sendRedirect(request.getContextPath() + "/products");
     }
 }

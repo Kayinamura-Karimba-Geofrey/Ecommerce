@@ -74,7 +74,7 @@ public class LoginServlet extends HttpServlet {
             System.out.println("[LoginServlet] User logged in: " + user.getEmail() + ", Role: " + user.getRole());
 
             if ("ADMIN".equals(user.getRole())) {
-                response.sendRedirect("admin/dashboard.jsp");
+                response.sendRedirect("admin/dashboard");
             } else {
                 response.sendRedirect("products");
             }
