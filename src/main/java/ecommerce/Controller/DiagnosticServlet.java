@@ -58,14 +58,23 @@ public class DiagnosticServlet extends HttpServlet {
             }
 
 
-            if (loggedUser != null) {
-                out.println("\nCart Items for User " + loggedUser.getId() + ":");
-                List<CartItem> items = session.createQuery("FROM CartItem WHERE user.id = :uid", CartItem.class)
-                        .setParameter("uid", loggedUser.getId())
-                        .list();
-                for (CartItem ci : items) {
-                    out.println("- Product ID " + ci.getProduct().getId() + ", Qty: " + ci.getQuantity());
+
+            // Image Patching logic
+            String fix = request.getParameter("fix");
+            if ("true".equals(fix)) {
+                var tx = session.beginTransaction();
+                List<Product> allProducts = session.createQuery("FROM Product", Product.class).list();
+                String[] commonImages = {"uploads/watch.png", "uploads/headphones.png", "uploads/laptop.png", "uploads/coffee.png"};
+                
+                for (int i = 0; i < allProducts.size(); i++) {
+                    Product p = allProducts.get(i);
+                    p.setImagePath(commonImages[i % commonImages.length]);
+                    session.merge(p);
                 }
+                tx.commit();
+                out.println("\nSUCCESS: All product image paths have been updated to the premium assets!");
+            } else {
+                out.println("\nTIP: Visit /diag?fix=true to automatically link all products to the new premium images.");
             }
 
         } catch (Exception e) {
