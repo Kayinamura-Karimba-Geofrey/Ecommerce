@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("tempUser", user); // store temp user until 2FA verified
 
-            if (user.isTwoFactorEnabled()) {
+            if (Boolean.TRUE.equals(user.isTwoFactorEnabled())) {
                 // If TOTP code not yet provided, redirect to 2FA page
                 if (totpCode == null) {
                     request.getRequestDispatcher("/2fa.jsp").forward(request, response);

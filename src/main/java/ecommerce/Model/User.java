@@ -16,7 +16,7 @@ public class User {
     private String secretKey; // TOTP secret
 
     // Getters and setters
-    public Boolean isTwoFactorEnabled() { return twoFactorEnabled; }
+    public boolean isTwoFactorEnabled() { return twoFactorEnabled != null && twoFactorEnabled; }
     public void setTwoFactorEnabled(Boolean twoFactorEnabled) { this.twoFactorEnabled = twoFactorEnabled; }
 
     public String getSecretKey() { return secretKey; }
