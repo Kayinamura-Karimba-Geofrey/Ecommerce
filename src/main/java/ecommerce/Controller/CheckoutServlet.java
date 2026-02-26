@@ -33,7 +33,7 @@ public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Direct access to checkout via GET is not allowed, redirect to cart
+
         response.sendRedirect("cart");
     }
 
@@ -53,7 +53,7 @@ public class CheckoutServlet extends HttpServlet {
         try (org.hibernate.Session hibernateSession = ecommerce.Util.HibernateUtil.getSessionFactory().openSession()) {
             org.hibernate.Transaction tx = hibernateSession.beginTransaction();
             try {
-                // Fetch cart items for the user
+
                 List<CartItem> cartItems = hibernateSession.createQuery(
                                 "FROM CartItem WHERE user.id = :userId", CartItem.class)
                         .setParameter("userId", user.getId())
@@ -84,14 +84,14 @@ public class CheckoutServlet extends HttpServlet {
                     item.setQuantity(cartItem.getQuantity());
                     item.setPrice(managedProduct.getPrice());
 
-                    // Reduce stock
+
                     managedProduct.setStock(managedProduct.getStock() - cartItem.getQuantity());
                     hibernateSession.merge(managedProduct);
 
                     total += cartItem.getTotal();
                     orderItemsList.add(item);
                     
-                    // Cleanup cart item
+
                     hibernateSession.remove(cartItem);
                 }
 
