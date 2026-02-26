@@ -1,4 +1,4 @@
-package ecommerce.Filter;
+package ecommerce.filter;
 
 import ecommerce.Model.User;
 import jakarta.servlet.*;
