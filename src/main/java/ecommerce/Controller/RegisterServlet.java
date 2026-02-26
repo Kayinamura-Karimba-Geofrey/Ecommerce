@@ -35,7 +35,7 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        // 🔐 Hash password
+
         String hashedPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
 
         User user = new User(name, email, hashedPassword, role);

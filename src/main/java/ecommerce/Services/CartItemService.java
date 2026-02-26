@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CartItemService {
 
-    // 🔹 Add product to cart
+
     public void addToCart(User user, Product product) {
         System.out.println("[CartItemService] addToCart started. User ID: " + (user != null ? user.getId() : "null") + 
                            ", Product ID: " + (product != null ? product.getId() : "null"));
@@ -23,7 +23,7 @@ public class CartItemService {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
 
-            // Refetch to ensure management
+
             User managedUser = session.get(User.class, user.getId());
             Product managedProduct = session.get(Product.class, product.getId());
             
@@ -32,7 +32,7 @@ public class CartItemService {
                 return;
             }
 
-            // Check if item already exists - Using IDs in query for robustness
+
             CartItem existingItem = session.createQuery(
                             "FROM CartItem WHERE user.id = :userId AND product.id = :productId",
                             CartItem.class)
@@ -71,11 +71,11 @@ public class CartItemService {
         }
     }
 
-    // 🔹 Get user's cart
+
     public List<CartItem> getUserCart(User user) {
         System.out.println("[CartItemService] getUserCart for User ID: " + (user != null ? user.getId() : "null"));
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // Querying by user.id to avoid issues with detached user objects in session
+
             List<CartItem> items = session.createQuery(
                             "FROM CartItem WHERE user.id = :userId",
                             CartItem.class)
@@ -90,7 +90,7 @@ public class CartItemService {
         }
     }
 
-    // 🔹 Remove item
+
     public void removeItem(int cartItemId) {
         Session session = null;
         Transaction transaction = null;
@@ -111,7 +111,7 @@ public class CartItemService {
         }
     }
 
-    // 🔹 Update quantity
+
     public void updateQuantity(int cartItemId, int newQuantity) {
         Session session = null;
         Transaction transaction = null;
