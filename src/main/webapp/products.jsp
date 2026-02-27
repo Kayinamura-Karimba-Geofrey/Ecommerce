@@ -261,32 +261,36 @@
                     <div class="products-grid">
                         <c:forEach var="product" items="${products}">
                             <div class="product-card">
-                                <a href="product-details?id=${product.id}"
-                                    style="text-decoration: none; color: inherit;">
-                                    <div class="image-container">
+                                <div class="image-container">
+                                    <a href="product-details?id=${product.id}"
+                                       style="display:block; width:100%; height:100%; text-decoration: none; color: inherit;">
                                         <c:choose>
                                             <c:when test="${product.imagePath.startsWith('http')}">
                                                 <img src="${product.imagePath}" alt="${product.name}">
                                             </c:when>
                                             <c:otherwise>
                                                 <img src="${pageContext.request.contextPath}/${product.imagePath}"
-                                                    alt="${product.name}">
+                                                     alt="${product.name}">
                                             </c:otherwise>
                                         </c:choose>
                                         <span class="category-badge">${product.category.name}</span>
-                                    </div>
+                                    </a>
+                                </div>
 
-                                    <div class="content">
-                                        <h2 class="product-name">${product.name}</h2>
-                                        <p class="product-desc">${product.description}</p>
+                                <div class="content">
+                                    <h2 class="product-name">
+                                        <a href="product-details?id=${product.id}"
+                                           style="text-decoration: none; color: inherit;">
+                                            ${product.name}
+                                        </a>
+                                    </h2>
+                                    <p class="product-desc">${product.description}</p>
 
-                                        <div class="footer-action">
-                                            <span class="price">$${product.price}</span>
-                                            <a href="cart?action=add&id=${product.id}" class="btn-buy"
-                                                onclick="event.stopPropagation()">Add to Cart</a>
-                                        </div>
+                                    <div class="footer-action">
+                                        <span class="price">$${product.price}</span>
+                                        <a href="cart?action=add&id=${product.id}" class="btn-buy">Add to Cart</a>
                                     </div>
-                                </a>
+                                </div>
 
                                 <c:if test="${loggedUser.role == 'ADMIN'}">
                                     <div class="admin-controls">
