@@ -15,6 +15,16 @@ public class Order {
     private User user;
 
     private double totalAmount;
+    private double subtotal;
+    private double tax;
+    private double shippingCost;
+    
+    @Column(columnDefinition = "TEXT")
+    private String billingAddress;
+    
+    @Column(columnDefinition = "TEXT")
+    private String shippingAddress;
+
     @Column(nullable = false)
     private String status;
 
@@ -48,6 +58,46 @@ public class Order {
 
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public double getTax() {
+        return tax;
+    }
+
+    public void setTax(double tax) {
+        this.tax = tax;
+    }
+
+    public double getShippingCost() {
+        return shippingCost;
+    }
+
+    public void setShippingCost(double shippingCost) {
+        this.shippingCost = shippingCost;
+    }
+
+    public String getBillingAddress() {
+        return billingAddress;
+    }
+
+    public void setBillingAddress(String billingAddress) {
+        this.billingAddress = billingAddress;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 
     public String getStatus() {

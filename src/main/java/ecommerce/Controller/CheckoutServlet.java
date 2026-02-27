@@ -34,7 +34,38 @@ public class CheckoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.sendRedirect("cart");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("loggedUser");
+
+        if (user == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        try (org.hibernate.Session hibernateSession = ecommerce.Util.HibernateUtil.getSessionFactory().openSession()) {
+            List<CartItem> cartItems = hibernateSession.createQuery(
+                            "FROM CartItem WHERE user.id = :userId", CartItem.class)
+                    .setParameter("userId", user.getId())
+                    .list();
+
+            if (cartItems == null || cartItems.isEmpty()) {
+                response.sendRedirect("cart");
+                return;
+            }
+
+            double subtotal = cartItems.stream().mapToDouble(CartItem::getTotal).sum();
+            double tax = subtotal * 0.10; // 10% tax
+            double shipping = subtotal > 200 ? 0 : 15.0; // Free shipping over $200
+            double total = subtotal + tax + shipping;
+
+            request.setAttribute("cartItems", cartItems);
+            request.setAttribute("subtotal", subtotal);
+            request.setAttribute("tax", tax);
+            request.setAttribute("shipping", shipping);
+            request.setAttribute("total", total);
+
+            request.getRequestDispatcher("checkout.jsp").forward(request, response);
+        }
     }
 
     @Override
@@ -49,6 +80,9 @@ public class CheckoutServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+
+        String billingAddress = request.getParameter("billingAddress");
+        String shippingAddress = request.getParameter("shippingAddress");
 
         try (org.hibernate.Session hibernateSession = ecommerce.Util.HibernateUtil.getSessionFactory().openSession()) {
             org.hibernate.Transaction tx = hibernateSession.beginTransaction();
@@ -67,9 +101,11 @@ public class CheckoutServlet extends HttpServlet {
                 Order order = new Order();
                 order.setOrderDate(java.time.LocalDateTime.now());
                 order.setUser(hibernateSession.get(User.class, user.getId()));
-                order.setStatus("PENDING");
+                order.setStatus("PAID"); // Assuming payment is confirmed for this flow
+                order.setBillingAddress(billingAddress);
+                order.setShippingAddress(shippingAddress);
 
-                double total = 0;
+                double subtotal = 0;
                 List<OrderItem> orderItemsList = new ArrayList<>();
 
                 for (CartItem cartItem : cartItems) {
@@ -84,25 +120,30 @@ public class CheckoutServlet extends HttpServlet {
                     item.setQuantity(cartItem.getQuantity());
                     item.setPrice(managedProduct.getPrice());
 
-
                     managedProduct.setStock(managedProduct.getStock() - cartItem.getQuantity());
                     hibernateSession.merge(managedProduct);
 
-                    total += cartItem.getTotal();
+                    subtotal += cartItem.getTotal();
                     orderItemsList.add(item);
                     
-
                     hibernateSession.remove(cartItem);
                 }
 
+                double tax = subtotal * 0.10;
+                double shipping = subtotal > 200 ? 0 : 15.0;
+                double total = subtotal + tax + shipping;
+
                 order.setItems(orderItemsList);
+                order.setSubtotal(subtotal);
+                order.setTax(tax);
+                order.setShippingCost(shipping);
                 order.setTotalAmount(total);
 
                 hibernateSession.persist(order);
                 tx.commit();
                 
-                System.out.println("[CheckoutServlet] Order created successfully for user: " + user.getEmail());
-                response.sendRedirect("orders");
+                System.out.println("[CheckoutServlet] Order created successfully: " + order.getId());
+                response.sendRedirect("order-success?id=" + order.getId());
                 
             } catch (Exception e) {
                 if (tx != null) tx.rollback();
