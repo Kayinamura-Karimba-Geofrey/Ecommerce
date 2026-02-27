@@ -117,12 +117,6 @@
         </style>
 
         <nav class="navbar">
-            <c:if test="${not empty loggedUser}">
-                <div class="debug-overlay">
-                    DEBUG: ${loggedUser.email} | ID: ${loggedUser.id} | Role: ${loggedUser.role} | Name:
-                    ${loggedUser.fullname}
-                </div>
-            </c:if>
             <div class="nav-container">
                 <a href="products" class="nav-logo">PREMIUM STORE</a>
 
@@ -135,9 +129,10 @@
 
                     <c:choose>
                         <c:when test="${not empty loggedUser}">
+                            <a href="${pageContext.request.contextPath}/orders" class="nav-link">My Orders</a>
                             <div class="nav-auth">
                                 <span style="color: var(--text-muted); font-size: 0.9rem; align-self: center;">
-                                    Hello, ${loggedUser.fullname}
+                                    👤 ${loggedUser.fullname}
                                 </span>
                                 <a href="${pageContext.request.contextPath}/logout"
                                     class="btn-nav btn-logout">Logout</a>
@@ -145,7 +140,9 @@
                         </c:when>
                         <c:otherwise>
                             <div class="nav-auth">
-                                <a href="login.jsp" class="btn-nav btn-login">Login</a>
+                                <a href="register.jsp" class="btn-nav btn-login">Register</a>
+                                <a href="login.jsp" class="btn-nav"
+                                    style="background: var(--primary); color: white; border-radius: 10px; padding: 8px 20px; font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: all 0.3s;">Login</a>
                             </div>
                         </c:otherwise>
                     </c:choose>
