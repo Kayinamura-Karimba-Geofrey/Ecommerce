@@ -8,10 +8,26 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
+import java.util.Map;
 
 public class CartItemService {
 
-
+    public void mergeCart(User user, Map<Integer, Integer> guestCart) {
+        if (guestCart == null || guestCart.isEmpty()) return;
+        
+        System.out.println("[CartItemService] Merging guest cart for user: " + user.getEmail());
+        ProductService productService = new ProductService();
+        for (Map.Entry<Integer, Integer> entry : guestCart.entrySet()) {
+            Product product = productService.getProductById(entry.getKey());
+            if (product != null) {
+                // Add to cart multiple times if needed, or update addToCart to take quantity
+                // For simplicity, we just add the quantity specified
+                for (int i = 0; i < entry.getValue(); i++) {
+                    addToCart(user, product);
+                }
+            }
+        }
+    }
     public void addToCart(User user, Product product) {
         System.out.println("[CartItemService] addToCart started. User ID: " + (user != null ? user.getId() : "null") + 
                            ", Product ID: " + (product != null ? product.getId() : "null"));

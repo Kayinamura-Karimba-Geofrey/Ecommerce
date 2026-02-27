@@ -290,8 +290,16 @@
                                             <tr class="cart-item">
                                                 <td>
                                                     <div class="product-info">
-                                                        <img src="${pageContext.request.contextPath}/${item.product.imagePath}"
-                                                            alt="${item.product.name}" class="product-img">
+                                                        <c:choose>
+                                                            <c:when test="${item.product.imagePath.startsWith('http')}">
+                                                                <img src="${item.product.imagePath}"
+                                                                    alt="${item.product.name}" class="product-img">
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img src="${pageContext.request.contextPath}/${item.product.imagePath}"
+                                                                    alt="${item.product.name}" class="product-img">
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                         <div>
                                                             <div class="product-name">${item.product.name}</div>
                                                             <div class="product-cat">${item.product.category.name}</div>

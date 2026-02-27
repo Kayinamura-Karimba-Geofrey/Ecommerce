@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 import ecommerce.Model.User;
+import java.util.Map;
 
 import dev.samstevens.totp.code.CodeVerifier;
 import dev.samstevens.totp.code.DefaultCodeGenerator;
@@ -82,6 +83,14 @@ public class LoginServlet extends HttpServlet {
             }
             
             session.setAttribute("loggedUser", user);
+            
+            // Merge Guest Cart
+            Map<Integer, Integer> guestCart = (Map<Integer, Integer>) session.getAttribute("guestCart");
+            if (guestCart != null) {
+                new ecommerce.Services.CartItemService().mergeCart(user, guestCart);
+                session.removeAttribute("guestCart");
+            }
+
             session.removeAttribute("tempUser"); // cleanup temp user
             System.out.println("[LoginServlet] User logged in: " + user.getEmail() + ", Role: " + user.getRole());
 
