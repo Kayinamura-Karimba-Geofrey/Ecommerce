@@ -43,6 +43,7 @@ public class AuthFilter implements Filter {
             chain.doFilter(request, response);
         } else {
             System.out.println("[AuthFilter] Unauthorized access to " + path + ". Redirecting to login.");
+            req.getSession(true).setAttribute("redirectAfterLogin", path);
             res.sendRedirect(req.getContextPath() + "/login.jsp");
         }
     }

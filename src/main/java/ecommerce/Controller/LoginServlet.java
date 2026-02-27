@@ -60,7 +60,7 @@ public class LoginServlet extends HttpServlet {
             }
 
             finishLogin(session, pending2faUser);
-            redirectAfterLogin(response, pending2faUser);
+            redirectAfterLogin(request, response, pending2faUser);
             return;
         }
 
@@ -85,7 +85,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         finishLogin(session, user);
-        redirectAfterLogin(response, user);
+        redirectAfterLogin(request, response, user);
     }
 
     private void finishLogin(HttpSession session, User user) {
@@ -102,9 +102,18 @@ public class LoginServlet extends HttpServlet {
         System.out.println("[LoginServlet] User logged in: " + user.getEmail() + ", Role: " + user.getRole());
     }
 
-    private void redirectAfterLogin(HttpServletResponse response, User user) throws IOException {
+    private void redirectAfterLogin(HttpServletRequest request, HttpServletResponse response, User user) throws IOException {
+        jakarta.servlet.http.HttpSession session = request.getSession();
+        String redirectPath = (String) session.getAttribute("redirectAfterLogin");
+        
+        if (redirectPath != null && !redirectPath.isEmpty()) {
+            session.removeAttribute("redirectAfterLogin");
+            response.sendRedirect(request.getContextPath() + redirectPath);
+            return;
+        }
+
         if ("ADMIN".equals(user.getRole())) {
-            response.sendRedirect("admin/dashboard");
+            response.sendRedirect("admin"); // Using /admin for admin dashboard redirect
         } else {
             response.sendRedirect("products");
         }
