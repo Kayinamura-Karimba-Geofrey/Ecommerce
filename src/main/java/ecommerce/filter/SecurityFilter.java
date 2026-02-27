@@ -64,7 +64,7 @@ public class SecurityFilter implements Filter {
         }
 
         // ── 3. Session Timeout ────────────────────────────────────────────────
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession(true);
         if (session != null) {
             session.setMaxInactiveInterval(SESSION_TIMEOUT_SECONDS);
         }
