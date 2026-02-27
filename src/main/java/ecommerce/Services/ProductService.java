@@ -30,7 +30,7 @@ public class ProductService {
 
     public List<Product> getAllProducts() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Product", Product.class).list();
+            return session.createQuery("from Product p where p.isDeleted = false", Product.class).list();
         }
     }
 
@@ -68,7 +68,8 @@ public class ProductService {
             transaction = session.beginTransaction();
             Product product = session.get(Product.class, id);
             if (product != null) {
-                session.remove(product);
+                product.setDeleted(true);
+                session.merge(product);
             }
             transaction.commit();
         } catch (Exception e) {

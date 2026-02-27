@@ -36,7 +36,7 @@ public class ProductServlet extends HttpServlet {
         try (Session session =
                      HibernateUtil.getSessionFactory().openSession()) {
 
-            StringBuilder hql = new StringBuilder("FROM Product p WHERE 1=1");
+            StringBuilder hql = new StringBuilder("FROM Product p WHERE p.isDeleted = false");
             if (search != null && !search.isEmpty()) {
                 hql.append(" AND p.name LIKE :search");
             }
@@ -66,7 +66,7 @@ public class ProductServlet extends HttpServlet {
 
             List<Product> products = query.list();
 
-            StringBuilder countHql = new StringBuilder("SELECT COUNT(p.id) FROM Product p WHERE 1=1");
+            StringBuilder countHql = new StringBuilder("SELECT COUNT(p.id) FROM Product p WHERE p.isDeleted = false");
             if (search != null && !search.isEmpty()) {
                 countHql.append(" AND p.name LIKE :search");
             }
@@ -102,46 +102,72 @@ public class ProductServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        double price = Double.parseDouble(request.getParameter("price"));
-        int stock = Integer.parseInt(request.getParameter("stock"));
-        int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-
-        Part imagePart = request.getPart("image");
-
-        String uploadPath = getServletContext()
-                .getRealPath("") + File.separator + "uploads";
-
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) uploadDir.mkdir();
-
-        String fileName = imagePart.getSubmittedFileName();
-        imagePart.write(uploadPath + File.separator + fileName);
-
-        try (Session session =
-                     HibernateUtil.getSessionFactory().openSession()) {
-
+        
+        String action = request.getParameter("action");
+        if (action == null) action = "add"; // default to add for backwards comp
+        
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction tx = session.beginTransaction();
-
+            
+            if ("delete".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                Product product = session.get(Product.class, id);
+                if (product != null) {
+                    product.setDeleted(true); // Soft delete
+                    session.merge(product);
+                }
+                tx.commit();
+                response.sendRedirect(request.getContextPath() + "/admin/products");
+                return;
+            }
+            
+            // Add or Edit
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            double price = Double.parseDouble(request.getParameter("price"));
+            int stock = Integer.parseInt(request.getParameter("stock"));
+            int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+            
             Category category = session.get(Category.class, categoryId);
-
-            Product product = new Product();
+            Product product;
+            
+            if ("edit".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                product = session.get(Product.class, id);
+            } else {
+                product = new Product();
+            }
+            
             product.setName(name);
             product.setDescription(description);
             product.setPrice(price);
             product.setStock(stock);
-            product.setImagePath("uploads/" + fileName);
             product.setCategory(category);
-
-            session.persist(product);
+            
+            // Handle optional image upload
+            Part imagePart = request.getPart("image");
+            if (imagePart != null && imagePart.getSize() > 0) {
+                String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) uploadDir.mkdir();
+                
+                String fileName = imagePart.getSubmittedFileName();
+                imagePart.write(uploadPath + File.separator + fileName);
+                product.setImagePath("uploads/" + fileName);
+            }
+            
+            if ("edit".equals(action)) {
+                session.merge(product);
+            } else {
+                session.persist(product);
+            }
+            
             tx.commit();
         }
-
-        response.sendRedirect(request.getContextPath() + "/products");
+        
+        response.sendRedirect(request.getContextPath() + "/admin/products");
     }
+
 }
