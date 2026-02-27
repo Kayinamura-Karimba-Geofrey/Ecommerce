@@ -288,7 +288,12 @@
 
                                     <div class="footer-action">
                                         <span class="price">$${product.price}</span>
-                                        <a href="cart?action=add&id=${product.id}" class="btn-buy">Add to Cart</a>
+                                        <form action="${pageContext.request.contextPath}/cart" method="post" style="display:inline;">
+                                            <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
+                                            <input type="hidden" name="action" value="add">
+                                            <input type="hidden" name="productId" value="${product.id}">
+                                            <button type="submit" class="btn-buy">Add to Cart</button>
+                                        </form>
                                     </div>
                                 </div>
 

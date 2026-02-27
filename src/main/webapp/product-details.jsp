@@ -283,7 +283,12 @@
 
                             <div class="actions">
                                 <c:if test="${product.stock > 0}">
-                                    <a href="cart?action=add&id=${product.id}" class="btn btn-primary">Add to Cart</a>
+                                    <form action="${pageContext.request.contextPath}/cart" method="post" style="flex:1; margin:0;">
+                                        <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
+                                        <input type="hidden" name="action" value="add">
+                                        <input type="hidden" name="productId" value="${product.id}">
+                                        <button type="submit" class="btn btn-primary" style="width:100%;">Add to Cart</button>
+                                    </form>
                                 </c:if>
                                 <a href="products" class="btn btn-secondary">Back to Store</a>
                             </div>
