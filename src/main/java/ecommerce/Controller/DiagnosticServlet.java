@@ -51,10 +51,20 @@ public class DiagnosticServlet extends HttpServlet {
             }
 
 
-            out.println("\nTop 5 Products:");
-            List<Product> products = session.createQuery("FROM Product", Product.class).setMaxResults(5).list();
+            out.println("\nProducts (All):");
+            List<Product> products = session.createQuery("FROM Product p ORDER BY p.id ASC", Product.class).list();
+            String realPath = getServletContext().getRealPath("/");
             for (Product p : products) {
-                out.println("- " + p.getName() + " (ID: " + p.getId() + ", Stock: " + p.getStock() + ", Price: " + p.getPrice() + ")");
+                String imgPath = p.getImagePath();
+                boolean exists = false;
+                if (imgPath != null && !imgPath.startsWith("http")) {
+                    java.io.File f = new java.io.File(realPath, imgPath);
+                    exists = f.exists();
+                }
+                out.println("- [" + p.getId() + "] " + p.getName() + 
+                            " | Cat: " + (p.getCategory() != null ? p.getCategory().getName() : "NULL") +
+                            " | Path: " + imgPath +
+                            (imgPath != null && !imgPath.startsWith("http") ? " | FileExists: " + exists : ""));
             }
 
 

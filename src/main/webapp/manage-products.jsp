@@ -34,7 +34,17 @@
                     <c:forEach var="p" items="${products}">
                         <tr>
                             <td>
-                                <img src="${pageContext.request.contextPath}/${p.imagePath}" width="60" />
+                                <c:choose>
+                                    <c:when test="${not empty p.imagePath && p.imagePath.startsWith('http')}">
+                                        <img src="${p.imagePath}" width="60" />
+                                    </c:when>
+                                    <c:when test="${not empty p.imagePath}">
+                                        <img src="${pageContext.request.contextPath}/${p.imagePath}" width="60" />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="text-muted">No Image</span>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                             <td>${p.name}</td>
                             <td>${p.category.name}</td>
