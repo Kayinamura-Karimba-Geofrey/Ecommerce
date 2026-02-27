@@ -33,6 +33,22 @@ public class CartItemServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(ATTR_LOGGED_USER);
 
+        // Handle cart actions via GET (update quantity, remove items)
+        String action = request.getParameter("action");
+        if (action != null) {
+            try {
+                if ("update".equals(action)) {
+                    handleUpdate(request, session);
+                } else if ("remove".equals(action)) {
+                    handleRemove(request, session);
+                }
+            } catch (Exception e) {
+                System.out.println("[CartItemServlet] Exception handling GET action '" + action + "': " + e.getMessage());
+            }
+            response.sendRedirect(request.getContextPath() + "/cart");
+            return;
+        }
+
         System.out.println("[CartItemServlet] Rendering cart. User: " +
                 (user != null ? user.getEmail() + " (ID: " + user.getId() + ")" : "guest"));
 

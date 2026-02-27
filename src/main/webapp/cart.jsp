@@ -296,8 +296,35 @@
                                                                      alt="${item.product.name}" class="product-img">
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=80"
-                                                                     alt="${item.product.name}" class="product-img">
+                                                                <c:choose>
+                                                                    <c:when test="${item.product.category.name == 'Electronics'}">
+                                                                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
+                                                                    </c:when>
+                                                                    <c:when test="${item.product.category.name == 'Home Appliances'}">
+                                                                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
+                                                                    </c:when>
+                                                                    <c:when test="${item.product.category.name == 'Fashion'}">
+                                                                        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
+                                                                    </c:when>
+                                                                    <c:when test="${item.product.category.name == 'Books'}">
+                                                                        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
+                                                                    </c:when>
+                                                                    <c:when test="${item.product.category.name == 'Hobbies'}">
+                                                                        <img src="https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
+                                                                    </c:when>
+                                                                    <c:when test="${item.product.category.name == 'Beauty'}">
+                                                                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
+                                                                    </c:when>
+                                                                    <c:when test="${item.product.category.name == 'Home Decor'}">
+                                                                        <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
+                                                                    </c:when>
+                                                                    <c:when test="${item.product.category.name == 'Furniture'}">
+                                                                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
+                                                                    </c:otherwise>
+                                                                </c:choose>
                                                             </c:otherwise>
                                                         </c:choose>
                                                         <div>
@@ -335,13 +362,10 @@
                                         <p>Grand Total</p>
                                         <h2>$${cartTotal}</h2>
                                     </div>
-                                    <form action="checkout" method="post">
-                                        <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
-                                        <button type="submit" class="btn-checkout"
-                                            style="border: none; cursor: pointer;">
-                                            Checkout Now
-                                        </button>
-                                    </form>
+                                    <a href="${pageContext.request.contextPath}/checkout" class="btn-checkout"
+                                        style="border: none; cursor: pointer; text-decoration: none; display: inline-block;">
+                                        Checkout Now
+                                    </a>
                                 </div>
                             </c:when>
                             <c:otherwise>

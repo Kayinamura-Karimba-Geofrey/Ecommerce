@@ -201,7 +201,7 @@
 
                 <div class="input-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
 
                 <button type="submit" class="btn-submit">Sign In →</button>
