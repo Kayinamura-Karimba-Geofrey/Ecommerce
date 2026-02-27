@@ -251,12 +251,12 @@
                     <div class="product-grid">
                         <div class="image-gallery">
                             <c:choose>
-                                <c:when test="${product.imagePath.startsWith('http')}">
+                                <c:when test="${not empty product.imagePath and product.imagePath.startsWith('http')}">
                                     <img src="${product.imagePath}" alt="${product.name}">
                                 </c:when>
                                 <c:otherwise>
-                                    <img src="${pageContext.request.contextPath}/${product.imagePath}"
-                                        alt="${product.name}">
+                                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=80"
+                                         alt="${product.name}">
                                 </c:otherwise>
                             </c:choose>
                         </div>
@@ -304,12 +304,12 @@
                                     <a href="product-details?id=${rp.id}" class="related-card">
                                         <div class="related-img">
                                             <c:choose>
-                                                <c:when test="${rp.imagePath.startsWith('http')}">
+                                                <c:when test="${not empty rp.imagePath and rp.imagePath.startsWith('http')}">
                                                     <img src="${rp.imagePath}" alt="${rp.name}">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <img src="${pageContext.request.contextPath}/${rp.imagePath}"
-                                                        alt="${rp.name}">
+                                                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=80"
+                                                         alt="${rp.name}">
                                                 </c:otherwise>
                                             </c:choose>
                                         </div>

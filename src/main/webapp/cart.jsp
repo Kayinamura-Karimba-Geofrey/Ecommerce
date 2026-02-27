@@ -291,13 +291,13 @@
                                                 <td>
                                                     <div class="product-info">
                                                         <c:choose>
-                                                            <c:when test="${item.product.imagePath.startsWith('http')}">
+                                                            <c:when test="${not empty item.product.imagePath and item.product.imagePath.startsWith('http')}">
                                                                 <img src="${item.product.imagePath}"
-                                                                    alt="${item.product.name}" class="product-img">
+                                                                     alt="${item.product.name}" class="product-img">
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <img src="${pageContext.request.contextPath}/${item.product.imagePath}"
-                                                                    alt="${item.product.name}" class="product-img">
+                                                                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=80"
+                                                                     alt="${item.product.name}" class="product-img">
                                                             </c:otherwise>
                                                         </c:choose>
                                                         <div>

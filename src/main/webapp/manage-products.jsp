@@ -563,12 +563,9 @@
                                                         test="${not empty p.imagePath && p.imagePath.startsWith('http')}">
                                                         <img src="${p.imagePath}" alt="${p.name}">
                                                     </c:when>
-                                                    <c:when test="${not empty p.imagePath}">
-                                                        <img src="${pageContext.request.contextPath}/${p.imagePath}"
-                                                            alt="${p.name}">
-                                                    </c:when>
-                                                    <c:otherwise><span
-                                                            style="color:#64748b; font-size:10px;">None</span>
+                                                    <c:otherwise>
+                                                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&auto=format&fit=crop&q=80"
+                                                             alt="${p.name}">
                                                     </c:otherwise>
                                                 </c:choose>
                                             </div>

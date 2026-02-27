@@ -232,12 +232,12 @@
                 <c:forEach var="item" items="${cartItems}">
                   <div class="item-mini">
                     <c:choose>
-                      <c:when test="${item.product.imagePath.startsWith('http')}">
+                      <c:when test="${not empty item.product.imagePath and item.product.imagePath.startsWith('http')}">
                         <img src="${item.product.imagePath}" alt="${item.product.name}">
                       </c:when>
                       <c:otherwise>
-                        <img src="${pageContext.request.contextPath}/${item.product.imagePath}"
-                          alt="${item.product.name}">
+                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=80"
+                             alt="${item.product.name}">
                       </c:otherwise>
                     </c:choose>
                     <div class="item-name">${item.product.name} (x${item.quantity})</div>

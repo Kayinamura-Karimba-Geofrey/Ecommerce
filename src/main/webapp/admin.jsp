@@ -217,12 +217,12 @@
                                     <tr>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${p.imagePath.startsWith('http')}">
+                                                <c:when test="${not empty p.imagePath and p.imagePath.startsWith('http')}">
                                                     <img src="${p.imagePath}" class="product-thumb">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <img src="${pageContext.request.contextPath}/${p.imagePath}"
-                                                        class="product-thumb">
+                                                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&auto=format&fit=crop&q=80"
+                                                         class="product-thumb">
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
