@@ -69,10 +69,6 @@
                 margin-bottom: 35px;
             }
 
-            .logo-icon {
-                font-size: 2.5rem;
-                margin-bottom: 10px;
-            }
 
             .logo h1 {
                 font-size: 1.8rem;
@@ -202,7 +198,6 @@
     <body>
         <div class="auth-card">
             <div class="logo">
-                <div class="logo-icon">🛍️</div>
                 <h1>Create Account</h1>
                 <p>Join Premium Store today</p>
             </div>
@@ -212,7 +207,7 @@
             </div>
 
             <c:if test="${not empty error}">
-                <div class="error-box">⚠️ ${error}</div>
+                <div class="error-box">${error}</div>
             </c:if>
 
             <form action="register" method="post">

@@ -69,11 +69,6 @@
                 margin-bottom: 35px;
             }
 
-            .logo-icon {
-                font-size: 2.5rem;
-                margin-bottom: 10px;
-            }
-
             .logo h1 {
                 font-size: 1.8rem;
                 font-weight: 700;
@@ -190,7 +185,6 @@
     <body>
         <div class="auth-card">
             <div class="logo">
-                <div class="logo-icon">🔐</div>
                 <h1>Welcome Back</h1>
                 <p>Sign in to your Premium Store account</p>
             </div>

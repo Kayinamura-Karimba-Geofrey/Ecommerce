@@ -28,9 +28,7 @@
         </form>
 
         <c:if test="${not empty error}">
-            <p style="color:#ef4444; margin-top: 18px; font-size: 0.95rem;">
-                <c:out value="${error}"/>
-            </p>
+            <p style="color:#ef4444; margin-top: 18px; font-size: 0.95rem;"><c:out value="${error}"/></p>
         </c:if>
     </div>
 </body>
