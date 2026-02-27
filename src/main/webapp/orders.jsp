@@ -282,6 +282,7 @@
                                             <c:if test="${sessionScope.loggedUser.role == 'ADMIN'}">
                                                 <form action="orders" method="post"
                                                     style="display: flex; gap: 10px; align-items: center;">
+                                                    <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
                                                     <input type="hidden" name="orderId" value="${order.id}">
                                                     <select name="status" class="admin-select">
                                                         <option value="PENDING" ${order.status=='PENDING' ? 'selected'

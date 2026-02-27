@@ -189,6 +189,7 @@
 
           <main>
             <form action="checkout" method="post" id="checkoutForm">
+              <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
               <div class="card">
                 <div class="section-title">
                   <span>📍</span> Delivery Information

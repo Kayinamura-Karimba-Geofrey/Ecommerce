@@ -24,10 +24,29 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
             throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
+        String name       = ecommerce.Util.InputSanitizer.sanitizeLine(request.getParameter("name"));
+        String email      = ecommerce.Util.InputSanitizer.sanitizeLine(request.getParameter("email"));
         String rawPassword = request.getParameter("password");
         String role = "USER";
+
+        // ── Input Validation ─────────────────────────────────────────────────
+        if (name.isBlank()) {
+            request.setAttribute("error", "Full name is required.");
+            request.getRequestDispatcher("/register.jsp").forward(request, response);
+            return;
+        }
+
+        if (!ecommerce.Util.InputSanitizer.isValidEmail(email)) {
+            request.setAttribute("error", "Please enter a valid email address.");
+            request.getRequestDispatcher("/register.jsp").forward(request, response);
+            return;
+        }
+
+        if (!ecommerce.Util.InputSanitizer.isValidPassword(rawPassword)) {
+            request.setAttribute("error", "Password must be at least 6 characters.");
+            request.getRequestDispatcher("/register.jsp").forward(request, response);
+            return;
+        }
 
         if (userDAO.emailExists(email)) {
             request.setAttribute("error", "Email already registered!");
@@ -35,9 +54,7 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-
         String hashedPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
-
         User user = new User(name, email, hashedPassword, role);
         userDAO.saveUser(user);
 
