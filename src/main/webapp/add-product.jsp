@@ -73,6 +73,7 @@
 
             <form action="${pageContext.request.contextPath}/admin?action=add" method="post"
                 enctype="multipart/form-data">
+                <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
 
                 <label>Product Name</label>
                 <input type="text" name="name" required>

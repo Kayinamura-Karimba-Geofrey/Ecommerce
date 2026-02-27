@@ -48,6 +48,7 @@
                                         <td>
                                             <form action="${pageContext.request.contextPath}/admin/manage-orders"
                                                 method="post" style="display:inline;">
+                                                <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
                                                 <input type="hidden" name="orderId" value="${order.id}">
                                                 <select name="status" onchange="this.form.submit()"
                                                     class="form-select form-select-sm"

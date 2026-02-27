@@ -39,70 +39,83 @@ public class LoginServlet extends HttpServlet {
                           HttpServletResponse response)
             throws ServletException, IOException {
 
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        HttpSession session = request.getSession();
+
+        // If we already validated password and are waiting for 2FA, we should NOT require email/password again.
+        User pending2faUser = (User) session.getAttribute("tempUser");
         String totpCode = request.getParameter("totp");
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("tempUser");
+        if (pending2faUser != null && Boolean.TRUE.equals(pending2faUser.isTwoFactorEnabled())) {
+            request.setAttribute("email", pending2faUser.getEmail());
 
-        if (user == null) {
-            user = userDAO.findByEmail(email);
+            if (totpCode == null || totpCode.trim().isEmpty()) {
+                request.getRequestDispatcher("/2FA.jsp").forward(request, response);
+                return;
+            }
+
+            boolean isCodeValid = codeVerifier.isValidCode(pending2faUser.getSecretKey(), totpCode.trim());
+            if (!isCodeValid) {
+                request.setAttribute("error", "Invalid 2FA code!");
+                request.getRequestDispatcher("/2FA.jsp").forward(request, response);
+                return;
+            }
+
+            finishLogin(session, pending2faUser);
+            redirectAfterLogin(response, pending2faUser);
+            return;
         }
 
-        if (user != null && BCrypt.checkpw(password, user.getPassword())) {
-            session.setAttribute("tempUser", user); // store temp user until 2FA verified
+        // Normal email/password login flow
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
-            if (Boolean.TRUE.equals(user.isTwoFactorEnabled())) {
-                // If TOTP code not yet provided, redirect to 2FA page
-                if (totpCode == null) {
-                    request.getRequestDispatcher("/2fa.jsp").forward(request, response);
-                    return;
-                }
+        User user = (email == null || email.isBlank()) ? null : userDAO.findByEmail(email);
 
-                // Verify TOTP code safely using String
-                boolean isCodeValid = false;
-                if (totpCode != null && !totpCode.trim().isEmpty()) {
-                    isCodeValid = codeVerifier.isValidCode(user.getSecretKey(), totpCode.trim());
-                }
-
-                if (!isCodeValid) {
-                    request.setAttribute("error", "Invalid 2FA code!");
-                    request.setAttribute("email", user.getEmail()); // Pass email for 2FA page
-                    request.getRequestDispatcher("/2fa.jsp").forward(request, response);
-                    return;
-                }
-            }
-
-            // 2FA passed or not required → login
-            if (user.getRole() == null || user.getRole().isEmpty()) {
-                user.setRole("USER");
-            }
-            if (user.getFullname() == null || user.getFullname().isEmpty()) {
-                user.setFullname("Valued Customer");
-            }
-            
-            session.setAttribute("loggedUser", user);
-            
-            // Merge Guest Cart
-            Map<Integer, Integer> guestCart = (Map<Integer, Integer>) session.getAttribute("guestCart");
-            if (guestCart != null) {
-                new ecommerce.Services.CartItemService().mergeCart(user, guestCart);
-                session.removeAttribute("guestCart");
-            }
-
-            session.removeAttribute("tempUser"); // cleanup temp user
-            System.out.println("[LoginServlet] User logged in: " + user.getEmail() + ", Role: " + user.getRole());
-
-            if ("ADMIN".equals(user.getRole())) {
-                response.sendRedirect("admin/dashboard");
-            } else {
-                response.sendRedirect("products");
-            }
-
-        } else {
+        if (user == null || password == null || !BCrypt.checkpw(password, user.getPassword())) {
             request.setAttribute("error", "Invalid email or password!");
             request.getRequestDispatcher("/login.jsp").forward(request, response);
+            return;
+        }
+
+        if (Boolean.TRUE.equals(user.isTwoFactorEnabled())) {
+            // Password verified; now require 2FA code in a separate step.
+            session.setAttribute("tempUser", user);
+            request.setAttribute("email", user.getEmail());
+            request.getRequestDispatcher("/2FA.jsp").forward(request, response);
+            return;
+        }
+
+        finishLogin(session, user);
+        redirectAfterLogin(response, user);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void finishLogin(HttpSession session, User user) {
+        if (user.getRole() == null || user.getRole().isEmpty()) {
+            user.setRole("USER");
+        }
+        if (user.getFullname() == null || user.getFullname().isEmpty()) {
+            user.setFullname("Valued Customer");
+        }
+
+        session.setAttribute("loggedUser", user);
+
+        // Merge Guest Cart
+        Map<Integer, Integer> guestCart = (Map<Integer, Integer>) session.getAttribute("guestCart");
+        if (guestCart != null) {
+            new ecommerce.Services.CartItemService().mergeCart(user, guestCart);
+            session.removeAttribute("guestCart");
+        }
+
+        session.removeAttribute("tempUser"); // cleanup temp user (2FA pending)
+        System.out.println("[LoginServlet] User logged in: " + user.getEmail() + ", Role: " + user.getRole());
+    }
+
+    private void redirectAfterLogin(HttpServletResponse response, User user) throws IOException {
+        if ("ADMIN".equals(user.getRole())) {
+            response.sendRedirect("admin/dashboard");
+        } else {
+            response.sendRedirect("products");
         }
     }
 }

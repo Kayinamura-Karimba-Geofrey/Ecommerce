@@ -336,6 +336,7 @@
                                         <h2>$${cartTotal}</h2>
                                     </div>
                                     <form action="checkout" method="post">
+                                        <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
                                         <button type="submit" class="btn-checkout"
                                             style="border: none; cursor: pointer;">
                                             Checkout Now

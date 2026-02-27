@@ -12,6 +12,7 @@
     <h2>Edit Product</h2>
 
     <form action="products" method="post" class="shadow p-4 bg-white">
+        <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
 
         <input type="hidden" name="id" value="${product.id}" />
 
