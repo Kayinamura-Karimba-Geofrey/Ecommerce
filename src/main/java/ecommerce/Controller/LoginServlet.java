@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 import ecommerce.Model.User;
-import java.util.Map;
 
 import dev.samstevens.totp.code.CodeVerifier;
 import dev.samstevens.totp.code.DefaultCodeGenerator;
@@ -89,7 +88,6 @@ public class LoginServlet extends HttpServlet {
         redirectAfterLogin(response, user);
     }
 
-    @SuppressWarnings("unchecked")
     private void finishLogin(HttpSession session, User user) {
         if (user.getRole() == null || user.getRole().isEmpty()) {
             user.setRole("USER");
@@ -99,13 +97,6 @@ public class LoginServlet extends HttpServlet {
         }
 
         session.setAttribute("loggedUser", user);
-
-        // Merge Guest Cart
-        Map<Integer, Integer> guestCart = (Map<Integer, Integer>) session.getAttribute("guestCart");
-        if (guestCart != null) {
-            new ecommerce.Services.CartItemService().mergeCart(user, guestCart);
-            session.removeAttribute("guestCart");
-        }
 
         session.removeAttribute("tempUser"); // cleanup temp user (2FA pending)
         System.out.println("[LoginServlet] User logged in: " + user.getEmail() + ", Role: " + user.getRole());

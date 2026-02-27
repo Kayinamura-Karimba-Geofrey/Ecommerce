@@ -5,8 +5,8 @@ import ecommerce.Model.Order;
 import ecommerce.Model.OrderItem;
 import ecommerce.Model.Product;
 import ecommerce.Model.User;
-import ecommerce.Services.CartItemService;
 import ecommerce.Services.OrderService;
+import ecommerce.Util.HibernateUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,17 +17,19 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/checkout")
 public class CheckoutServlet extends HttpServlet {
 
     private OrderService orderService;
-    private CartItemService cartService;
+
+    private static final String ATTR_LOGGED_USER = "loggedUser";
+    private static final String ATTR_CART = "guestCart"; // same cart as CartItemServlet
 
     @Override
     public void init() {
         orderService = new OrderService();
-        cartService = new CartItemService();
     }
 
     @Override
@@ -35,20 +37,31 @@ public class CheckoutServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("loggedUser");
+        User user = (User) session.getAttribute(ATTR_LOGGED_USER);
 
         if (user == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
-        try (org.hibernate.Session hibernateSession = ecommerce.Util.HibernateUtil.getSessionFactory().openSession()) {
-            List<CartItem> cartItems = hibernateSession.createQuery(
-                            "FROM CartItem WHERE user.id = :userId", CartItem.class)
-                    .setParameter("userId", user.getId())
-                    .list();
+        Map<Integer, Integer> cart = getCart(session);
+        if (cart == null || cart.isEmpty()) {
+            response.sendRedirect("cart");
+            return;
+        }
 
-            if (cartItems == null || cartItems.isEmpty()) {
+        try (org.hibernate.Session hibernateSession = HibernateUtil.getSessionFactory().openSession()) {
+            List<CartItem> cartItems = new ArrayList<>();
+            for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+                Product p = hibernateSession.get(Product.class, entry.getKey());
+                if (p != null) {
+                    CartItem ci = new CartItem(null, p, entry.getValue());
+                    ci.setId(p.getId());
+                    cartItems.add(ci);
+                }
+            }
+
+            if (cartItems.isEmpty()) {
                 response.sendRedirect("cart");
                 return;
             }
@@ -74,59 +87,63 @@ public class CheckoutServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("loggedUser");
+        User user = (User) session.getAttribute(ATTR_LOGGED_USER);
 
         if (user == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
+        Map<Integer, Integer> cart = getCart(session);
+        if (cart == null || cart.isEmpty()) {
+            response.sendRedirect("cart");
+            return;
+        }
+
         String billingAddress = request.getParameter("billingAddress");
         String shippingAddress = request.getParameter("shippingAddress");
 
-        try (org.hibernate.Session hibernateSession = ecommerce.Util.HibernateUtil.getSessionFactory().openSession()) {
+        try (org.hibernate.Session hibernateSession = HibernateUtil.getSessionFactory().openSession()) {
             org.hibernate.Transaction tx = hibernateSession.beginTransaction();
             try {
-
-                List<CartItem> cartItems = hibernateSession.createQuery(
-                                "FROM CartItem WHERE user.id = :userId", CartItem.class)
-                        .setParameter("userId", user.getId())
-                        .list();
-
-                if (cartItems == null || cartItems.isEmpty()) {
-                    response.sendRedirect("cart");
-                    return;
-                }
-
                 Order order = new Order();
                 order.setOrderDate(java.time.LocalDateTime.now());
                 order.setUser(hibernateSession.get(User.class, user.getId()));
-                order.setStatus("PAID"); // Assuming payment is confirmed for this flow
+                order.setStatus("PAID");
                 order.setBillingAddress(billingAddress);
                 order.setShippingAddress(shippingAddress);
 
                 double subtotal = 0;
                 List<OrderItem> orderItemsList = new ArrayList<>();
 
-                for (CartItem cartItem : cartItems) {
-                    Product managedProduct = hibernateSession.get(Product.class, cartItem.getProduct().getId());
-                    if (managedProduct.getStock() < cartItem.getQuantity()) {
+                for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+                    int productId = entry.getKey();
+                    int quantity = entry.getValue();
+
+                    Product managedProduct = hibernateSession.get(Product.class, productId);
+                    if (managedProduct == null) {
+                        continue;
+                    }
+                    if (managedProduct.getStock() < quantity) {
                         throw new Exception("Not enough stock for " + managedProduct.getName());
                     }
-                    
+
                     OrderItem item = new OrderItem();
                     item.setOrder(order);
                     item.setProduct(managedProduct);
-                    item.setQuantity(cartItem.getQuantity());
+                    item.setQuantity(quantity);
                     item.setPrice(managedProduct.getPrice());
 
-                    managedProduct.setStock(managedProduct.getStock() - cartItem.getQuantity());
+                    managedProduct.setStock(managedProduct.getStock() - quantity);
                     hibernateSession.merge(managedProduct);
 
-                    subtotal += cartItem.getTotal();
+                    subtotal += managedProduct.getPrice() * quantity;
                     orderItemsList.add(item);
-                    
-                    hibernateSession.remove(cartItem);
+                }
+
+                if (orderItemsList.isEmpty()) {
+                    response.sendRedirect("cart");
+                    return;
                 }
 
                 double tax = subtotal * 0.10;
@@ -141,10 +158,13 @@ public class CheckoutServlet extends HttpServlet {
 
                 hibernateSession.persist(order);
                 tx.commit();
-                
+
+                // Clear cart after successful order
+                session.removeAttribute(ATTR_CART);
+
                 System.out.println("[CheckoutServlet] Order created successfully: " + order.getId());
                 response.sendRedirect("order-success?id=" + order.getId());
-                
+
             } catch (Exception e) {
                 if (tx != null) tx.rollback();
                 System.err.println("[CheckoutServlet] Error during checkout: " + e.getMessage());
@@ -152,5 +172,10 @@ public class CheckoutServlet extends HttpServlet {
                 response.sendRedirect("cart?error=checkout_failed");
             }
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<Integer, Integer> getCart(HttpSession session) {
+        return (Map<Integer, Integer>) session.getAttribute(ATTR_CART);
     }
 }
