@@ -215,8 +215,17 @@
                             <tbody>
                                 <c:forEach var="p" items="${products}">
                                     <tr>
-                                        <td><img src="${pageContext.request.contextPath}/${p.imagePath}"
-                                                class="product-thumb"></td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${p.imagePath.startsWith('http')}">
+                                                    <img src="${p.imagePath}" class="product-thumb">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="${pageContext.request.contextPath}/${p.imagePath}"
+                                                        class="product-thumb">
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
                                         <td style="font-weight: 600">${p.name}</td>
                                         <td><span style="opacity: 0.7">${p.category.name}</span></td>
                                         <td style="color: var(--accent); font-weight: 700">$${p.price}</td>

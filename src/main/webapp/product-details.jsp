@@ -85,7 +85,14 @@
         <div class="product-container">
 
             <div class="product-image">
-                <img src="${pageContext.request.contextPath}/${product.imagePath}" alt="Product Image">
+                <c:choose>
+                    <c:when test="${product.imagePath.startsWith('http')}">
+                        <img src="${product.imagePath}" alt="${product.name}">
+                    </c:when>
+                    <c:otherwise>
+                        <img src="${pageContext.request.contextPath}/${product.imagePath}" alt="${product.name}">
+                    </c:otherwise>
+                </c:choose>
             </div>
 
             <div class="product-details">

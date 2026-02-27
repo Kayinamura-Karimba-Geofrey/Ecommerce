@@ -252,8 +252,15 @@
                                 <a href="product-details?id=${product.id}"
                                     style="text-decoration: none; color: inherit;">
                                     <div class="image-container">
-                                        <img src="${pageContext.request.contextPath}/${product.imagePath}"
-                                            alt="${product.name}">
+                                        <c:choose>
+                                            <c:when test="${product.imagePath.startsWith('http')}">
+                                                <img src="${product.imagePath}" alt="${product.name}">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="${pageContext.request.contextPath}/${product.imagePath}"
+                                                    alt="${product.name}">
+                                            </c:otherwise>
+                                        </c:choose>
                                         <span class="category-badge">${product.category.name}</span>
                                     </div>
 
