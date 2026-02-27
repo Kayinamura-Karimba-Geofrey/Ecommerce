@@ -226,9 +226,9 @@
                         <h1>Premium Collections</h1>
                         <p>Experience the finest selection of curated products</p>
 
-                        <!-- Category Filter -->
+                        <!-- Category & Sort Filter -->
                         <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
-                            <form action="products" method="get" id="filterForm">
+                            <form action="products" method="get" id="filterForm" style="display: flex; gap: 15px;">
                                 <select name="category" onchange="document.getElementById('filterForm').submit()"
                                     style="padding: 10px 20px; border-radius: 12px; background: var(--card-bg); color: var(--text-main); border: 1px solid var(--glass-border);">
                                     <option value="">All Categories</option>
@@ -237,6 +237,18 @@
                                             ${cat.name}</option>
                                     </c:forEach>
                                 </select>
+
+                                <select name="sort" onchange="document.getElementById('filterForm').submit()"
+                                    style="padding: 10px 20px; border-radius: 12px; background: var(--card-bg); color: var(--text-main); border: 1px solid var(--glass-border);">
+                                    <option value="">Default Sorting</option>
+                                    <option value="price_low" ${selectedSort=='price_low' ? 'selected' : '' }>Price: Low
+                                        to High</option>
+                                    <option value="price_high" ${selectedSort=='price_high' ? 'selected' : '' }>Price:
+                                        High to Low</option>
+                                    <option value="newest" ${selectedSort=='newest' ? 'selected' : '' }>Newest Arrivals
+                                    </option>
+                                </select>
+
                                 <c:if test="${not empty search}">
                                     <input type="hidden" name="search" value="${search}">
                                 </c:if>

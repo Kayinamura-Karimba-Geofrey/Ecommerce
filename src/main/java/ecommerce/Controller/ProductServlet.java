@@ -26,6 +26,7 @@ public class ProductServlet extends HttpServlet {
 
         String search = request.getParameter("search");
         String category = request.getParameter("category");
+        String sort = request.getParameter("sort");
         int page = 1;
 
         if (request.getParameter("page") != null) {
@@ -41,6 +42,15 @@ public class ProductServlet extends HttpServlet {
             }
             if (category != null && !category.isEmpty()) {
                 hql.append(" AND p.category.name = :category");
+            }
+
+            // Apply Sorting
+            if ("price_low".equals(sort)) {
+                hql.append(" ORDER BY p.price ASC");
+            } else if ("price_high".equals(sort)) {
+                hql.append(" ORDER BY p.price DESC");
+            } else if ("newest".equals(sort)) {
+                hql.append(" ORDER BY p.id DESC");
             }
 
             var query = session.createQuery(hql.toString(), Product.class);
@@ -83,6 +93,7 @@ public class ProductServlet extends HttpServlet {
             request.setAttribute("totalPages", totalPages);
             request.setAttribute("search", search);
             request.setAttribute("selectedCategory", category);
+            request.setAttribute("selectedSort", sort);
         }
         
         String path = request.getServletPath();
