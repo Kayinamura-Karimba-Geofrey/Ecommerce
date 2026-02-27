@@ -17,7 +17,7 @@ import java.util.List;
 @MultipartConfig
 public class ProductServlet extends HttpServlet {
 
-    private static final int PAGE_SIZE = 5;
+    private static final int PAGE_SIZE = 16;
 
     @Override
     protected void doGet(HttpServletRequest request,

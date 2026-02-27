@@ -215,6 +215,42 @@
                 .btn-del:hover {
                     background: rgba(239, 68, 68, 0.2);
                 }
+
+                .pagination {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+                    margin-top: 50px;
+                }
+
+                .page-link {
+                    padding: 10px 18px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid var(--glass-border);
+                    color: var(--text-main);
+                    border-radius: 12px;
+                    text-decoration: none;
+                    transition: all 0.3s;
+                    font-weight: 600;
+                }
+
+                .page-link:hover {
+                    background: rgba(255, 255, 255, 0.1);
+                    transform: translateY(-2px);
+                }
+
+                .page-link.active {
+                    background: var(--primary);
+                    border-color: var(--primary);
+                    color: white;
+                }
+
+                .page-info {
+                    color: var(--text-muted);
+                    font-size: 0.95rem;
+                    margin: 0 15px;
+                }
             </style>
         </head>
 
@@ -263,39 +299,49 @@
                             <div class="product-card">
                                 <div class="image-container">
                                     <a href="product-details?id=${product.id}"
-                                       style="display:block; width:100%; height:100%; text-decoration: none; color: inherit;">
+                                        style="display:block; width:100%; height:100%; text-decoration: none; color: inherit;">
                                         <c:choose>
-                                            <c:when test="${not empty product.imagePath and product.imagePath.startsWith('http')}">
+                                            <c:when
+                                                test="${not empty product.imagePath and product.imagePath.startsWith('http')}">
                                                 <img src="${product.imagePath}" alt="${product.name}">
                                             </c:when>
                                             <c:otherwise>
                                                 <c:choose>
                                                     <c:when test="${product.category.name == 'Electronics'}">
-                                                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80" alt="${product.name}">
+                                                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+                                                            alt="${product.name}">
                                                     </c:when>
                                                     <c:when test="${product.category.name == 'Home Appliances'}">
-                                                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop&q=80" alt="${product.name}">
+                                                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop&q=80"
+                                                            alt="${product.name}">
                                                     </c:when>
                                                     <c:when test="${product.category.name == 'Fashion'}">
-                                                        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=80" alt="${product.name}">
+                                                        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=80"
+                                                            alt="${product.name}">
                                                     </c:when>
                                                     <c:when test="${product.category.name == 'Books'}">
-                                                        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop&q=80" alt="${product.name}">
+                                                        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop&q=80"
+                                                            alt="${product.name}">
                                                     </c:when>
                                                     <c:when test="${product.category.name == 'Hobbies'}">
-                                                        <img src="https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&auto=format&fit=crop&q=80" alt="${product.name}">
+                                                        <img src="https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&auto=format&fit=crop&q=80"
+                                                            alt="${product.name}">
                                                     </c:when>
                                                     <c:when test="${product.category.name == 'Beauty'}">
-                                                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80" alt="${product.name}">
+                                                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80"
+                                                            alt="${product.name}">
                                                     </c:when>
                                                     <c:when test="${product.category.name == 'Home Decor'}">
-                                                        <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80" alt="${product.name}">
+                                                        <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80"
+                                                            alt="${product.name}">
                                                     </c:when>
                                                     <c:when test="${product.category.name == 'Furniture'}">
-                                                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80" alt="${product.name}">
+                                                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80"
+                                                            alt="${product.name}">
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80" alt="${product.name}">
+                                                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80"
+                                                            alt="${product.name}">
                                                     </c:otherwise>
                                                 </c:choose>
                                             </c:otherwise>
@@ -307,7 +353,7 @@
                                 <div class="content">
                                     <h2 class="product-name">
                                         <a href="product-details?id=${product.id}"
-                                           style="text-decoration: none; color: inherit;">
+                                            style="text-decoration: none; color: inherit;">
                                             ${product.name}
                                         </a>
                                     </h2>
@@ -315,7 +361,8 @@
 
                                     <div class="footer-action">
                                         <span class="price">$${product.price}</span>
-                                        <form action="${pageContext.request.contextPath}/cart" method="post" style="display:inline;">
+                                        <form action="${pageContext.request.contextPath}/cart" method="post"
+                                            style="display:inline;">
                                             <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
                                             <input type="hidden" name="action" value="add">
                                             <input type="hidden" name="productId" value="${product.id}">
@@ -334,6 +381,24 @@
                             </div>
                         </c:forEach>
                     </div>
+
+                    <!-- Pagination Controls -->
+                    <c:if test="${totalPages > 1}">
+                        <div class="pagination">
+                            <c:if test="${currentPage > 1}">
+                                <a href="products?page=${currentPage - 1}&category=${selectedCategory}&sort=${selectedSort}&search=${search}"
+                                    class="page-link">&laquo; Prev</a>
+                            </c:if>
+
+                            <span class="page-info">Page ${currentPage} of ${totalPages}</span>
+
+                            <c:if test="${currentPage < totalPages}">
+                                <a href="products?page=${currentPage + 1}&category=${selectedCategory}&sort=${selectedSort}&search=${search}"
+                                    class="page-link">Next &raquo;</a>
+                            </c:if>
+                        </div>
+                    </c:if>
+
                 </main>
 
         </body>
