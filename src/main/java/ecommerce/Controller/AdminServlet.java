@@ -22,11 +22,13 @@ public class AdminServlet extends HttpServlet {
 
     private ProductService productService;
     private ecommerce.Services.CategoryService categoryService;
+    private ecommerce.Services.OrderService orderService;
 
     @Override
     public void init() {
         productService = new ProductService();
         categoryService = new ecommerce.Services.CategoryService();
+        orderService = new ecommerce.Services.OrderService();
     }
 
     @Override
@@ -40,6 +42,32 @@ public class AdminServlet extends HttpServlet {
         } else {
             List<Product> products = productService.getAllProducts();
             request.setAttribute("products", products);
+            
+            // Dashboard Data
+            request.setAttribute("totalRevenue", orderService.getTotalRevenue());
+            request.setAttribute("totalOrdersCount", orderService.getTotalOrdersCount());
+            request.setAttribute("recentOrders", orderService.getRecentOrders(5));
+            request.setAttribute("lowStockProducts", productService.getLowStockProducts(10));
+            
+            java.util.Map<String, Double> monthlySales = orderService.getMonthlySales();
+            StringBuilder labelsJson = new StringBuilder("[");
+            StringBuilder dataJson = new StringBuilder("[");
+            boolean first = true;
+            for (java.util.Map.Entry<String, Double> entry : monthlySales.entrySet()) {
+                if (!first) {
+                    labelsJson.append(",");
+                    dataJson.append(",");
+                }
+                labelsJson.append("\"").append(entry.getKey()).append("\"");
+                dataJson.append(entry.getValue());
+                first = false;
+            }
+            labelsJson.append("]");
+            dataJson.append("]");
+            
+            request.setAttribute("salesLabels", labelsJson.toString());
+            request.setAttribute("salesData", dataJson.toString());
+
             request.getRequestDispatcher("admin.jsp").forward(request, response);
         }
     }

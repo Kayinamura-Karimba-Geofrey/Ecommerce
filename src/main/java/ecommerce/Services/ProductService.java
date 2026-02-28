@@ -83,4 +83,12 @@ public class ProductService {
             }
         }
     }
+
+    public List<Product> getLowStockProducts(int threshold) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("from Product p where p.isDeleted = false and p.stock < :threshold order by p.stock asc", Product.class)
+                    .setParameter("threshold", threshold)
+                    .list();
+        }
+    }
 }
