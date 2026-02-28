@@ -75,6 +75,12 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("/login.jsp").forward(request, response);
             return;
         }
+        
+        if (user.isBlocked()) {
+            request.setAttribute("error", "Your account has been blocked by an administrator.");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            return;
+        }
 
         if (Boolean.TRUE.equals(user.isTwoFactorEnabled())) {
             // Password verified; now require 2FA code in a separate step.

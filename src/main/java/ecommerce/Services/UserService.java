@@ -72,4 +72,30 @@ public class UserService {
             return session.get(User.class, id);
         }
     }
+
+    public void deleteUser(int id) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            User user = session.get(User.class, id);
+            if (user != null) {
+                // Must handle referential integrity manually here if needed,
+                // e.g. deleting or unlinking their orders,
+                // but for simple user deletion:
+                session.remove(user);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 }

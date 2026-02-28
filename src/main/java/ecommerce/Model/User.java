@@ -14,6 +14,9 @@ public class User {
     private String role;
     private Boolean twoFactorEnabled = false;
     private String secretKey; // TOTP secret
+    
+    @Column(nullable = false)
+    private boolean isBlocked = false;
 
     // Getters and setters
     public boolean isTwoFactorEnabled() { return twoFactorEnabled != null && twoFactorEnabled; }
@@ -21,6 +24,9 @@ public class User {
 
     public String getSecretKey() { return secretKey; }
     public void setSecretKey(String secretKey) { this.secretKey = secretKey; }
+    
+    public boolean isBlocked() { return isBlocked; }
+    public void setBlocked(boolean blocked) { this.isBlocked = blocked; }
 
     public User() {
     }

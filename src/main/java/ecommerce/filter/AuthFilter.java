@@ -32,10 +32,20 @@ public class AuthFilter implements Filter {
         String path = req.getRequestURI().substring(req.getContextPath().length());
 
         if (user != null) {
+            // Re-fetch user to make sure they haven't been blocked mid-session
+            ecommerce.Services.UserService uService = new ecommerce.Services.UserService();
+            User latestUser = uService.findById(user.getId());
+            
+            if (latestUser != null && latestUser.isBlocked()) {
+                session.invalidate();
+                res.sendRedirect(req.getContextPath() + "/login.jsp?error=blocked");
+                return;
+            }
+
             // Role-based access for admin routes
             if (path.startsWith("/admin")) {
-                if (!"ADMIN".equals(user.getRole())) {
-                    System.out.println("[AuthFilter] Access Denied: User role is " + user.getRole() + ", but ADMIN required for " + path);
+                if (!"ADMIN".equals(latestUser.getRole())) {
+                    System.out.println("[AuthFilter] Access Denied: User role is " + latestUser.getRole() + ", but ADMIN required for " + path);
                     res.sendRedirect(req.getContextPath() + "/products");
                     return;
                 }
