@@ -46,4 +46,53 @@ public class CategoryService {
             return session.createQuery("from Category", Category.class).list();
         }
     }
+
+    public Category getCategoryById(int id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(Category.class, id);
+        }
+    }
+
+    public void updateCategory(Category category) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            session.merge(category);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public void deleteCategory(int id) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            Category category = session.get(Category.class, id);
+            if (category != null) {
+                session.remove(category);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 }

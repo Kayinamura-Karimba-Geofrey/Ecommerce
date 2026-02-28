@@ -125,6 +125,7 @@
                     <a href="${pageContext.request.contextPath}/cart" class="nav-link">Cart</a>
                     <c:if test="${loggedUser.role == 'ADMIN'}">
                         <a href="${pageContext.request.contextPath}/admin/dashboard" class="nav-link">Admin</a>
+                        <a href="${pageContext.request.contextPath}/admin/categories" class="nav-link">Categories</a>
                     </c:if>
 
                     <c:choose>
