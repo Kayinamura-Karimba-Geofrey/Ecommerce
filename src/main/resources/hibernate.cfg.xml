@@ -38,6 +38,8 @@
         <mapping class="ecommerce.Model.Subscriber"/>
         <mapping class="ecommerce.Model.SupportTicket" />
         <mapping class="ecommerce.Model.TicketMessage" />
+        <mapping class="ecommerce.Model.Coupon" />
+        <mapping class="ecommerce.Model.AuditLog" />
     </session-factory>
 
 </hibernate-configuration>

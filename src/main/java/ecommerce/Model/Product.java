@@ -28,6 +28,9 @@ public class Product {
     @Column(nullable = false)
     private boolean isDeleted = false;
 
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isFeatured = false;
+
     public Product() {}
 
     public Product(String name, String description, double price, int stock, String imagePath, Category category) {
@@ -73,4 +76,7 @@ public class Product {
 
     public boolean isDeleted() { return isDeleted; }
     public void setDeleted(boolean deleted) { isDeleted = deleted; }
+
+    public boolean isFeatured() { return isFeatured; }
+    public void setFeatured(boolean featured) { isFeatured = featured; }
 }

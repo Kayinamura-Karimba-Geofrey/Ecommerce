@@ -54,6 +54,7 @@
           font-size: 2.5rem;
           font-weight: 700;
           background: linear-gradient(to right, #6366f1, #10b981);
+          background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
@@ -190,6 +191,7 @@
           <main>
             <form action="checkout" method="post" id="checkoutForm">
               <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
+              <input type="hidden" name="promoCode" value="${promoCode}">
               <div class="card">
                 <div class="section-title">
                   <span>📍</span> Delivery Information
@@ -238,31 +240,49 @@
                       <c:otherwise>
                         <c:choose>
                           <c:when test="${item.product.category.name == 'Electronics'}">
-                            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}">
+                            <img
+                              src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+                              alt="${item.product.name}">
                           </c:when>
                           <c:when test="${item.product.category.name == 'Home Appliances'}">
-                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}">
+                            <img
+                              src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop&q=80"
+                              alt="${item.product.name}">
                           </c:when>
                           <c:when test="${item.product.category.name == 'Fashion'}">
-                            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}">
+                            <img
+                              src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=80"
+                              alt="${item.product.name}">
                           </c:when>
                           <c:when test="${item.product.category.name == 'Books'}">
-                            <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}">
+                            <img
+                              src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop&q=80"
+                              alt="${item.product.name}">
                           </c:when>
                           <c:when test="${item.product.category.name == 'Hobbies'}">
-                            <img src="https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}">
+                            <img
+                              src="https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&auto=format&fit=crop&q=80"
+                              alt="${item.product.name}">
                           </c:when>
                           <c:when test="${item.product.category.name == 'Beauty'}">
-                            <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}">
+                            <img
+                              src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80"
+                              alt="${item.product.name}">
                           </c:when>
                           <c:when test="${item.product.category.name == 'Home Decor'}">
-                            <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}">
+                            <img
+                              src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80"
+                              alt="${item.product.name}">
                           </c:when>
                           <c:when test="${item.product.category.name == 'Furniture'}">
-                            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}">
+                            <img
+                              src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80"
+                              alt="${item.product.name}">
                           </c:when>
                           <c:otherwise>
-                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}">
+                            <img
+                              src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80"
+                              alt="${item.product.name}">
                           </c:otherwise>
                         </c:choose>
                       </c:otherwise>
@@ -273,11 +293,34 @@
                 </c:forEach>
               </div>
 
+              <div class="promo-section"
+                style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--glass-border);">
+                <form action="checkout" method="get" style="display: flex; gap: 10px;">
+                  <input type="text" name="promoCode" placeholder="Promo Code" value="${promoCode}"
+                    style="flex: 1; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">
+                  <button type="submit" class="btn-confirm"
+                    style="padding: 10px 20px; margin-top: 0; font-size: 0.9rem; width: auto;">Apply</button>
+                </form>
+                <c:if test="${not empty promoError}">
+                  <p style="color: #ef4444; font-size: 0.85rem; margin-top: 5px;">${promoError}</p>
+                </c:if>
+                <c:if test="${not empty coupon}">
+                  <p style="color: var(--accent); font-size: 0.85rem; margin-top: 5px;">Coupon "${coupon.code}" applied:
+                    ${coupon.discountPercent}% OFF</p>
+                </c:if>
+              </div>
+
               <div class="summary-details">
                 <div class="summary-item">
                   <span>Subtotal</span>
                   <span>$${subtotal}</span>
                 </div>
+                <c:if test="${discountAmount > 0}">
+                  <div class="summary-item">
+                    <span>Discount</span>
+                    <span style="color: var(--accent)">-$${discountAmount}</span>
+                  </div>
+                </c:if>
                 <div class="summary-item">
                   <span>Tax (10%)</span>
                   <span>$${tax}</span>

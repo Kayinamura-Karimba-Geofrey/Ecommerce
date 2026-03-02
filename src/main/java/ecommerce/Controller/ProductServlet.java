@@ -100,8 +100,12 @@ public class ProductServlet extends HttpServlet {
             int totalPages = (int) Math.ceil((double) totalProducts / PAGE_SIZE);
 
             List<ecommerce.Model.Category> categories = session.createQuery("FROM Category", ecommerce.Model.Category.class).list();
+            List<Product> featuredProducts = session.createQuery("FROM Product p WHERE p.isDeleted = false AND p.isFeatured = true", Product.class)
+                    .setMaxResults(8)
+                    .list();
 
             request.setAttribute("products", products);
+            request.setAttribute("featuredProducts", featuredProducts);
             request.setAttribute("categories", categories);
             request.setAttribute("currentPage", page);
             request.setAttribute("totalPages", totalPages);

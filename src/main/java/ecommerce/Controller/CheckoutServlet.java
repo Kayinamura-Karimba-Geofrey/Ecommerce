@@ -50,6 +50,20 @@ public class CheckoutServlet extends HttpServlet {
             return;
         }
 
+        String promoCode = request.getParameter("promoCode");
+        ecommerce.Model.Coupon coupon = null;
+        double discountAmount = 0;
+
+        if (promoCode != null && !promoCode.trim().isEmpty()) {
+            ecommerce.Services.CouponService couponService = new ecommerce.Services.CouponService();
+            coupon = couponService.validateCoupon(promoCode).orElse(null);
+            if (coupon != null) {
+                request.setAttribute("coupon", coupon);
+            } else {
+                request.setAttribute("promoError", "Invalid or expired coupon.");
+            }
+        }
+
         try (org.hibernate.Session hibernateSession = HibernateUtil.getSessionFactory().openSession()) {
             List<CartItem> cartItems = new ArrayList<>();
             for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
@@ -67,12 +81,19 @@ public class CheckoutServlet extends HttpServlet {
             }
 
             double subtotal = cartItems.stream().mapToDouble(CartItem::getTotal).sum();
-            double tax = subtotal * 0.10; // 10% tax
-            double shipping = subtotal > 200 ? 0 : 15.0; // Free shipping over $200
-            double total = subtotal + tax + shipping;
+            
+            if (coupon != null) {
+                discountAmount = subtotal * (coupon.getDiscountPercent() / 100.0);
+            }
+
+            double tax = (subtotal - discountAmount) * 0.10; // Tax on discounted price
+            double shipping = subtotal > 200 ? 0 : 15.0; 
+            double total = subtotal - discountAmount + tax + shipping;
 
             request.setAttribute("cartItems", cartItems);
             request.setAttribute("subtotal", subtotal);
+            request.setAttribute("discountAmount", discountAmount);
+            request.setAttribute("promoCode", promoCode);
             request.setAttribute("tax", tax);
             request.setAttribute("shipping", shipping);
             request.setAttribute("total", total);
@@ -102,6 +123,7 @@ public class CheckoutServlet extends HttpServlet {
 
         String billingAddress = request.getParameter("billingAddress");
         String shippingAddress = request.getParameter("shippingAddress");
+        String promoCode = request.getParameter("promoCode");
 
         try (org.hibernate.Session hibernateSession = HibernateUtil.getSessionFactory().openSession()) {
             org.hibernate.Transaction tx = hibernateSession.beginTransaction();
@@ -150,9 +172,21 @@ public class CheckoutServlet extends HttpServlet {
                     return;
                 }
 
-                double tax = subtotal * 0.10;
+                // Coupon logic in POST
+                double discountAmount = 0;
+                if (promoCode != null && !promoCode.trim().isEmpty()) {
+                    ecommerce.Services.CouponService couponService = new ecommerce.Services.CouponService();
+                    var couponOpt = couponService.validateCoupon(promoCode);
+                    if (couponOpt.isPresent()) {
+                        discountAmount = subtotal * (couponOpt.get().getDiscountPercent() / 100.0);
+                        order.setCouponCode(promoCode);
+                        order.setDiscountAmount(discountAmount);
+                    }
+                }
+
+                double tax = (subtotal - discountAmount) * 0.10;
                 double shipping = subtotal > 200 ? 0 : 15.0;
-                double total = subtotal + tax + shipping;
+                double total = subtotal - discountAmount + tax + shipping;
 
                 order.setItems(orderItemsList);
                 order.setSubtotal(subtotal);

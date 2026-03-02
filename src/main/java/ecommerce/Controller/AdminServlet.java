@@ -23,12 +23,14 @@ public class AdminServlet extends HttpServlet {
     private ProductService productService;
     private ecommerce.Services.CategoryService categoryService;
     private ecommerce.Services.OrderService orderService;
+    private ecommerce.Services.AuditService auditService;
 
     @Override
     public void init() {
         productService = new ProductService();
         categoryService = new ecommerce.Services.CategoryService();
         orderService = new ecommerce.Services.OrderService();
+        auditService = new ecommerce.Services.AuditService();
     }
 
     @Override
@@ -37,7 +39,13 @@ public class AdminServlet extends HttpServlet {
         
         if ("delete".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
+            Product p = productService.getProductById(id);
             productService.deleteProduct(id);
+            
+            HttpSession session = request.getSession(false);
+            ecommerce.Model.User loggedUser = (ecommerce.Model.User) session.getAttribute("loggedUser");
+            auditService.logAction(new ecommerce.Model.AuditLog(loggedUser, "DELETE_PRODUCT", String.valueOf(id), "Product " + (p != null ? p.getName() : "ID "+id) + " deleted."));
+            
             response.sendRedirect("admin");
         } else {
             List<Product> products = productService.getAllProducts();
@@ -81,6 +89,7 @@ public class AdminServlet extends HttpServlet {
         String priceStr = request.getParameter("price");
         String stockStr = request.getParameter("stock");
         String description = request.getParameter("description");
+        boolean isFeatured = request.getParameter("isFeatured") != null;
 
         double price = (priceStr != null) ? Double.parseDouble(priceStr) : 0;
         int stock = (stockStr != null) ? Integer.parseInt(stockStr) : 0;
@@ -104,6 +113,7 @@ public class AdminServlet extends HttpServlet {
         if ("add".equals(action)) {
             ecommerce.Model.Category catObj = categoryService.getOrCreateByName(category);
             Product product = new Product(name, description, price, stock, imagePath, catObj);
+            product.setFeatured(isFeatured);
             productService.saveProduct(product);
         } else if ("edit".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
@@ -115,6 +125,7 @@ public class AdminServlet extends HttpServlet {
                 existingProduct.setPrice(price);
                 existingProduct.setStock(stock);
                 existingProduct.setCategory(catObj);
+                existingProduct.setFeatured(isFeatured);
                 if (imagePath != null) {
                     existingProduct.setImagePath(imagePath);
                 }

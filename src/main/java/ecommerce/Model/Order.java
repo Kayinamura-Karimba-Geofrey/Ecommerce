@@ -18,6 +18,8 @@ public class Order {
     private double subtotal;
     private double tax;
     private double shippingCost;
+    private double discountAmount;
+    private String couponCode;
     
     @Column(columnDefinition = "TEXT")
     private String billingAddress;
@@ -89,6 +91,12 @@ public class Order {
     public void setShippingCost(double shippingCost) {
         this.shippingCost = shippingCost;
     }
+
+    public double getDiscountAmount() { return discountAmount; }
+    public void setDiscountAmount(double discountAmount) { this.discountAmount = discountAmount; }
+
+    public String getCouponCode() { return couponCode; }
+    public void setCouponCode(String couponCode) { this.couponCode = couponCode; }
 
     public String getBillingAddress() {
         return billingAddress;

@@ -16,10 +16,12 @@ import java.util.List;
 public class AdminUserServlet extends HttpServlet {
 
     private UserService userService;
+    private ecommerce.Services.AuditService auditService;
 
     @Override
     public void init() {
         userService = new UserService();
+        auditService = new ecommerce.Services.AuditService();
     }
 
     @Override
@@ -50,15 +52,19 @@ public class AdminUserServlet extends HttpServlet {
 
                 if ("delete".equals(action)) {
                     userService.deleteUser(userId);
+                    auditService.logAction(new ecommerce.Model.AuditLog(loggedInUser, "DELETE_USER", String.valueOf(userId), "User " + user.getEmail() + " deleted permanently."));
                 } else if ("promote".equals(action)) {
                     user.setRole("ADMIN");
                     userService.saveUser(user);
+                    auditService.logAction(new ecommerce.Model.AuditLog(loggedInUser, "PROMOTE_USER", String.valueOf(userId), "User " + user.getEmail() + " promoted to ADMIN."));
                 } else if ("block".equals(action)) {
                     user.setBlocked(true);
                     userService.saveUser(user);
+                    auditService.logAction(new ecommerce.Model.AuditLog(loggedInUser, "BLOCK_USER", String.valueOf(userId), "User " + user.getEmail() + " blocked."));
                 } else if ("unblock".equals(action)) {
                     user.setBlocked(false);
                     userService.saveUser(user);
+                    auditService.logAction(new ecommerce.Model.AuditLog(loggedInUser, "UNBLOCK_USER", String.valueOf(userId), "User " + user.getEmail() + " unblocked."));
                 }
             }
         }

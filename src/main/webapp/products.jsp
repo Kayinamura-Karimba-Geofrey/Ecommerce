@@ -290,6 +290,51 @@
                         <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 10px;">Store</h1>
                         <p style="color: var(--text-muted);">Explore our premium collections</p>
                     </div>
+                    <div class="container" style="margin-top: 20px;">
+                        <c:if test="${not empty featuredProducts}">
+                            <section class="featured-section" style="margin-bottom: 60px;">
+                                <h2
+                                    style="font-size: 2rem; margin-bottom: 30px; font-weight: 800; display: flex; align-items: center; gap: 15px;">
+                                    <span
+                                        style="background: var(--primary); color: white; padding: 10px; border-radius: 12px; font-size: 1.2rem;">✨</span>
+                                    Special Offers & Featured
+                                </h2>
+                                <div
+                                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px;">
+                                    <c:forEach var="fp" items="${featuredProducts}">
+                                        <div class="featured-card"
+                                            style="position: relative; background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 24px; overflow: hidden; transition: 0.4s; height: 100%;">
+                                            <div
+                                                style="position: absolute; top: 15px; left: 15px; background: var(--primary); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; z-index: 10;">
+                                                FEATURED</div>
+                                            <a href="product-details?id=${fp.id}"
+                                                style="text-decoration: none; color: inherit;">
+                                                <div style="height: 220px; overflow: hidden;">
+                                                    <img src="${fp.imagePath}" alt="${fp.name}"
+                                                        style="width: 100%; height: 100%; object-fit: cover; transition: 0.6s;"
+                                                        onmouseover="this.style.transform='scale(1.1)'"
+                                                        onmouseout="this.style.transform='scale(1)'">
+                                                </div>
+                                                <div style="padding: 25px;">
+                                                    <span
+                                                        style="color: var(--primary); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">${fp.category.name}</span>
+                                                    <h3 style="font-size: 1.25rem; margin: 10px 0;">${fp.name}</h3>
+                                                    <div
+                                                        style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                                                        <span
+                                                            style="font-size: 1.5rem; font-weight: 800; color: var(--accent);">$${fp.price}</span>
+                                                        <div
+                                                            style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                                                            🛒</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </section>
+                        </c:if>
+                    </div>
 
                     <div class="main-layout">
                         <!-- Sidebar Filters -->

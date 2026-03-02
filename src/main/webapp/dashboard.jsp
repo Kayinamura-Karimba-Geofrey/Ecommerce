@@ -455,6 +455,9 @@
             <a href="/demo1/admin/users" class="nav-item">
               <span>👥</span> Users
             </a>
+            <a href="/demo1/admin/logs" class="nav-item">
+              <span>🛡️</span> Security Logs
+            </a>
             <a href="/demo1/products" class="nav-item">
               <span>🌐</span> View Store
             </a>

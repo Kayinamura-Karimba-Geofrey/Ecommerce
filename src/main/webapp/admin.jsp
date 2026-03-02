@@ -471,6 +471,7 @@
                                     <th>Category</th>
                                     <th>Price</th>
                                     <th>Stock</th>
+                                    <th>Featured</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -494,12 +495,18 @@
                                         <td style="color: var(--accent); font-weight: 700">$${p.price}</td>
                                         <td>${p.stock}</td>
                                         <td>
+                                            <c:if test="${p.featured}">
+                                                <span style="color: #fbbf24; font-size: 1.2rem;"
+                                                    title="Featured Product">⭐</span>
+                                            </c:if>
+                                        </td>
+                                        <td>
                                             <div class="action-btns">
                                                 <a href="#" class="btn-action btn-edit" data-id="${p.id}"
                                                     data-name="${p.name}" data-category="${p.category.name}"
                                                     data-price="${p.price}" data-stock="${p.stock}"
                                                     data-image="${p.imagePath}" data-description="${p.description}"
-                                                    onclick="handleEdit(this)">Edit</a>
+                                                    data-featured="${p.featured}" onclick="handleEdit(this)">Edit</a>
                                                 <a href="${pageContext.request.contextPath}/admin?action=delete&id=${p.id}"
                                                     class="btn-action btn-del"
                                                     onclick="return confirm('Delete this product?')">Delete</a>
@@ -540,6 +547,12 @@
                                 <input type="number" name="stock" id="pStock" required>
                             </div>
                             <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="checkbox" name="isFeatured" id="pFeatured" style="width: auto;">
+                                    Mark as Featured Product
+                                </label>
+                            </div>
+                            <div class="form-group">
                                 <label>Product Image</label>
                                 <input type="file" name="image" id="pImage">
                                 <small id="pImageHint"
@@ -572,6 +585,7 @@
                             document.getElementById('pCategory').value = '';
                             document.getElementById('pPrice').value = '';
                             document.getElementById('pStock').value = '';
+                            document.getElementById('pFeatured').checked = false;
                             document.getElementById('pImageHint').innerText = '';
                             document.getElementById('pImage').required = true;
                         } else {
@@ -591,16 +605,18 @@
                         const stock = btn.getAttribute('data-stock');
                         const img = btn.getAttribute('data-image');
                         const desc = btn.getAttribute('data-description');
-                        editProduct(id, name, cat, price, stock, img, desc);
+                        const featured = btn.getAttribute('data-featured') === 'true';
+                        editProduct(id, name, cat, price, stock, img, desc, featured);
                     }
 
-                    function editProduct(id, name, cat, price, stock, img, desc) {
+                    function editProduct(id, name, cat, price, stock, img, desc, featured) {
                         showModal('edit');
                         document.getElementById('productId').value = id;
                         document.getElementById('pName').value = name;
                         document.getElementById('pCategory').value = cat;
                         document.getElementById('pPrice').value = price;
                         document.getElementById('pStock').value = stock;
+                        document.getElementById('pFeatured').checked = featured;
                         document.getElementById('pImageHint').innerText = 'Current: ' + img;
                         document.getElementById('pDesc').value = desc;
                     }
