@@ -165,13 +165,24 @@ public class ProductServlet extends HttpServlet {
             // Handle optional image upload
             Part imagePart = request.getPart("image");
             if (imagePart != null && imagePart.getSize() > 0) {
+                String fileName = imagePart.getSubmittedFileName();
                 String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
                 File uploadDir = new File(uploadPath);
                 if (!uploadDir.exists()) uploadDir.mkdir();
                 
-                String fileName = imagePart.getSubmittedFileName();
-                imagePart.write(uploadPath + File.separator + fileName);
-                product.setImagePath("uploads/" + fileName);
+                File tempFile = new File(uploadPath + File.separator + fileName);
+                imagePart.write(tempFile.getAbsolutePath());
+                
+                ecommerce.Services.CloudinaryService cloudinaryService = new ecommerce.Services.CloudinaryService();
+                String cloudinaryUrl = cloudinaryService.uploadImage(tempFile);
+                
+                if (cloudinaryUrl != null) {
+                    product.setImagePath(cloudinaryUrl);
+                    // Optionally delete temp file after upload
+                    tempFile.delete();
+                } else {
+                    product.setImagePath("uploads/" + fileName);
+                }
             }
             
             if ("edit".equals(action)) {
