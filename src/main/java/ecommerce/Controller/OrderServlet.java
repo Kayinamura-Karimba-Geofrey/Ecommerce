@@ -70,8 +70,14 @@ public class OrderServlet extends HttpServlet {
             Order order = hibernateSession.get(Order.class, Integer.parseInt(orderId));
             if (order != null) {
                 order.setStatus(newStatus);
+                String tracking = request.getParameter("trackingNumber");
+                String delivery = request.getParameter("estimatedDelivery");
+                if (tracking != null) order.setTrackingNumber(tracking);
+                if (delivery != null && !delivery.isEmpty()) {
+                    order.setEstimatedDelivery(java.time.LocalDateTime.parse(delivery));
+                }
                 hibernateSession.merge(order);
-                System.out.println("[OrderServlet] Updated order #" + orderId + " to status: " + newStatus);
+                System.out.println("[OrderServlet] Updated order #" + orderId);
             }
             tx.commit();
         }

@@ -30,6 +30,12 @@ public class Order {
 
     private java.time.LocalDateTime orderDate;
 
+    @Column(name = "tracking_number")
+    private String trackingNumber;
+
+    @Column(name = "estimated_delivery")
+    private java.time.LocalDateTime estimatedDelivery;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private java.util.List<OrderItem> items;
 
@@ -123,5 +129,11 @@ public class Order {
     public void setItems(java.util.List<OrderItem> items) {
         this.items = items;
     }
+
+    public String getTrackingNumber() { return trackingNumber; }
+    public void setTrackingNumber(String trackingNumber) { this.trackingNumber = trackingNumber; }
+
+    public java.time.LocalDateTime getEstimatedDelivery() { return estimatedDelivery; }
+    public void setEstimatedDelivery(java.time.LocalDateTime estimatedDelivery) { this.estimatedDelivery = estimatedDelivery; }
 }
 

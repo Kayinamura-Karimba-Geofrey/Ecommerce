@@ -40,9 +40,15 @@ public class SchemaPatchServlet extends HttpServlet {
                         "ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_enabled BOOLEAN DEFAULT FALSE;",
                         "ALTER TABLE users ADD COLUMN IF NOT EXISTS secret_key VARCHAR(255);",
                         "ALTER TABLE users ADD COLUMN IF NOT EXISTS fullname VARCHAR(255);",
+                        "ALTER TABLE users ADD COLUMN IF NOT EXISTS reset_token VARCHAR(255);",
+                        "ALTER TABLE users ADD COLUMN IF NOT EXISTS reset_token_expiry TIMESTAMP;",
+                        "ALTER TABLE orders ADD COLUMN IF NOT EXISTS tracking_number VARCHAR(100);",
+                        "ALTER TABLE orders ADD COLUMN IF NOT EXISTS estimated_delivery TIMESTAMP;",
                         "CREATE TABLE IF NOT EXISTS subscribers (id SERIAL PRIMARY KEY, email VARCHAR(255) UNIQUE NOT NULL, subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);",
                         "CREATE TABLE IF NOT EXISTS reviews (id SERIAL PRIMARY KEY, user_id INT NOT NULL, product_id INT NOT NULL, rating INT NOT NULL, comment TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (product_id) REFERENCES products(id));",
-                        "CREATE TABLE IF NOT EXISTS wishlist_items (id SERIAL PRIMARY KEY, user_id INT NOT NULL, product_id INT NOT NULL, added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (product_id) REFERENCES products(id));"
+                        "CREATE TABLE IF NOT EXISTS wishlist_items (id SERIAL PRIMARY KEY, user_id INT NOT NULL, product_id INT NOT NULL, added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (product_id) REFERENCES products(id));",
+                        "CREATE TABLE IF NOT EXISTS support_tickets (id SERIAL PRIMARY KEY, user_id INT NOT NULL, subject VARCHAR(255) NOT NULL, description TEXT, status VARCHAR(50) DEFAULT 'OPEN', created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (user_id) REFERENCES users(id));",
+                        "CREATE TABLE IF NOT EXISTS ticket_messages (id SERIAL PRIMARY KEY, ticket_id INT NOT NULL, sender_id INT NOT NULL, message TEXT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (ticket_id) REFERENCES support_tickets(id), FOREIGN KEY (sender_id) REFERENCES users(id));"
                     };
 
                     boolean oldAutoCommit = connection.getAutoCommit();

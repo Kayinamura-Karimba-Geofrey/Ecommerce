@@ -36,6 +36,8 @@
         <mapping class="ecommerce.Model.Review"/>
         <mapping class="ecommerce.Model.WishlistItem"/>
         <mapping class="ecommerce.Model.Subscriber"/>
+        <mapping class="ecommerce.Model.SupportTicket" />
+        <mapping class="ecommerce.Model.TicketMessage" />
     </session-factory>
 
 </hibernate-configuration>

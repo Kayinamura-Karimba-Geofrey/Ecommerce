@@ -29,6 +29,12 @@ public class User {
     @Column(name = "is_blocked", nullable = false)
     private boolean isBlocked = false;
 
+    @Column(name = "reset_token")
+    private String resetToken;
+
+    @Column(name = "reset_token_expiry")
+    private java.time.LocalDateTime resetTokenExpiry;
+
     // Getters and setters
     public boolean isTwoFactorEnabled() { return twoFactorEnabled != null && twoFactorEnabled; }
     public void setTwoFactorEnabled(Boolean twoFactorEnabled) { this.twoFactorEnabled = twoFactorEnabled; }
@@ -96,4 +102,10 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public String getResetToken() { return resetToken; }
+    public void setResetToken(String resetToken) { this.resetToken = resetToken; }
+
+    public java.time.LocalDateTime getResetTokenExpiry() { return resetTokenExpiry; }
+    public void setResetTokenExpiry(java.time.LocalDateTime resetTokenExpiry) { this.resetTokenExpiry = resetTokenExpiry; }
 }

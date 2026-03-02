@@ -272,34 +272,72 @@
                                         </c:forEach>
                                     </div>
 
-                                    <div class="order-footer">
-                                        <div>
-                                            <div class="total-label">Grand Total</div>
-                                            <div class="total-amount">$${order.totalAmount}</div>
-                                        </div>
+                                    <%-- Order Tracking Section --%>
+                                        <c:if
+                                            test="${not empty order.trackingNumber or not empty order.estimatedDelivery}">
+                                            <div
+                                                style="padding: 15px 25px; background: rgba(16, 185, 129, 0.05); border-top: 1px solid rgba(16, 185, 129, 0.1);">
+                                                <div
+                                                    style="font-size: 0.85rem; color: var(--accent); font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">
+                                                    Shipping & Tracking</div>
+                                                <div style="display: flex; gap: 30px;">
+                                                    <c:if test="${not empty order.trackingNumber}">
+                                                        <div>
+                                                            <span
+                                                                style="color: var(--text-muted); font-size: 0.8rem;">Tracking
+                                                                #:</span>
+                                                            <span
+                                                                style="font-family: monospace; color: white;">${order.trackingNumber}</span>
+                                                        </div>
+                                                    </c:if>
+                                                    <c:if test="${not empty order.estimatedDelivery}">
+                                                        <div>
+                                                            <span
+                                                                style="color: var(--text-muted); font-size: 0.8rem;">EST.
+                                                                Delivery:</span>
+                                                            <span
+                                                                style="color: white;">${order.estimatedDelivery}</span>
+                                                        </div>
+                                                    </c:if>
+                                                </div>
+                                            </div>
+                                        </c:if>
 
-                                        <%-- Admin status update form --%>
-                                            <c:if test="${sessionScope.loggedUser.role == 'ADMIN'}">
-                                                <form action="orders" method="post"
-                                                    style="display: flex; gap: 10px; align-items: center;">
-                                                    <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
-                                                    <input type="hidden" name="orderId" value="${order.id}">
-                                                    <select name="status" class="admin-select">
-                                                        <option value="PENDING" ${order.status=='PENDING' ? 'selected'
-                                                            : '' }>Pending</option>
-                                                        <option value="PAID" ${order.status=='PAID' ? 'selected' : '' }>
-                                                            Paid</option>
-                                                        <option value="SHIPPED" ${order.status=='SHIPPED' ? 'selected'
-                                                            : '' }>Shipped</option>
-                                                        <option value="DELIVERED" ${order.status=='DELIVERED'
-                                                            ? 'selected' : '' }>Delivered</option>
-                                                        <option value="CANCELLED" ${order.status=='CANCELLED'
-                                                            ? 'selected' : '' }>Cancelled</option>
-                                                    </select>
-                                                    <button type="submit" class="btn-update">Update</button>
-                                                </form>
-                                            </c:if>
-                                    </div>
+                                        <div class="order-footer">
+                                            <div>
+                                                <div class="total-label">Grand Total</div>
+                                                <div class="total-amount">$${order.totalAmount}</div>
+                                            </div>
+
+                                            <%-- Admin status update form --%>
+                                                <c:if test="${sessionScope.loggedUser.role == 'ADMIN'}">
+                                                    <form action="orders" method="post"
+                                                        style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                                                        <input type="hidden" name="_csrf"
+                                                            value="${sessionScope.csrfToken}">
+                                                        <input type="hidden" name="orderId" value="${order.id}">
+                                                        <select name="status" class="admin-select">
+                                                            <option value="PENDING" ${order.status=='PENDING'
+                                                                ? 'selected' : '' }>Pending</option>
+                                                            <option value="PAID" ${order.status=='PAID' ? 'selected'
+                                                                : '' }>
+                                                                Paid</option>
+                                                            <option value="SHIPPED" ${order.status=='SHIPPED'
+                                                                ? 'selected' : '' }>Shipped</option>
+                                                            <option value="DELIVERED" ${order.status=='DELIVERED'
+                                                                ? 'selected' : '' }>Delivered</option>
+                                                            <option value="CANCELLED" ${order.status=='CANCELLED'
+                                                                ? 'selected' : '' }>Cancelled</option>
+                                                        </select>
+                                                        <input type="text" name="trackingNumber"
+                                                            placeholder="Tracking #" value="${order.trackingNumber}"
+                                                            class="admin-select" style="width: 150px;">
+                                                        <input type="datetime-local" name="estimatedDelivery"
+                                                            class="admin-select">
+                                                        <button type="submit" class="btn-update">Update Order</button>
+                                                    </form>
+                                                </c:if>
+                                        </div>
                                 </div>
                             </c:forEach>
                         </c:when>

@@ -105,6 +105,49 @@ public class UserService {
         }
     }
 
+    public void updateResetToken(int userId, String token, java.time.LocalDateTime expiry) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            User user = session.get(User.class, userId);
+            if (user != null) {
+                user.setResetToken(token);
+                user.setResetTokenExpiry(expiry);
+                session.merge(user);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public User findByResetToken(String token) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM User WHERE resetToken = :token", User.class)
+                    .setParameter("token", token)
+                    .uniqueResult();
+        }
+    }
+
+    public void updatePassword(int userId, String newPassword) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            User user = session.get(User.class, userId);
+            if (user != null) {
+                user.setPassword(newPassword);
+                user.setResetToken(null);
+                user.setResetTokenExpiry(null);
+                session.merge(user);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
     public void deleteUser(int id) {
         Session session = null;
         Transaction transaction = null;
@@ -113,9 +156,6 @@ public class UserService {
             transaction = session.beginTransaction();
             User user = session.get(User.class, id);
             if (user != null) {
-                // Must handle referential integrity manually here if needed,
-                // e.g. deleting or unlinking their orders,
-                // but for simple user deletion:
                 session.remove(user);
             }
             transaction.commit();

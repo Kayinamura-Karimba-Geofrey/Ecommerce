@@ -22,12 +22,12 @@ public class SecurityFilter implements Filter {
 
     // Pages that are POST-safe without a CSRF token (public forms)
     private static final java.util.Set<String> CSRF_EXEMPT = java.util.Set.of(
-        "/login", "/register", "/2fa-setup"
+        "/login", "/register", "/2fa-setup", "/forgot-password", "/reset-password"
     );
 
     // Paths considered "sensitive" — disable caching
     private static final java.util.Set<String> NO_CACHE_PATHS = java.util.Set.of(
-        "/cart", "/checkout", "/orders", "/admin"
+        "/cart", "/checkout", "/orders", "/admin", "/support"
     );
 
     private static final int SESSION_TIMEOUT_SECONDS = 30 * 60; // 30 minutes
