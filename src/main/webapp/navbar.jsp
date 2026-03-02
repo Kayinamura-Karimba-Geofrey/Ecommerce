@@ -132,8 +132,11 @@
                         <c:when test="${not empty loggedUser}">
                             <a href="${pageContext.request.contextPath}/orders" class="nav-link">My Orders</a>
                             <div class="nav-auth">
-                                <span style="color: var(--text-muted); font-size: 0.9rem; align-self: center;">
+                                <span
+                                    style="color: var(--text-muted); font-size: 0.9rem; align-self: center; display: flex; align-items: center; gap: 8px;">
                                     👤 ${loggedUser.fullname}
+                                    <a href="${pageContext.request.contextPath}/profile.jsp" class="nav-link"
+                                        style="font-size: 0.8rem; border-left: 1px solid var(--border); padding-left: 8px;">Profile</a>
                                 </span>
                                 <a href="${pageContext.request.contextPath}/logout"
                                     class="btn-nav btn-logout">Logout</a>

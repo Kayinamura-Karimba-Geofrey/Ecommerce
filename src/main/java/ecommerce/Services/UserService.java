@@ -73,6 +73,38 @@ public class UserService {
         }
     }
 
+    public void updateTwoFactorStatus(int userId, boolean enabled) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            User user = session.get(User.class, userId);
+            if (user != null) {
+                user.setTwoFactorEnabled(enabled);
+                session.merge(user);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public void updateSecretKey(int userId, String secretKey) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            User user = session.get(User.class, userId);
+            if (user != null) {
+                user.setSecretKey(secretKey);
+                session.merge(user);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
     public void deleteUser(int id) {
         Session session = null;
         Transaction transaction = null;

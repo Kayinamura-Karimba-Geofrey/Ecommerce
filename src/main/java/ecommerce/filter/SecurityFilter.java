@@ -22,7 +22,7 @@ public class SecurityFilter implements Filter {
 
     // Pages that are POST-safe without a CSRF token (public forms)
     private static final java.util.Set<String> CSRF_EXEMPT = java.util.Set.of(
-        "/login", "/register"
+        "/login", "/register", "/2fa-setup"
     );
 
     // Paths considered "sensitive" — disable caching
