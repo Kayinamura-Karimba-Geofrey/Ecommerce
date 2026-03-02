@@ -192,6 +192,22 @@
                     margin-bottom: 20px;
                     font-weight: 600;
                 }
+
+                @media (max-width: 768px) {
+                    .admin-header h1 {
+                        font-size: 2rem;
+                    }
+
+                    .admin-container {
+                        padding: 20px 15px;
+                    }
+
+                    .admin-table th,
+                    .admin-table td {
+                        padding: 12px 15px;
+                        font-size: 0.85rem;
+                    }
+                }
             </style>
         </head>
 

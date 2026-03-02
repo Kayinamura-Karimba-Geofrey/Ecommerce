@@ -110,6 +110,31 @@
                         color: var(--text-muted);
                         font-size: 0.8rem;
                     }
+
+                    @media (max-width: 768px) {
+                        .header h1 {
+                            font-size: 2rem;
+                        }
+
+                        .container {
+                            padding: 20px 15px;
+                        }
+
+                        .log-table th,
+                        .log-table td {
+                            padding: 12px 15px;
+                            font-size: 0.85rem;
+                        }
+                    }
+
+                    .log-table-container {
+                        background: var(--card-bg);
+                        backdrop-filter: blur(12px);
+                        border: 1px solid var(--glass-border);
+                        border-radius: 24px;
+                        overflow-x: auto;
+                        -webkit-overflow-scrolling: touch;
+                    }
                 </style>
             </head>
 

@@ -233,60 +233,10 @@
               <div class="order-items-mini">
                 <c:forEach var="item" items="${cartItems}">
                   <div class="item-mini">
-                    <c:choose>
-                      <c:when test="${not empty item.product.imagePath and item.product.imagePath.startsWith('http')}">
-                        <img src="${item.product.imagePath}" alt="${item.product.name}">
-                      </c:when>
-                      <c:otherwise>
-                        <c:choose>
-                          <c:when test="${item.product.category.name == 'Electronics'}">
-                            <img
-                              src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
-                              alt="${item.product.name}">
-                          </c:when>
-                          <c:when test="${item.product.category.name == 'Home Appliances'}">
-                            <img
-                              src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop&q=80"
-                              alt="${item.product.name}">
-                          </c:when>
-                          <c:when test="${item.product.category.name == 'Fashion'}">
-                            <img
-                              src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=80"
-                              alt="${item.product.name}">
-                          </c:when>
-                          <c:when test="${item.product.category.name == 'Books'}">
-                            <img
-                              src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop&q=80"
-                              alt="${item.product.name}">
-                          </c:when>
-                          <c:when test="${item.product.category.name == 'Hobbies'}">
-                            <img
-                              src="https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&auto=format&fit=crop&q=80"
-                              alt="${item.product.name}">
-                          </c:when>
-                          <c:when test="${item.product.category.name == 'Beauty'}">
-                            <img
-                              src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80"
-                              alt="${item.product.name}">
-                          </c:when>
-                          <c:when test="${item.product.category.name == 'Home Decor'}">
-                            <img
-                              src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80"
-                              alt="${item.product.name}">
-                          </c:when>
-                          <c:when test="${item.product.category.name == 'Furniture'}">
-                            <img
-                              src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80"
-                              alt="${item.product.name}">
-                          </c:when>
-                          <c:otherwise>
-                            <img
-                              src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80"
-                              alt="${item.product.name}">
-                          </c:otherwise>
-                        </c:choose>
-                      </c:otherwise>
-                    </c:choose>
+                    <c:set var="chImg"
+                      value="${item.product.imagePath.startsWith('http') ? item.product.imagePath : pageContext.request.contextPath.concat('/').concat(item.product.imagePath)}" />
+                    <img src="${chImg}" alt="${item.product.name}"
+                      onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80'">
                     <div class="item-name">${item.product.name} (x${item.quantity})</div>
                     <div style="font-weight: 600">$${item.total}</div>
                   </div>

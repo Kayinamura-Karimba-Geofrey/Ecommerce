@@ -69,13 +69,17 @@ public class AdminDashboardServlet extends HttpServlet {
                 monthlySales.put(months[monthNum], revenue);
             }
 
-            StringBuilder labels = new StringBuilder();
-            StringBuilder data   = new StringBuilder();
+            StringBuilder labels = new StringBuilder("[");
+            StringBuilder data   = new StringBuilder("[");
+            boolean first = true;
             for (Map.Entry<String, Double> entry : monthlySales.entrySet()) {
-                if (labels.length() > 0) { labels.append(","); data.append(","); }
+                if (!first) { labels.append(","); data.append(","); }
                 labels.append("'").append(entry.getKey()).append("'");
-                data.append(String.format("%.2f", entry.getValue()));
+                data.append(String.format(java.util.Locale.US, "%.2f", entry.getValue()));
+                first = false;
             }
+            labels.append("]");
+            data.append("]");
 
             // ── Low Stock Alerts (stock < 5) ──────────────────────────────────
             List<Product> lowStockProducts = session.createQuery(

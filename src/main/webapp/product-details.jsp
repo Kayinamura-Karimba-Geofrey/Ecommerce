@@ -50,7 +50,7 @@
 
                     .product-grid {
                         display: grid;
-                        grid-template-columns: 1fr 1fr;
+                        grid-template-columns: 1.2fr 1fr;
                         gap: 50px;
                         background: var(--card-bg);
                         backdrop-filter: blur(12px);
@@ -58,6 +58,36 @@
                         border-radius: 30px;
                         padding: 40px;
                         margin-bottom: 40px;
+                    }
+
+                    @media (max-width: 1024px) {
+                        .product-grid {
+                            grid-template-columns: 1fr;
+                            gap: 30px;
+                            padding: 25px;
+                        }
+
+                        .image-gallery {
+                            height: 400px;
+                        }
+
+                        .product-title {
+                            font-size: 2rem;
+                        }
+                    }
+
+                    @media (max-width: 480px) {
+                        .image-gallery {
+                            height: 300px;
+                        }
+
+                        .actions {
+                            flex-direction: column;
+                        }
+
+                        .btn {
+                            width: 100%;
+                        }
                     }
 
                     .image-gallery {
@@ -236,7 +266,9 @@
                 <div class="container">
                     <div class="product-grid">
                         <div class="image-gallery">
-                            <img src="${product.imagePath}" alt="${product.name}"
+                            <c:set var="pdImg"
+                                value="${product.imagePath.startsWith('http') ? product.imagePath : pageContext.request.contextPath.concat('/').concat(product.imagePath)}" />
+                            <img src="${pdImg}" alt="${product.name}"
                                 onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800';">
                         </div>
 

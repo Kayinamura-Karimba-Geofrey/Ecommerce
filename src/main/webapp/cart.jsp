@@ -259,6 +259,41 @@
                 .btn-shop:hover {
                     background: rgba(255, 255, 255, 0.1);
                 }
+
+                @media (max-width: 768px) {
+                    .header h1 {
+                        font-size: 2rem;
+                    }
+
+                    .cart-card {
+                        padding: 20px;
+                    }
+
+                    .cart-footer {
+                        flex-direction: column;
+                        gap: 20px;
+                        align-items: flex-end;
+                    }
+
+                    .product-img {
+                        width: 60px;
+                        height: 60px;
+                    }
+
+                    .product-name {
+                        font-size: 0.95rem;
+                    }
+
+                    .btn-checkout {
+                        width: 100%;
+                        text-align: center;
+                    }
+                }
+
+                .table-responsive {
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                }
             </style>
         </head>
 
@@ -275,87 +310,58 @@
                     <div class="cart-card">
                         <c:choose>
                             <c:when test="${not empty cartItems}">
-                                <table class="cart-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="item" items="${cartItems}">
-                                            <tr class="cart-item">
-                                                <td>
-                                                    <div class="product-info">
-                                                        <c:choose>
-                                                            <c:when test="${not empty item.product.imagePath and item.product.imagePath.startsWith('http')}">
-                                                                <img src="${item.product.imagePath}"
-                                                                     alt="${item.product.name}" class="product-img">
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <c:choose>
-                                                                    <c:when test="${item.product.category.name == 'Electronics'}">
-                                                                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
-                                                                    </c:when>
-                                                                    <c:when test="${item.product.category.name == 'Home Appliances'}">
-                                                                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
-                                                                    </c:when>
-                                                                    <c:when test="${item.product.category.name == 'Fashion'}">
-                                                                        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
-                                                                    </c:when>
-                                                                    <c:when test="${item.product.category.name == 'Books'}">
-                                                                        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
-                                                                    </c:when>
-                                                                    <c:when test="${item.product.category.name == 'Hobbies'}">
-                                                                        <img src="https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
-                                                                    </c:when>
-                                                                    <c:when test="${item.product.category.name == 'Beauty'}">
-                                                                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
-                                                                    </c:when>
-                                                                    <c:when test="${item.product.category.name == 'Home Decor'}">
-                                                                        <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
-                                                                    </c:when>
-                                                                    <c:when test="${item.product.category.name == 'Furniture'}">
-                                                                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80" alt="${item.product.name}" class="product-img">
-                                                                    </c:otherwise>
-                                                                </c:choose>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                        <div>
-                                                            <div class="product-name">${item.product.name}</div>
-                                                            <div class="product-cat">${item.product.category.name}</div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="price">$${item.product.price}</span>
-                                                </td>
-                                                <td>
-                                                    <div class="qty-controls">
-                                                        <a href="cart?action=update&id=${item.id}&quantity=${item.quantity - 1}"
-                                                            class="qty-btn">-</a>
-                                                        <span class="qty-val">${item.quantity}</span>
-                                                        <a href="cart?action=update&id=${item.id}&quantity=${item.quantity + 1}"
-                                                            class="qty-btn">+</a>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="total-col">$${item.total}</span>
-                                                </td>
-                                                <td>
-                                                    <a href="cart?action=remove&id=${item.id}" class="remove-btn"
-                                                        onclick="return confirm('Remove item?')">Remove</a>
-                                                </td>
+                                <div class="table-responsive">
+                                    <table class="cart-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Total</th>
+                                                <th></th>
                                             </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="item" items="${cartItems}">
+                                                <tr class="cart-item">
+                                                    <td>
+                                                        <div class="product-info">
+                                                            <c:set var="cartImg"
+                                                                value="${item.product.imagePath.startsWith('http') ? item.product.imagePath : pageContext.request.contextPath.concat('/').concat(item.product.imagePath)}" />
+                                                            <img src="${cartImg}" alt="${item.product.name}"
+                                                                class="product-img"
+                                                                onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80'">
+                                                            <div>
+                                                                <div class="product-name">${item.product.name}</div>
+                                                                <div class="product-cat">${item.product.category.name}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="price">$${item.product.price}</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="qty-controls">
+                                                            <a href="cart?action=update&id=${item.id}&quantity=${item.quantity - 1}"
+                                                                class="qty-btn">-</a>
+                                                            <span class="qty-val">${item.quantity}</span>
+                                                            <a href="cart?action=update&id=${item.id}&quantity=${item.quantity + 1}"
+                                                                class="qty-btn">+</a>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="total-col">$${item.total}</span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="cart?action=remove&id=${item.id}" class="remove-btn"
+                                                            onclick="return confirm('Remove item?')">Remove</a>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
 
                                 <div class="cart-footer">
                                     <div class="grand-total">

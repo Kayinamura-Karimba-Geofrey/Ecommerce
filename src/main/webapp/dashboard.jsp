@@ -426,39 +426,66 @@
           @media (max-width: 768px) {
             .sidebar {
               transform: translateX(-100%);
+              transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .sidebar.active {
+              transform: translateX(0);
             }
 
             .main {
               margin-left: 0;
               padding: 20px;
             }
+
+            .sidebar-toggle {
+              display: flex !important;
+              position: fixed;
+              top: 20px;
+              right: 20px;
+              z-index: 1001;
+              background: var(--primary);
+              color: white;
+              width: 45px;
+              height: 45px;
+              border-radius: 12px;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              box-shadow: 0 10px 15px rgba(99, 102, 241, 0.3);
+            }
+          }
+
+          .sidebar-toggle {
+            display: none;
           }
         </style>
       </head>
 
       <body>
+        <div class="sidebar-toggle" id="sidebarToggle">📊</div>
 
         <!-- SIDEBAR -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
           <div class="sidebar-logo">⚡ PREMIUM ADMIN</div>
 
           <nav class="sidebar-nav">
-            <a href="/demo1/admin/dashboard" class="nav-item active">
+            <a href="${pageContext.request.contextPath}/admin/dashboard" class="nav-item active">
               <span>📊</span> Dashboard
             </a>
-            <a href="/demo1/orders" class="nav-item">
+            <a href="${pageContext.request.contextPath}/orders" class="nav-item">
               <span>📦</span> Orders
             </a>
-            <a href="/demo1/admin/products" class="nav-item">
+            <a href="${pageContext.request.contextPath}/admin/products" class="nav-item">
               <span>🛍️</span> Products
             </a>
-            <a href="/demo1/admin/users" class="nav-item">
+            <a href="${pageContext.request.contextPath}/admin/users" class="nav-item">
               <span>👥</span> Users
             </a>
-            <a href="/demo1/admin/logs" class="nav-item">
+            <a href="${pageContext.request.contextPath}/admin/logs" class="nav-item">
               <span>🛡️</span> Security Logs
             </a>
-            <a href="/demo1/products" class="nav-item">
+            <a href="${pageContext.request.contextPath}/products" class="nav-item">
               <span>🌐</span> View Store
             </a>
           </nav>
@@ -471,7 +498,7 @@
                 <div class="admin-role">Administrator</div>
               </div>
             </div>
-            <a href="/demo1/logout"
+            <a href="${pageContext.request.contextPath}/logout"
               style="display:block; margin-top:18px; color: #ef4444; text-decoration:none; font-size:0.85rem; font-weight:600;">
               Sign Out →
             </a>
@@ -527,7 +554,8 @@
             <!-- Monthly Revenue Chart -->
             <div class="content-card">
               <div class="card-title">📈 Monthly Revenue <span class="badge">2026</span></div>
-              <canvas id="revenueChart" height="90"></canvas>
+              <canvas id="revenueChart" height="90" data-labels="${not empty salesLabels ? salesLabels : '[]'}"
+                data-values="${not empty salesData ? salesData : '[]'}"></canvas>
             </div>
 
             <!-- Low Stock Alerts -->
@@ -537,9 +565,25 @@
               <c:choose>
                 <c:when test="${not empty lowStockProducts}">
                   <c:forEach var="p" items="${lowStockProducts}">
-                    <div class="stock-item">
-                      <div class="stock-name">${p.name}</div>
-                      <div class="stock-qty ${p.stock == 0 ? 'critical' : 'low'}">${p.stock} left</div>
+                    <div class="stock-item"
+                      style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                      <c:choose>
+                        <c:when test="${not empty p.imagePath}">
+                          <img
+                            src="${p.imagePath.startsWith('http') ? p.imagePath : pageContext.request.contextPath.concat('/').concat(p.imagePath)}"
+                            style="width: 32px; height: 32px; border-radius: 6px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1);">
+                        </c:when>
+                        <c:otherwise>
+                          <div
+                            style="width: 32px; height: 32px; border-radius: 6px; background: rgba(99,102,241,0.1); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; border: 1px solid rgba(99,102,241,0.2);">
+                            📦</div>
+                        </c:otherwise>
+                      </c:choose>
+                      <div style="flex: 1;">
+                        <div class="stock-name" style="font-weight: 600; font-size: 0.9rem;">${p.name}</div>
+                        <div class="stock-qty ${p.stock == 0 ? 'critical' : 'low'}" style="font-size: 0.8rem;">
+                          ${p.stock} units left</div>
+                      </div>
                     </div>
                   </c:forEach>
                 </c:when>
@@ -552,7 +596,7 @@
 
           <!-- Recent Orders Table -->
           <div class="content-card" style="margin-bottom: 25px;">
-            <div class="card-title">🕒 Recent Orders <a href="/demo1/orders"
+            <div class="card-title">🕒 Recent Orders <a href="${pageContext.request.contextPath}/orders"
                 style="font-size:0.8rem; color:var(--primary); text-decoration:none; margin-left: auto; font-weight:600;">View
                 all →</a></div>
             <table class="orders-table">
@@ -585,23 +629,23 @@
           <div class="content-card">
             <div class="card-title">⚡ Quick Actions</div>
             <div class="quick-links">
-              <a href="/demo1/admin/products?action=new" class="quick-link">
+              <a href="${pageContext.request.contextPath}/admin/products?action=new" class="quick-link">
                 <div class="ql-icon">➕</div>
                 <div class="ql-label">Add Product</div>
               </a>
-              <a href="/demo1/orders" class="quick-link">
+              <a href="${pageContext.request.contextPath}/orders" class="quick-link">
                 <div class="ql-icon">📦</div>
                 <div class="ql-label">Manage Orders</div>
               </a>
-              <a href="/demo1/admin/users" class="quick-link">
+              <a href="${pageContext.request.contextPath}/admin/users" class="quick-link">
                 <div class="ql-icon">👥</div>
                 <div class="ql-label">Manage Users</div>
               </a>
-              <a href="/demo1/admin/categories" class="quick-link">
+              <a href="${pageContext.request.contextPath}/admin/categories" class="quick-link">
                 <div class="ql-icon">🏷️</div>
                 <div class="ql-label">Categories</div>
               </a>
-              <a href="/demo1/products" class="quick-link">
+              <a href="${pageContext.request.contextPath}/products" class="quick-link">
                 <div class="ql-icon">🌐</div>
                 <div class="ql-label">View Store</div>
               </a>
@@ -617,7 +661,11 @@
           });
 
           // Revenue Chart
-          const ctx = document.getElementById('revenueChart').getContext('2d');
+          const chartEl = document.getElementById('revenueChart');
+          const ctx = chartEl.getContext('2d');
+          const labels = JSON.parse(chartEl.dataset.labels.replace(/'/g, '"'));
+          const dataPts = JSON.parse(chartEl.dataset.values);
+
           const gradient = ctx.createLinearGradient(0, 0, 0, 300);
           gradient.addColorStop(0, 'rgba(99, 102, 241, 0.3)');
           gradient.addColorStop(1, 'rgba(99, 102, 241, 0.01)');
@@ -625,10 +673,10 @@
           new Chart(ctx, {
             type: 'line',
             data: {
-              labels: [${ salesLabels }],
+              labels: labels,
               datasets: [{
                 label: 'Revenue ($)',
-                data: [${ salesData }],
+                data: dataPts,
                 borderColor: '#6366f1',
                 backgroundColor: gradient,
                 borderWidth: 3,
@@ -652,7 +700,9 @@
                   titleColor: '#f1f5f9',
                   bodyColor: '#94a3b8',
                   callbacks: {
-                    label: (ctx) => ` $${ctx.parsed.y.toFixed(2)}`
+                    label: function (tooltipCtx) {
+                      return ' $' + tooltipCtx.parsed.y.toFixed(2);
+                    }
                   }
                 }
               },
@@ -666,10 +716,26 @@
                   grid: { color: 'rgba(255,255,255,0.05)' },
                   ticks: {
                     color: '#94a3b8',
-                    callback: (v) => '$' + v
+                    callback: function (v) { return '$' + v; }
                   }
                 }
               }
+            }
+          });
+        </script>
+        <script>
+          // Sidebar Toggle
+          const toggle = document.getElementById('sidebarToggle');
+          const sidebar = document.getElementById('sidebar');
+
+          toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('active');
+          });
+
+          document.addEventListener('click', (e) => {
+            if (sidebar.classList.contains('active') && !sidebar.contains(e.target) && e.target !== toggle) {
+              sidebar.classList.remove('active');
             }
           });
         </script>

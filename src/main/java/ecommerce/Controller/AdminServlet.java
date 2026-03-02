@@ -43,8 +43,10 @@ public class AdminServlet extends HttpServlet {
             productService.deleteProduct(id);
             
             HttpSession session = request.getSession(false);
-            ecommerce.Model.User loggedUser = (ecommerce.Model.User) session.getAttribute("loggedUser");
-            auditService.logAction(new ecommerce.Model.AuditLog(loggedUser, "DELETE_PRODUCT", String.valueOf(id), "Product " + (p != null ? p.getName() : "ID "+id) + " deleted."));
+            ecommerce.Model.User loggedUser = (session != null) ? (ecommerce.Model.User) session.getAttribute("loggedUser") : null;
+            if (loggedUser != null) {
+                auditService.logAction(new ecommerce.Model.AuditLog(loggedUser, "DELETE_PRODUCT", String.valueOf(id), "Product " + (p != null ? p.getName() : "ID "+id) + " deleted."));
+            }
             
             response.sendRedirect("admin");
         } else {

@@ -346,7 +346,8 @@
                                 </h2>
                             </div>
                             <div style="height: 300px; width: 100%;">
-                                <canvas id="salesChart"></canvas>
+                                <canvas id="salesChart" data-labels='${not empty salesLabels ? salesLabels : "[]"}'
+                                    data-values='${not empty salesData ? salesData : "[]"}'></canvas>
                             </div>
                         </div>
 
@@ -480,9 +481,16 @@
                                     <tr>
                                         <td>
                                             <c:choose>
-                                                <c:when
-                                                    test="${not empty p.imagePath and p.imagePath.startsWith('http')}">
-                                                    <img src="${p.imagePath}" class="product-thumb">
+                                                <c:when test="${not empty p.imagePath}">
+                                                    <c:choose>
+                                                        <c:when test="${p.imagePath.startsWith('http')}">
+                                                            <img src="${p.imagePath}" class="product-thumb">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="${pageContext.request.contextPath}/${p.imagePath}"
+                                                                class="product-thumb">
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&auto=format&fit=crop&q=80"
@@ -623,11 +631,12 @@
 
                     // Initialize Chart.js
                     document.addEventListener("DOMContentLoaded", function () {
-                        const ctx = document.getElementById('salesChart').getContext('2d');
+                        const chartEl = document.getElementById('salesChart');
+                        const ctx = chartEl.getContext('2d');
 
-                        // Extract data from JSP attributes mapped softly to JS arrays
-                        const labels = ${ not empty salesLabels ?salesLabels: '[]'};
-                        const dataPts = ${ not empty salesData ?salesData: '[]'};
+                        // Extract data from data attributes safely
+                        const labels = JSON.parse(chartEl.dataset.labels.replace(/'/g, '"'));
+                        const dataPts = JSON.parse(chartEl.dataset.values);
 
                         // Gradient for chart fill
                         let gradient = ctx.createLinearGradient(0, 0, 0, 400);

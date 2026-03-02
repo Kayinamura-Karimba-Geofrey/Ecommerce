@@ -66,6 +66,60 @@
                         height: fit-content;
                     }
 
+                    /* Grid Styles */
+                    .products-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                        gap: 30px;
+                    }
+
+                    /* Responsiveness */
+                    @media (max-width: 1024px) {
+                        .main-layout {
+                            grid-template-columns: 220px 1fr;
+                            gap: 25px;
+                        }
+
+                        .container {
+                            padding: 0 20px;
+                        }
+                    }
+
+                    @media (max-width: 768px) {
+                        .main-layout {
+                            grid-template-columns: 1fr;
+                        }
+
+                        .sidebar {
+                            position: relative;
+                            top: 0;
+                            margin-bottom: 40px;
+                        }
+
+                        .products-grid {
+                            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                            gap: 20px;
+                        }
+
+                        h1 {
+                            font-size: 2.2rem !important;
+                        }
+                    }
+
+                    @media (max-width: 480px) {
+                        .products-grid {
+                            grid-template-columns: 1fr;
+                        }
+
+                        .newsletter-section {
+                            padding: 40px 20px;
+                        }
+
+                        .newsletter-form {
+                            flex-direction: column;
+                        }
+                    }
+
                     .filter-card {
                         background: var(--card-bg);
                         backdrop-filter: blur(12px);
@@ -130,13 +184,6 @@
                         border-radius: 10px;
                         font-weight: 600;
                         cursor: pointer;
-                    }
-
-                    /* Grid Styles */
-                    .products-grid {
-                        display: grid;
-                        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                        gap: 30px;
                     }
 
                     .product-card {
@@ -310,7 +357,9 @@
                                             <a href="product-details?id=${fp.id}"
                                                 style="text-decoration: none; color: inherit;">
                                                 <div style="height: 220px; overflow: hidden;">
-                                                    <img src="${fp.imagePath}" alt="${fp.name}"
+                                                    <c:set var="fpImg"
+                                                        value="${fp.imagePath.startsWith('http') ? fp.imagePath : pageContext.request.contextPath.concat('/').concat(fp.imagePath)}" />
+                                                    <img src="${fpImg}" alt="${fp.name}"
                                                         style="width: 100%; height: 100%; object-fit: cover; transition: 0.6s;"
                                                         onmouseover="this.style.transform='scale(1.1)'"
                                                         onmouseout="this.style.transform='scale(1)'"
@@ -396,7 +445,9 @@
                                     <div class="product-card">
                                         <div class="image-container">
                                             <a href="product-details?id=${product.id}">
-                                                <img src="${product.imagePath}" alt="${product.name}"
+                                                <c:set var="pImg"
+                                                    value="${product.imagePath.startsWith('http') ? product.imagePath : pageContext.request.contextPath.concat('/').concat(product.imagePath)}" />
+                                                <img src="${pImg}" alt="${product.name}"
                                                     onerror="this.src='https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800';">
                                                 <span class="category-badge">${product.category.name}</span>
                                             </a>
