@@ -233,7 +233,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn-submit">Create Account →</button>
+                <button type="submit" class="btn-submit">Create Account &rarr;</button>
             </form>
 
             <div class="footer-link">

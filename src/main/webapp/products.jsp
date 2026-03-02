@@ -108,6 +108,13 @@
                     transform: scale(1.1);
                 }
 
+                /* Fallback Image styling */
+                .img-fallback {
+                    object-fit: contain !important;
+                    background: rgba(0, 0, 0, 0.05);
+                    padding: 20px;
+                }
+
                 .category-badge {
                     position: absolute;
                     top: 15px;
@@ -300,57 +307,53 @@
                                 <div class="image-container">
                                     <a href="product-details?id=${product.id}"
                                         style="display:block; width:100%; height:100%; text-decoration: none; color: inherit;">
+                                        <c:set var="fallbackUrl">
+                                            <c:choose>
+                                                <c:when test="${product.category.name == 'Electronics'}">
+                                                    https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80
+                                                </c:when>
+                                                <c:when test="${product.category.name == 'Home Appliances'}">
+                                                    https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop&q=80
+                                                </c:when>
+                                                <c:when test="${product.category.name == 'Fashion'}">
+                                                    https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=80
+                                                </c:when>
+                                                <c:when test="${product.category.name == 'Books'}">
+                                                    https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop&q=80
+                                                </c:when>
+                                                <c:when test="${product.category.name == 'Hobbies'}">
+                                                    https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&auto=format&fit=crop&q=80
+                                                </c:when>
+                                                <c:when test="${product.category.name == 'Beauty'}">
+                                                    https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80
+                                                </c:when>
+                                                <c:when test="${product.category.name == 'Home Decor'}">
+                                                    https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80
+                                                </c:when>
+                                                <c:when test="${product.category.name == 'Furniture'}">
+                                                    https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80
+                                                </c:when>
+                                                <c:otherwise>
+                                                    https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:set>
                                         <c:choose>
                                             <c:when test="${not empty product.imagePath}">
                                                 <c:choose>
                                                     <c:when test="${product.imagePath.startsWith('http')}">
-                                                        <img src="${product.imagePath}" alt="${product.name}">
+                                                        <img src="${product.imagePath}" alt="${product.name}"
+                                                            onerror="this.src='${fallbackUrl}'; this.classList.add('img-fallback');">
                                                     </c:when>
                                                     <c:otherwise>
                                                         <img src="${pageContext.request.contextPath}/${product.imagePath}"
-                                                            alt="${product.name}">
+                                                            alt="${product.name}"
+                                                            onerror="this.src='${fallbackUrl}'; this.classList.add('img-fallback');">
                                                     </c:otherwise>
                                                 </c:choose>
                                             </c:when>
                                             <c:otherwise>
-                                                <c:choose>
-                                                    <c:when test="${product.category.name == 'Electronics'}">
-                                                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
-                                                            alt="${product.name}">
-                                                    </c:when>
-                                                    <c:when test="${product.category.name == 'Home Appliances'}">
-                                                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop&q=80"
-                                                            alt="${product.name}">
-                                                    </c:when>
-                                                    <c:when test="${product.category.name == 'Fashion'}">
-                                                        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=80"
-                                                            alt="${product.name}">
-                                                    </c:when>
-                                                    <c:when test="${product.category.name == 'Books'}">
-                                                        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop&q=80"
-                                                            alt="${product.name}">
-                                                    </c:when>
-                                                    <c:when test="${product.category.name == 'Hobbies'}">
-                                                        <img src="https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&auto=format&fit=crop&q=80"
-                                                            alt="${product.name}">
-                                                    </c:when>
-                                                    <c:when test="${product.category.name == 'Beauty'}">
-                                                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80"
-                                                            alt="${product.name}">
-                                                    </c:when>
-                                                    <c:when test="${product.category.name == 'Home Decor'}">
-                                                        <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80"
-                                                            alt="${product.name}">
-                                                    </c:when>
-                                                    <c:when test="${product.category.name == 'Furniture'}">
-                                                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80"
-                                                            alt="${product.name}">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80"
-                                                            alt="${product.name}">
-                                                    </c:otherwise>
-                                                </c:choose>
+                                                <img src="${fallbackUrl}" alt="${product.name}" class="img-fallback">
                                             </c:otherwise>
                                         </c:choose>
                                         <span class="category-badge">${product.category.name}</span>
