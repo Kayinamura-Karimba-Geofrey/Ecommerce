@@ -74,6 +74,7 @@
                 font-weight: 700;
                 background: linear-gradient(to right, #6366f1, #10b981);
                 -webkit-background-clip: text;
+                background-clip: text;
                 -webkit-text-fill-color: transparent;
             }
 
@@ -190,7 +191,9 @@
             </div>
 
             <c:if test="${not empty error}">
-                <div class="error-box">⚠️ ${error}</div>
+                <div class="error-box">
+                    <span style="font-weight: 700;">Error:</span> ${error}
+                </div>
             </c:if>
 
             <form action="login" method="post">

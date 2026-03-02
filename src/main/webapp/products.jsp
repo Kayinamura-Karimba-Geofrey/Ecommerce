@@ -301,9 +301,16 @@
                                     <a href="product-details?id=${product.id}"
                                         style="display:block; width:100%; height:100%; text-decoration: none; color: inherit;">
                                         <c:choose>
-                                            <c:when
-                                                test="${not empty product.imagePath and product.imagePath.startsWith('http')}">
-                                                <img src="${product.imagePath}" alt="${product.name}">
+                                            <c:when test="${not empty product.imagePath}">
+                                                <c:choose>
+                                                    <c:when test="${product.imagePath.startsWith('http')}">
+                                                        <img src="${product.imagePath}" alt="${product.name}">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="${pageContext.request.contextPath}/${product.imagePath}"
+                                                            alt="${product.name}">
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </c:when>
                                             <c:otherwise>
                                                 <c:choose>

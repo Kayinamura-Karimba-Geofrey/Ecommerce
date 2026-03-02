@@ -36,7 +36,8 @@ public class InputSanitizer {
      */
     public static boolean isValidEmail(String email) {
         if (email == null || email.isBlank()) return false;
-        return email.matches("^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$");
+        // Robust regex for real-world email formats
+        return email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,15}$");
     }
 
     /**
