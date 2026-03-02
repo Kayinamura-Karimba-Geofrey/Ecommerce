@@ -8,14 +8,25 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "fullname")
     private String fullname;
+    
+    @Column(name = "email", unique = true)
     private String email;
+    
+    @Column(name = "password")
     private String password;
+    
+    @Column(name = "role")
     private String role;
+    
+    @Column(name = "two_factor_enabled")
     private Boolean twoFactorEnabled = false;
+    
+    @Column(name = "secret_key")
     private String secretKey; // TOTP secret
     
-    @Column(nullable = false)
+    @Column(name = "is_blocked", nullable = false)
     private boolean isBlocked = false;
 
     // Getters and setters
