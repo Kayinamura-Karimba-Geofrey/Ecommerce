@@ -118,7 +118,7 @@
 
         <nav class="navbar">
             <div class="nav-container">
-                <a href="products" class="nav-logo">PREMIUM STORE</a>
+                <a href="${pageContext.request.contextPath}/products" class="nav-logo">PREMIUM STORE</a>
 
                 <div class="nav-links">
                     <a href="${pageContext.request.contextPath}/products" class="nav-link">Store</a>
@@ -141,8 +141,9 @@
                         </c:when>
                         <c:otherwise>
                             <div class="nav-auth">
-                                <a href="register.jsp" class="btn-nav btn-login">Register</a>
-                                <a href="login.jsp" class="btn-nav"
+                                <a href="${pageContext.request.contextPath}/register.jsp"
+                                    class="btn-nav btn-login">Register</a>
+                                <a href="${pageContext.request.contextPath}/login.jsp" class="btn-nav"
                                     style="background: var(--primary); color: white; border-radius: 10px; padding: 8px 20px; font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: all 0.3s;">Login</a>
                             </div>
                         </c:otherwise>

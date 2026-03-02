@@ -125,7 +125,10 @@ public class CheckoutServlet extends HttpServlet {
                         continue;
                     }
                     if (managedProduct.getStock() < quantity) {
-                        throw new Exception("Not enough stock for " + managedProduct.getName());
+                        tx.rollback();
+                        session.setAttribute("checkoutError", "Not enough stock for " + managedProduct.getName() + ". Available: " + managedProduct.getStock());
+                        response.sendRedirect(request.getContextPath() + "/cart?error=insufficient_stock");
+                        return;
                     }
 
                     OrderItem item = new OrderItem();
@@ -142,7 +145,8 @@ public class CheckoutServlet extends HttpServlet {
                 }
 
                 if (orderItemsList.isEmpty()) {
-                    response.sendRedirect("cart");
+                    tx.rollback();
+                    response.sendRedirect(request.getContextPath() + "/cart");
                     return;
                 }
 
@@ -163,13 +167,13 @@ public class CheckoutServlet extends HttpServlet {
                 session.removeAttribute(ATTR_CART);
 
                 System.out.println("[CheckoutServlet] Order created successfully: " + order.getId());
-                response.sendRedirect("order-success?id=" + order.getId());
+                response.sendRedirect(request.getContextPath() + "/order-success?id=" + order.getId());
 
             } catch (Exception e) {
-                if (tx != null) tx.rollback();
+                if (tx != null && tx.isActive()) tx.rollback();
                 System.err.println("[CheckoutServlet] Error during checkout: " + e.getMessage());
                 e.printStackTrace();
-                response.sendRedirect("cart?error=checkout_failed");
+                response.sendRedirect(request.getContextPath() + "/cart?error=checkout_failed");
             }
         }
     }
