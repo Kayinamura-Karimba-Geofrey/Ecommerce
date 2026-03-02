@@ -123,14 +123,26 @@
                 <div class="nav-links">
                     <a href="${pageContext.request.contextPath}/products" class="nav-link">Store</a>
                     <a href="${pageContext.request.contextPath}/cart" class="nav-link">Cart</a>
+                    <c:if test="${not empty loggedUser}">
+                        <a href="${pageContext.request.contextPath}/wishlist" class="nav-link">Wishlist</a>
+                        <a href="${pageContext.request.contextPath}/orders" class="nav-link">My Orders</a>
+                    </c:if>
+
+                    <!-- Integrated Search Bar -->
+                    <form action="${pageContext.request.contextPath}/products" method="get"
+                        style="display: flex; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 20px; padding: 2px 12px; margin: 0 10px;">
+                        <input type="text" name="search" placeholder="Search products..." value="${param.search}"
+                            style="background: transparent; border: none; color: white; padding: 6px; font-size: 0.85rem; width: 140px; outline: none;">
+                        <button type="submit"
+                            style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 4px;">🔍</button>
+                    </form>
+
                     <c:if test="${loggedUser.role == 'ADMIN'}">
                         <a href="${pageContext.request.contextPath}/admin/dashboard" class="nav-link">Admin</a>
-                        <a href="${pageContext.request.contextPath}/admin/categories" class="nav-link">Categories</a>
                     </c:if>
 
                     <c:choose>
                         <c:when test="${not empty loggedUser}">
-                            <a href="${pageContext.request.contextPath}/orders" class="nav-link">My Orders</a>
                             <div class="nav-auth">
                                 <span
                                     style="color: var(--text-muted); font-size: 0.9rem; align-self: center; display: flex; align-items: center; gap: 8px;">

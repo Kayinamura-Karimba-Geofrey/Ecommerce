@@ -14,6 +14,9 @@ import java.io.IOException;
 
 @WebServlet("/product-details")
 public class ProductDetailsServlet extends HttpServlet {
+    private final ecommerce.Services.ProductService productService = new ecommerce.Services.ProductService();
+    private final ecommerce.Services.DiscoveryService discoveryService = new ecommerce.Services.DiscoveryService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idStr = request.getParameter("id");
@@ -38,8 +41,21 @@ public class ProductDetailsServlet extends HttpServlet {
                 .setMaxResults(4)
                 .list();
 
+            // Fetch Social Data
+            var reviews = discoveryService.getReviewsByProduct(id);
+            double avgRating = productService.getAverageRating(id);
+
+            ecommerce.Model.User user = (ecommerce.Model.User) request.getSession().getAttribute("loggedUser");
+            boolean isInWishlist = false;
+            if (user != null) {
+                isInWishlist = discoveryService.isInWishlist(user.getId(), id);
+            }
+
             request.setAttribute("product", product);
             request.setAttribute("relatedProducts", relatedProducts);
+            request.setAttribute("reviews", reviews);
+            request.setAttribute("avgRating", avgRating);
+            request.setAttribute("isInWishlist", isInWishlist);
             request.getRequestDispatcher("product-details.jsp").forward(request, response);
         }
     }

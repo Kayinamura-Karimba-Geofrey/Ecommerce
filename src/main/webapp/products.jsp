@@ -42,36 +42,97 @@
                     padding-bottom: 50px;
                 }
 
-                .header {
-                    padding: 40px 20px 40px;
-                    text-align: center;
-                }
-
-                .header h1 {
-                    font-size: 3rem;
-                    font-weight: 700;
-                    margin-bottom: 10px;
-                    background: linear-gradient(to right, #6366f1, #10b981);
-                    -webkit-background-clip: text;
-                    background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                }
-
-                .header p {
-                    color: var(--text-muted);
-                    font-size: 1.1rem;
-                }
-
                 .container {
-                    max-width: 1200px;
+                    max-width: 1400px;
                     margin: 0 auto;
-                    padding: 0 20px;
+                    padding: 0 40px;
                 }
 
+                .main-layout {
+                    display: grid;
+                    grid-template-columns: 280px 1fr;
+                    gap: 40px;
+                    margin-top: 40px;
+                }
+
+                /* Sidebar Styles */
+                .sidebar {
+                    position: sticky;
+                    top: 100px;
+                    height: fit-content;
+                }
+
+                .filter-card {
+                    background: var(--card-bg);
+                    backdrop-filter: blur(12px);
+                    border: 1px solid var(--glass-border);
+                    border-radius: 20px;
+                    padding: 30px;
+                }
+
+                .filter-group {
+                    margin-bottom: 30px;
+                }
+
+                .filter-group h4 {
+                    font-size: 0.9rem;
+                    color: var(--text-muted);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    margin-bottom: 15px;
+                    font-weight: 700;
+                }
+
+                .filter-option {
+                    display: block;
+                    padding: 8px 12px;
+                    color: var(--text-main);
+                    text-decoration: none;
+                    border-radius: 8px;
+                    font-size: 0.95rem;
+                    transition: 0.3s;
+                    margin-bottom: 4px;
+                }
+
+                .filter-option:hover,
+                .filter-option.active {
+                    background: rgba(99, 102, 241, 0.1);
+                    color: var(--primary);
+                }
+
+                .price-inputs {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 10px;
+                }
+
+                .price-inputs input {
+                    width: 100%;
+                    padding: 10px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid var(--glass-border);
+                    border-radius: 8px;
+                    color: white;
+                    font-size: 0.85rem;
+                }
+
+                .btn-filter {
+                    width: 100%;
+                    margin-top: 15px;
+                    padding: 12px;
+                    background: var(--primary);
+                    color: white;
+                    border: none;
+                    border-radius: 10px;
+                    font-weight: 600;
+                    cursor: pointer;
+                }
+
+                /* Grid Styles */
                 .products-grid {
                     display: grid;
                     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                    gap: 25px;
+                    gap: 30px;
                 }
 
                 .product-card {
@@ -87,8 +148,6 @@
 
                 .product-card:hover {
                     transform: translateY(-10px);
-                    border-color: var(--primary);
-                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
                 }
 
                 .image-container {
@@ -101,18 +160,11 @@
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
-                    transition: transform 0.6s ease;
+                    transition: 0.6s ease;
                 }
 
                 .product-card:hover .image-container img {
                     transform: scale(1.1);
-                }
-
-                /* Fallback Image styling */
-                .img-fallback {
-                    object-fit: contain !important;
-                    background: rgba(0, 0, 0, 0.05);
-                    padding: 20px;
                 }
 
                 .category-badge {
@@ -130,7 +182,7 @@
                 }
 
                 .content {
-                    padding: 20px;
+                    padding: 24px;
                     flex-grow: 1;
                     display: flex;
                     flex-direction: column;
@@ -148,11 +200,6 @@
                     font-size: 0.9rem;
                     line-height: 1.5;
                     margin-bottom: 20px;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 2;
-                    line-clamp: 2;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
                 }
 
                 .footer-action {
@@ -176,57 +223,13 @@
                     border-radius: 12px;
                     font-weight: 600;
                     cursor: pointer;
-                    transition: all 0.3s;
                     text-decoration: none;
                     font-size: 0.9rem;
-                }
-
-                .btn-buy:hover {
-                    background: var(--primary-hover);
-                    transform: scale(1.05);
-                }
-
-                .admin-controls {
-                    padding: 10px 20px 20px;
-                    display: flex;
-                    gap: 10px;
-                }
-
-                .btn-admin {
-                    flex: 1;
-                    text-align: center;
-                    padding: 8px;
-                    border-radius: 8px;
-                    font-size: 0.75rem;
-                    text-decoration: none;
-                    font-weight: 600;
-                    transition: 0.2s;
-                }
-
-                .btn-edit {
-                    background: rgba(255, 255, 255, 0.05);
-                    color: var(--text-main);
-                    border: 1px solid var(--glass-border);
-                }
-
-                .btn-edit:hover {
-                    background: rgba(255, 255, 255, 0.1);
-                }
-
-                .btn-del {
-                    background: rgba(239, 68, 68, 0.1);
-                    color: #ef4444;
-                    border: 1px solid rgba(239, 68, 68, 0.2);
-                }
-
-                .btn-del:hover {
-                    background: rgba(239, 68, 68, 0.2);
                 }
 
                 .pagination {
                     display: flex;
                     justify-content: center;
-                    align-items: center;
                     gap: 10px;
                     margin-top: 50px;
                 }
@@ -238,25 +241,39 @@
                     color: var(--text-main);
                     border-radius: 12px;
                     text-decoration: none;
-                    transition: all 0.3s;
                     font-weight: 600;
-                }
-
-                .page-link:hover {
-                    background: rgba(255, 255, 255, 0.1);
-                    transform: translateY(-2px);
                 }
 
                 .page-link.active {
                     background: var(--primary);
-                    border-color: var(--primary);
                     color: white;
                 }
 
-                .page-info {
-                    color: var(--text-muted);
-                    font-size: 0.95rem;
-                    margin: 0 15px;
+                /* Newsletter Footer */
+                .newsletter-section {
+                    margin-top: 100px;
+                    background: var(--card-bg);
+                    border-radius: 30px;
+                    padding: 60px;
+                    text-align: center;
+                    border: 1px solid var(--glass-border);
+                }
+
+                .newsletter-form {
+                    max-width: 500px;
+                    margin: 30px auto 0;
+                    display: flex;
+                    gap: 15px;
+                }
+
+                .newsletter-form input {
+                    flex: 1;
+                    padding: 15px 25px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid var(--glass-border);
+                    border-radius: 15px;
+                    color: white;
+                    outline: none;
                 }
             </style>
         </head>
@@ -264,153 +281,114 @@
         <body>
             <%@ include file="navbar.jsp" %>
 
-                <header class="header">
-                    <div class="container">
-                        <h1>Premium Collections</h1>
-                        <p>Experience the finest selection of curated products</p>
-
-                        <!-- Category & Sort Filter -->
-                        <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
-                            <form action="products" method="get" id="filterForm" style="display: flex; gap: 15px;">
-                                <select name="category" onchange="document.getElementById('filterForm').submit()"
-                                    style="padding: 10px 20px; border-radius: 12px; background: var(--card-bg); color: var(--text-main); border: 1px solid var(--glass-border);">
-                                    <option value="">All Categories</option>
-                                    <c:forEach var="cat" items="${categories}">
-                                        <option value="${cat.name}" ${selectedCategory==cat.name ? 'selected' : '' }>
-                                            ${cat.name}</option>
-                                    </c:forEach>
-                                </select>
-
-                                <select name="sort" onchange="document.getElementById('filterForm').submit()"
-                                    style="padding: 10px 20px; border-radius: 12px; background: var(--card-bg); color: var(--text-main); border: 1px solid var(--glass-border);">
-                                    <option value="">Default Sorting</option>
-                                    <option value="price_low" ${selectedSort=='price_low' ? 'selected' : '' }>Price: Low
-                                        to High</option>
-                                    <option value="price_high" ${selectedSort=='price_high' ? 'selected' : '' }>Price:
-                                        High to Low</option>
-                                    <option value="newest" ${selectedSort=='newest' ? 'selected' : '' }>Newest Arrivals
-                                    </option>
-                                </select>
-
-                                <c:if test="${not empty search}">
-                                    <input type="hidden" name="search" value="${search}">
-                                </c:if>
-                            </form>
-                        </div>
+                <div class="container" style="padding-top: 60px;">
+                    <div style="margin-bottom: 40px;">
+                        <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 10px;">Store</h1>
+                        <p style="color: var(--text-muted);">Explore our premium collections</p>
                     </div>
-                </header>
 
-                <main class="container">
-                    <div class="products-grid">
-                        <c:forEach var="product" items="${products}">
-                            <div class="product-card">
-                                <div class="image-container">
-                                    <a href="product-details?id=${product.id}"
-                                        style="display:block; width:100%; height:100%; text-decoration: none; color: inherit;">
-                                        <c:set var="fallbackUrl">
-                                            <c:choose>
-                                                <c:when test="${product.category.name == 'Electronics'}">
-                                                    https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80
-                                                </c:when>
-                                                <c:when test="${product.category.name == 'Home Appliances'}">
-                                                    https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop&q=80
-                                                </c:when>
-                                                <c:when test="${product.category.name == 'Fashion'}">
-                                                    https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=80
-                                                </c:when>
-                                                <c:when test="${product.category.name == 'Books'}">
-                                                    https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop&q=80
-                                                </c:when>
-                                                <c:when test="${product.category.name == 'Hobbies'}">
-                                                    https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&auto=format&fit=crop&q=80
-                                                </c:when>
-                                                <c:when test="${product.category.name == 'Beauty'}">
-                                                    https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80
-                                                </c:when>
-                                                <c:when test="${product.category.name == 'Home Decor'}">
-                                                    https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80
-                                                </c:when>
-                                                <c:when test="${product.category.name == 'Furniture'}">
-                                                    https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80
-                                                </c:when>
-                                                <c:otherwise>
-                                                    https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:set>
-                                        <c:choose>
-                                            <c:when test="${not empty product.imagePath}">
-                                                <c:choose>
-                                                    <c:when test="${product.imagePath.startsWith('http')}">
-                                                        <img src="${product.imagePath}" alt="${product.name}"
-                                                            onerror="this.src='${fallbackUrl}'; this.classList.add('img-fallback');">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <img src="${pageContext.request.contextPath}/${product.imagePath}"
-                                                            alt="${product.name}"
-                                                            onerror="this.src='${fallbackUrl}'; this.classList.add('img-fallback');">
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <img src="${fallbackUrl}" alt="${product.name}" class="img-fallback">
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <span class="category-badge">${product.category.name}</span>
-                                    </a>
-                                </div>
+                    <div class="main-layout">
+                        <!-- Sidebar Filters -->
+                        <aside class="sidebar">
+                            <div class="filter-card">
+                                <form action="products" method="get">
+                                    <c:if test="${not empty search}"><input type="hidden" name="search"
+                                            value="${search}"></c:if>
 
-                                <div class="content">
-                                    <h2 class="product-name">
-                                        <a href="product-details?id=${product.id}"
-                                            style="text-decoration: none; color: inherit;">
-                                            ${product.name}
-                                        </a>
-                                    </h2>
-                                    <p class="product-desc">${product.description}</p>
-
-                                    <div class="footer-action">
-                                        <span class="price">$${product.price}</span>
-                                        <form action="${pageContext.request.contextPath}/cart" method="post"
-                                            style="display:inline;">
-                                            <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
-                                            <input type="hidden" name="action" value="add">
-                                            <input type="hidden" name="productId" value="${product.id}">
-                                            <button type="submit" class="btn-buy">Add to Cart</button>
-                                        </form>
+                                    <div class="filter-group">
+                                        <h4>Categories</h4>
+                                        <a href="products?search=${search}"
+                                            class="filter-option ${empty selectedCategory or selectedCategory == 'All' ? 'active' : ''}">All
+                                            Categories</a>
+                                        <c:forEach var="cat" items="${categories}">
+                                            <a href="products?category=${cat.name}&search=${search}"
+                                                class="filter-option ${selectedCategory == cat.name ? 'active' : ''}">${cat.name}</a>
+                                        </c:forEach>
+                                        <input type="hidden" name="category" value="${selectedCategory}">
                                     </div>
-                                </div>
 
-                                <c:if test="${loggedUser.role == 'ADMIN'}">
-                                    <div class="admin-controls">
-                                        <a href="admin?action=edit&id=${product.id}" class="btn-admin btn-edit">Edit</a>
-                                        <a href="admin?action=delete&id=${product.id}" class="btn-admin btn-del"
-                                            onclick="return confirm('Are you sure?');">Delete</a>
+                                    <div class="filter-group">
+                                        <h4>Price Range</h4>
+                                        <div class="price-inputs">
+                                            <input type="number" name="minPrice" placeholder="Min" value="${minPrice}">
+                                            <input type="number" name="maxPrice" placeholder="Max" value="${maxPrice}">
+                                        </div>
+                                        <button type="submit" class="btn-filter">Apply Filters</button>
                                     </div>
-                                </c:if>
+
+                                    <div class="filter-group">
+                                        <h4>Sort By</h4>
+                                        <select name="sort" onchange="this.form.submit()"
+                                            style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">
+                                            <option value="">Default</option>
+                                            <option value="price_low" ${selectedSort=='price_low' ? 'selected' : '' }>
+                                                Price: Low to High</option>
+                                            <option value="price_high" ${selectedSort=='price_high' ? 'selected' : '' }>
+                                                Price: High to Low</option>
+                                            <option value="newest" ${selectedSort=='newest' ? 'selected' : '' }>Newest
+                                            </option>
+                                        </select>
+                                    </div>
+                                </form>
                             </div>
-                        </c:forEach>
+                        </aside>
+
+                        <!-- Product Grid -->
+                        <section>
+                            <c:if test="${not empty search}">
+                                <div style="margin-bottom: 20px; color: var(--text-muted);">
+                                    Showing results for "<strong>${search}</strong>"
+                                </div>
+                            </c:if>
+
+                            <div class="products-grid">
+                                <c:forEach var="product" items="${products}">
+                                    <div class="product-card">
+                                        <div class="image-container">
+                                            <a href="product-details?id=${product.id}">
+                                                <img src="${product.imagePath}" alt="${product.name}">
+                                                <span class="category-badge">${product.category.name}</span>
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h2 class="product-name">${product.name}</h2>
+                                            <p class="product-desc">${product.description}</p>
+                                            <div class="footer-action">
+                                                <span class="price">$${product.price}</span>
+                                                <form action="cart" method="post">
+                                                    <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
+                                                    <input type="hidden" name="action" value="add">
+                                                    <input type="hidden" name="productId" value="${product.id}">
+                                                    <button type="submit" class="btn-buy">Add to Cart</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </div>
+
+                            <!-- Pagination -->
+                            <c:if test="${totalPages > 1}">
+                                <div class="pagination">
+                                    <c:forEach begin="1" end="${totalPages}" var="i">
+                                        <a href="products?page=${i}&category=${selectedCategory}&sort=${selectedSort}&search=${search}&minPrice=${minPrice}&maxPrice=${maxPrice}"
+                                            class="page-link ${currentPage == i ? 'active' : ''}">${i}</a>
+                                    </c:forEach>
+                                </div>
+                            </c:if>
+                        </section>
                     </div>
 
-                    <!-- Pagination Controls -->
-                    <c:if test="${totalPages > 1}">
-                        <div class="pagination">
-                            <c:if test="${currentPage > 1}">
-                                <a href="products?page=${currentPage - 1}&category=${selectedCategory}&sort=${selectedSort}&search=${search}"
-                                    class="page-link">&laquo; Prev</a>
-                            </c:if>
-
-                            <span class="page-info">Page ${currentPage} of ${totalPages}</span>
-
-                            <c:if test="${currentPage < totalPages}">
-                                <a href="products?page=${currentPage + 1}&category=${selectedCategory}&sort=${selectedSort}&search=${search}"
-                                    class="page-link">Next &raquo;</a>
-                            </c:if>
-                        </div>
-                    </c:if>
-
-                </main>
-
+                    <!-- Newsletter -->
+                    <div class="newsletter-section">
+                        <h2>Join the Premium Club</h2>
+                        <p>Subscribe to our newsletter for exclusive offers and new arrivals.</p>
+                        <form action="subscribe" method="post" class="newsletter-form">
+                            <input type="email" name="email" placeholder="Enter your email address" required>
+                            <button type="submit" class="btn-buy" style="padding: 0 40px;">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
         </body>
 
         </html>

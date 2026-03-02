@@ -91,4 +91,49 @@ public class ProductService {
                     .list();
         }
     }
+
+    public List<Product> searchProducts(String query, String category, Double minPrice, Double maxPrice) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            StringBuilder hql = new StringBuilder("from Product p where p.isDeleted = false");
+            
+            if (query != null && !query.isEmpty()) {
+                hql.append(" and (lower(p.name) like :query or lower(p.description) like :query)");
+            }
+            if (category != null && !category.isEmpty() && !"All".equalsIgnoreCase(category)) {
+                hql.append(" and p.description like :category"); // Assuming category is in description or add Category entity later
+            }
+            if (minPrice != null) {
+                hql.append(" and p.price >= :minPrice");
+            }
+            if (maxPrice != null) {
+                hql.append(" and p.price <= :maxPrice");
+            }
+
+            var hibernateQuery = session.createQuery(hql.toString(), Product.class);
+
+            if (query != null && !query.isEmpty()) {
+                hibernateQuery.setParameter("query", "%" + query.toLowerCase() + "%");
+            }
+            if (category != null && !category.isEmpty() && !"All".equalsIgnoreCase(category)) {
+                hibernateQuery.setParameter("category", "%" + category + "%");
+            }
+            if (minPrice != null) {
+                hibernateQuery.setParameter("minPrice", minPrice);
+            }
+            if (maxPrice != null) {
+                hibernateQuery.setParameter("maxPrice", maxPrice);
+            }
+
+            return hibernateQuery.list();
+        }
+    }
+
+    public double getAverageRating(int productId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Double avg = session.createQuery("select avg(r.rating) from Review r where r.product.id = :pid", Double.class)
+                    .setParameter("pid", productId)
+                    .uniqueResult();
+            return avg != null ? avg : 0.0;
+        }
+    }
 }

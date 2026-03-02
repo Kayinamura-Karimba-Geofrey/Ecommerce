@@ -39,7 +39,10 @@ public class SchemaPatchServlet extends HttpServlet {
                         "ALTER TABLE users ADD COLUMN IF NOT EXISTS is_blocked BOOLEAN DEFAULT FALSE;",
                         "ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_enabled BOOLEAN DEFAULT FALSE;",
                         "ALTER TABLE users ADD COLUMN IF NOT EXISTS secret_key VARCHAR(255);",
-                        "ALTER TABLE users ADD COLUMN IF NOT EXISTS fullname VARCHAR(255);"
+                        "ALTER TABLE users ADD COLUMN IF NOT EXISTS fullname VARCHAR(255);",
+                        "CREATE TABLE IF NOT EXISTS subscribers (id SERIAL PRIMARY KEY, email VARCHAR(255) UNIQUE NOT NULL, subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);",
+                        "CREATE TABLE IF NOT EXISTS reviews (id SERIAL PRIMARY KEY, user_id INT NOT NULL, product_id INT NOT NULL, rating INT NOT NULL, comment TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (product_id) REFERENCES products(id));",
+                        "CREATE TABLE IF NOT EXISTS wishlist_items (id SERIAL PRIMARY KEY, user_id INT NOT NULL, product_id INT NOT NULL, added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (product_id) REFERENCES products(id));"
                     };
 
                     boolean oldAutoCommit = connection.getAutoCommit();

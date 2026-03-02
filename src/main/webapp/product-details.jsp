@@ -54,7 +54,7 @@
                     border: 1px solid var(--glass-border);
                     border-radius: 30px;
                     padding: 40px;
-                    margin-bottom: 60px;
+                    margin-bottom: 40px;
                 }
 
                 .image-gallery {
@@ -72,10 +72,6 @@
                     transition: transform 0.6s ease;
                 }
 
-                .image-gallery:hover img {
-                    transform: scale(1.05);
-                }
-
                 .product-info {
                     display: flex;
                     flex-direction: column;
@@ -83,12 +79,11 @@
                 }
 
                 .cat-tag {
-                    display: inline-block;
                     color: var(--primary);
                     font-weight: 600;
                     text-transform: uppercase;
                     letter-spacing: 1.5px;
-                    font-size: 0.8rem;
+                    font-size: 1rem;
                     margin-bottom: 10px;
                 }
 
@@ -96,14 +91,22 @@
                     font-size: 2.5rem;
                     font-weight: 700;
                     margin-bottom: 15px;
-                    line-height: 1.2;
                 }
 
                 .price-tag {
-                    font-size: 2rem;
-                    font-weight: 700;
+                    font-size: 2.5rem;
+                    font-weight: 800;
                     color: var(--accent);
                     margin-bottom: 25px;
+                }
+
+                .rating-avg {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    margin-bottom: 20px;
+                    color: #fbbf24;
+                    font-weight: 600;
                 }
 
                 .description {
@@ -111,30 +114,6 @@
                     line-height: 1.8;
                     margin-bottom: 30px;
                     font-size: 1.05rem;
-                }
-
-                .stock-status {
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                    margin-bottom: 30px;
-                    font-weight: 600;
-                }
-
-                .dot {
-                    width: 10px;
-                    height: 10px;
-                    border-radius: 50%;
-                }
-
-                .dot-in {
-                    background: var(--accent);
-                    box-shadow: 0 0 10px var(--accent);
-                }
-
-                .dot-out {
-                    background: #ef4444;
-                    box-shadow: 0 0 10px #ef4444;
                 }
 
                 .actions {
@@ -147,21 +126,16 @@
                     border-radius: 12px;
                     font-weight: 700;
                     text-decoration: none;
-                    transition: all 0.3s;
+                    transition: 0.3s;
                     text-align: center;
                     flex: 1;
+                    border: none;
+                    cursor: pointer;
                 }
 
                 .btn-primary {
                     background: var(--primary);
                     color: white;
-                    border: none;
-                }
-
-                .btn-primary:hover {
-                    background: var(--primary-hover);
-                    transform: translateY(-3px);
-                    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
                 }
 
                 .btn-secondary {
@@ -170,76 +144,85 @@
                     border: 1px solid var(--glass-border);
                 }
 
-                .btn-secondary:hover {
-                    background: rgba(255, 255, 255, 0.1);
+                .btn-wishlist {
+                    background: rgba(255, 255, 255, 0.05);
+                    color: white;
+                    border: 1px solid var(--glass-border);
+                    flex: 0 0 60px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.4rem;
                 }
 
-                /* Related Products Section */
-                .related-section {
+                .btn-wishlist.active {
+                    color: #ef4444;
+                    border-color: #ef4444;
+                    background: rgba(239, 68, 68, 0.1);
+                }
+
+                /* Reviews Section */
+                .reviews-section {
+                    background: var(--card-bg);
+                    backdrop-filter: blur(12px);
+                    border: 1px solid var(--glass-border);
+                    border-radius: 30px;
+                    padding: 40px;
                     margin-top: 40px;
                 }
 
-                .section-title {
-                    font-size: 1.8rem;
+                .review-item {
+                    border-bottom: 1px solid var(--glass-border);
+                    padding: 25px 0;
+                }
+
+                .review-header {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 10px;
+                }
+
+                .review-user {
                     font-weight: 700;
-                    margin-bottom: 30px;
-                    text-align: center;
+                    font-size: 1.1rem;
                 }
 
-                .related-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                    gap: 25px;
+                .review-rating {
+                    color: #fbbf24;
                 }
 
-                .related-card {
-                    background: var(--card-bg);
-                    border: 1px solid var(--glass-border);
-                    border-radius: 20px;
-                    overflow: hidden;
-                    transition: 0.3s;
-                    text-decoration: none;
-                    color: inherit;
+                .review-comment {
+                    color: var(--text-muted);
+                    line-height: 1.6;
                 }
 
-                .related-card:hover {
-                    transform: translateY(-10px);
-                    border-color: var(--primary);
+                .add-review-form {
+                    margin-top: 40px;
+                    padding-top: 40px;
+                    border-top: 1px solid var(--glass-border);
                 }
 
-                .related-img {
-                    height: 180px;
-                    overflow: hidden;
+                .form-group {
+                    margin-bottom: 20px;
                 }
 
-                .related-img img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-
-                .related-info {
-                    padding: 15px;
-                }
-
-                .related-name {
+                .form-group label {
+                    display: block;
+                    margin-bottom: 10px;
+                    color: var(--text-muted);
                     font-weight: 600;
-                    margin-bottom: 5px;
                 }
 
-                .related-price {
-                    color: var(--accent);
-                    font-weight: 700;
-                }
-
-                @media (max-width: 850px) {
-                    .product-grid {
-                        grid-template-columns: 1fr;
-                    }
-
-                    .image-gallery {
-                        height: 350px;
-                    }
+                .form-group input,
+                .form-group textarea,
+                .form-group select {
+                    width: 100%;
+                    padding: 12px 15px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid var(--glass-border);
+                    border-radius: 10px;
+                    color: white;
+                    font-family: inherit;
                 }
             </style>
         </head>
@@ -250,152 +233,109 @@
                 <div class="container">
                     <div class="product-grid">
                         <div class="image-gallery">
-                            <c:set var="fallbackUrl">
-                                <c:choose>
-                                    <c:when test="${product.category.name == 'Electronics'}">
-                                        https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80
-                                    </c:when>
-                                    <c:when test="${product.category.name == 'Home Appliances'}">
-                                        https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop&q=80
-                                    </c:when>
-                                    <c:when test="${product.category.name == 'Fashion'}">
-                                        https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=80
-                                    </c:when>
-                                    <c:when test="${product.category.name == 'Books'}">
-                                        https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop&q=80
-                                    </c:when>
-                                    <c:when test="${product.category.name == 'Hobbies'}">
-                                        https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&auto=format&fit=crop&q=80
-                                    </c:when>
-                                    <c:when test="${product.category.name == 'Beauty'}">
-                                        https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80
-                                    </c:when>
-                                    <c:when test="${product.category.name == 'Home Decor'}">
-                                        https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80
-                                    </c:when>
-                                    <c:when test="${product.category.name == 'Furniture'}">
-                                        https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80
-                                    </c:when>
-                                    <c:otherwise>
-                                        https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:set>
-                            <c:choose>
-                                <c:when test="${not empty product.imagePath}">
-                                    <c:choose>
-                                        <c:when test="${product.imagePath.startsWith('http')}">
-                                            <img src="${product.imagePath}" alt="${product.name}"
-                                                onerror="this.src='${fallbackUrl}';">
-                                        </c:when>
-                                        <c:otherwise>
-                                            <img src="${pageContext.request.contextPath}/${product.imagePath}"
-                                                alt="${product.name}" onerror="this.src='${fallbackUrl}';">
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:when>
-                                <c:otherwise>
-                                    <img src="${fallbackUrl}" alt="${product.name}">
-                                </c:otherwise>
-                            </c:choose>
+                            <img src="${product.imagePath}" alt="${product.name}">
                         </div>
 
                         <div class="product-info">
                             <span class="cat-tag">${product.category.name}</span>
                             <h1 class="product-title">${product.name}</h1>
-                            <div class="price-tag">$${product.price}</div>
 
-                            <p class="description">${product.description}</p>
-
-                            <div class="stock-status">
-                                <c:choose>
-                                    <c:when test="${product.stock > 0}">
-                                        <div class="dot dot-in"></div>
-                                        <span style="color: var(--accent)">In Stock (${product.stock} available)</span>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <div class="dot dot-out"></div>
-                                        <span style="color: #ef4444">Out of Stock</span>
-                                    </c:otherwise>
-                                </c:choose>
+                            <div class="rating-avg">
+                                <span>⭐ ${avgRating} / 5.0</span>
+                                <span style="color: var(--text-muted); font-weight: 400;">(${reviews.size()}
+                                    reviews)</span>
                             </div>
 
+                            <div class="price-tag">$${product.price}</div>
+                            <p class="description">${product.description}</p>
+
                             <div class="actions">
-                                <c:if test="${product.stock > 0}">
-                                    <form action="${pageContext.request.contextPath}/cart" method="post"
-                                        style="flex:1; margin:0;">
-                                        <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
-                                        <input type="hidden" name="action" value="add">
-                                        <input type="hidden" name="productId" value="${product.id}">
-                                        <button type="submit" class="btn btn-primary" style="width:100%;">Add to
-                                            Cart</button>
-                                    </form>
-                                </c:if>
-                                <a href="products" class="btn btn-secondary">Back to Store</a>
+                                <form action="cart" method="post" style="flex:1;">
+                                    <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
+                                    <input type="hidden" name="action" value="add">
+                                    <input type="hidden" name="productId" value="${product.id}">
+                                    <button type="submit" class="btn btn-primary" style="width:100%;">Add to
+                                        Cart</button>
+                                </form>
+
+                                <a href="wishlist?action=${isInWishlist ? 'remove' : 'add'}&id=${product.id}"
+                                    class="btn btn-wishlist ${isInWishlist ? 'active' : ''}"
+                                    title="${isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}">
+                                    ${isInWishlist ? '❤️' : '🤍'}
+                                </a>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Reviews -->
+                    <div class="reviews-section">
+                        <h2 style="margin-bottom: 30px; font-weight: 800; font-size: 1.8rem;">Customer Reviews</h2>
+
+                        <c:choose>
+                            <c:when test="${not empty reviews}">
+                                <c:forEach var="review" items="${reviews}">
+                                    <div class="review-item">
+                                        <div class="review-header">
+                                            <span class="review-user">${review.user.fullname}</span>
+                                            <span class="review-rating">${review.rating} ⭐</span>
+                                        </div>
+                                        <p class="review-comment">${review.comment}</p>
+                                        <small style="color: var(--text-muted);">${review.createdAt}</small>
+                                    </div>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <p style="color: var(--text-muted); text-align: center; padding: 40px 0;">No reviews
+                                    yet. Be the first to share your experience!</p>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <c:if test="${not empty loggedUser}">
+                            <div class="add-review-form">
+                                <h3 style="margin-bottom: 20px;">Write a Review</h3>
+                                <form action="add-review" method="post">
+                                    <input type="hidden" name="productId" value="${product.id}">
+                                    <div class="form-group">
+                                        <label>Rating</label>
+                                        <select name="rating" required>
+                                            <option value="5">5 Stars - Excellent</option>
+                                            <option value="4">4 Stars - Very Good</option>
+                                            <option value="3">3 Stars - Good</option>
+                                            <option value="2">2 Stars - Fair</option>
+                                            <option value="1">1 Star - Poor</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Your Comment</label>
+                                        <textarea name="comment" rows="4" placeholder="Tell us what you think..."
+                                            required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" style="max-width: 200px;">Post
+                                        Review</button>
+                                </form>
+                            </div>
+                        </c:if>
+                    </div>
+
                     <!-- Related Products -->
                     <c:if test="${not empty relatedProducts}">
-                        <div class="related-section">
-                            <h2 class="section-title">You Might Also Like</h2>
-                            <div class="related-grid">
+                        <div style="margin-top: 60px;">
+                            <h2 style="text-align: center; margin-bottom: 40px; font-weight: 800;">You Might Also Like
+                            </h2>
+                            <div
+                                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 30px;">
                                 <c:forEach var="rp" items="${relatedProducts}">
-                                    <a href="product-details?id=${rp.id}" class="related-card">
-                                        <div class="related-img">
-                                            <c:set var="rpFallbackUrl">
-                                                <c:choose>
-                                                    <c:when test="${rp.category.name == 'Electronics'}">
-                                                        https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80
-                                                    </c:when>
-                                                    <c:when test="${rp.category.name == 'Home Appliances'}">
-                                                        https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop&q=80
-                                                    </c:when>
-                                                    <c:when test="${rp.category.name == 'Fashion'}">
-                                                        https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=80
-                                                    </c:when>
-                                                    <c:when test="${rp.category.name == 'Books'}">
-                                                        https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop&q=80
-                                                    </c:when>
-                                                    <c:when test="${rp.category.name == 'Hobbies'}">
-                                                        https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&auto=format&fit=crop&q=80
-                                                    </c:when>
-                                                    <c:when test="${rp.category.name == 'Beauty'}">
-                                                        https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80
-                                                    </c:when>
-                                                    <c:when test="${rp.category.name == 'Home Decor'}">
-                                                        https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80
-                                                    </c:when>
-                                                    <c:when test="${rp.category.name == 'Furniture'}">
-                                                        https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:set>
-                                            <c:choose>
-                                                <c:when test="${not empty rp.imagePath}">
-                                                    <c:choose>
-                                                        <c:when test="${rp.imagePath.startsWith('http')}">
-                                                            <img src="${rp.imagePath}" alt="${rp.name}"
-                                                                onerror="this.src='${rpFallbackUrl}';">
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <img src="${pageContext.request.contextPath}/${rp.imagePath}"
-                                                                alt="${rp.name}" onerror="this.src='${rpFallbackUrl}';">
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <img src="${rpFallbackUrl}" alt="${rp.name}">
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                        <div class="related-info">
-                                            <div class="related-name">${rp.name}</div>
-                                            <div class="related-price">$${rp.price}</div>
+                                    <a href="product-details?id=${rp.id}"
+                                        style="text-decoration: none; color: inherit;">
+                                        <div style="background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; transition: 0.3s;"
+                                            onmouseover="this.style.transform='translateY(-10px)'"
+                                            onmouseout="this.style.transform='translateY(0)'">
+                                            <img src="${rp.imagePath}"
+                                                style="width: 100%; height: 200px; object-fit: cover;">
+                                            <div style="padding: 20px;">
+                                                <div style="font-weight: 700; margin-bottom: 10px;">${rp.name}</div>
+                                                <div style="color: var(--accent); font-weight: 800;">$${rp.price}</div>
+                                            </div>
                                         </div>
                                     </a>
                                 </c:forEach>
@@ -404,5 +344,7 @@
                     </c:if>
                 </div>
         </body>
+
+        </html>
 
         </html>

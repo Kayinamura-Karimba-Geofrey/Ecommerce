@@ -33,6 +33,9 @@
         <mapping class="ecommerce.Model.Order"/>
         <mapping class="ecommerce.Model.CartItem"/>
         <mapping class="ecommerce.Model.OrderItem"/>
+        <mapping class="ecommerce.Model.Review"/>
+        <mapping class="ecommerce.Model.WishlistItem"/>
+        <mapping class="ecommerce.Model.Subscriber"/>
     </session-factory>
 
 </hibernate-configuration>

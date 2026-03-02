@@ -27,6 +27,8 @@ public class ProductServlet extends HttpServlet {
         String search = request.getParameter("search");
         String category = request.getParameter("category");
         String sort = request.getParameter("sort");
+        Double minPrice = request.getParameter("minPrice") != null && !request.getParameter("minPrice").isEmpty() ? Double.parseDouble(request.getParameter("minPrice")) : null;
+        Double maxPrice = request.getParameter("maxPrice") != null && !request.getParameter("maxPrice").isEmpty() ? Double.parseDouble(request.getParameter("maxPrice")) : null;
         int page = 1;
 
         if (request.getParameter("page") != null) {
@@ -38,10 +40,16 @@ public class ProductServlet extends HttpServlet {
 
             StringBuilder hql = new StringBuilder("FROM Product p WHERE p.isDeleted = false");
             if (search != null && !search.isEmpty()) {
-                hql.append(" AND p.name LIKE :search");
+                hql.append(" AND (lower(p.name) LIKE :search OR lower(p.description) LIKE :search)");
             }
-            if (category != null && !category.isEmpty()) {
+            if (category != null && !category.isEmpty() && !"All".equalsIgnoreCase(category)) {
                 hql.append(" AND p.category.name = :category");
+            }
+            if (minPrice != null) {
+                hql.append(" AND p.price >= :minPrice");
+            }
+            if (maxPrice != null) {
+                hql.append(" AND p.price <= :maxPrice");
             }
 
             // Apply Sorting
@@ -55,11 +63,13 @@ public class ProductServlet extends HttpServlet {
 
             var query = session.createQuery(hql.toString(), Product.class);
             if (search != null && !search.isEmpty()) {
-                query.setParameter("search", "%" + search + "%");
+                query.setParameter("search", "%" + search.toLowerCase() + "%");
             }
-            if (category != null && !category.isEmpty()) {
+            if (category != null && !category.isEmpty() && !"All".equalsIgnoreCase(category)) {
                 query.setParameter("category", category);
             }
+            if (minPrice != null) query.setParameter("minPrice", minPrice);
+            if (maxPrice != null) query.setParameter("maxPrice", maxPrice);
 
             query.setFirstResult((page - 1) * PAGE_SIZE);
             query.setMaxResults(PAGE_SIZE);
@@ -68,19 +78,23 @@ public class ProductServlet extends HttpServlet {
 
             StringBuilder countHql = new StringBuilder("SELECT COUNT(p.id) FROM Product p WHERE p.isDeleted = false");
             if (search != null && !search.isEmpty()) {
-                countHql.append(" AND p.name LIKE :search");
+                countHql.append(" AND (lower(p.name) LIKE :search OR lower(p.description) LIKE :search)");
             }
-            if (category != null && !category.isEmpty()) {
+            if (category != null && !category.isEmpty() && !"All".equalsIgnoreCase(category)) {
                 countHql.append(" AND p.category.name = :category");
             }
+            if (minPrice != null) countHql.append(" AND p.price >= :minPrice");
+            if (maxPrice != null) countHql.append(" AND p.price <= :maxPrice");
 
             var countQuery = session.createQuery(countHql.toString(), Long.class);
             if (search != null && !search.isEmpty()) {
-                countQuery.setParameter("search", "%" + search + "%");
+                countQuery.setParameter("search", "%" + search.toLowerCase() + "%");
             }
-            if (category != null && !category.isEmpty()) {
+            if (category != null && !category.isEmpty() && !"All".equalsIgnoreCase(category)) {
                 countQuery.setParameter("category", category);
             }
+            if (minPrice != null) countQuery.setParameter("minPrice", minPrice);
+            if (maxPrice != null) countQuery.setParameter("maxPrice", maxPrice);
 
             Long totalProducts = countQuery.uniqueResult();
             int totalPages = (int) Math.ceil((double) totalProducts / PAGE_SIZE);
@@ -94,6 +108,8 @@ public class ProductServlet extends HttpServlet {
             request.setAttribute("search", search);
             request.setAttribute("selectedCategory", category);
             request.setAttribute("selectedSort", sort);
+            request.setAttribute("minPrice", minPrice);
+            request.setAttribute("maxPrice", maxPrice);
         }
         
         String path = request.getServletPath();
