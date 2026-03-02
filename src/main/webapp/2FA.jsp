@@ -138,6 +138,7 @@
                     </strong></p>
 
                 <form method="post" action="login">
+                    <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
                     <div class="input-group">
                         <label>Authentication Code</label>
                         <input type="text" name="totp" inputmode="numeric" placeholder="000000" maxlength="6"

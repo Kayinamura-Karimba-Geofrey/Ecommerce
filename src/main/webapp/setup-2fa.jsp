@@ -171,6 +171,7 @@
                 </div>
 
                 <form method="post" action="2fa-setup">
+                    <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
                     <div class="form-group">
                         <label>Verify Code</label>
                         <input type="text" name="code" placeholder="000000" maxlength="6" required autocomplete="off">
