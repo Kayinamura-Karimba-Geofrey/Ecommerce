@@ -313,7 +313,8 @@
                                                     <img src="${fp.imagePath}" alt="${fp.name}"
                                                         style="width: 100%; height: 100%; object-fit: cover; transition: 0.6s;"
                                                         onmouseover="this.style.transform='scale(1.1)'"
-                                                        onmouseout="this.style.transform='scale(1)'">
+                                                        onmouseout="this.style.transform='scale(1)'"
+                                                        onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800';">
                                                 </div>
                                                 <div style="padding: 25px;">
                                                     <span
@@ -395,7 +396,8 @@
                                     <div class="product-card">
                                         <div class="image-container">
                                             <a href="product-details?id=${product.id}">
-                                                <img src="${product.imagePath}" alt="${product.name}">
+                                                <img src="${product.imagePath}" alt="${product.name}"
+                                                    onerror="this.src='https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800';">
                                                 <span class="category-badge">${product.category.name}</span>
                                             </a>
                                         </div>

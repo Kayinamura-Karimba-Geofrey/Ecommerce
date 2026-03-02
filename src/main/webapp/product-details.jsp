@@ -236,7 +236,8 @@
                 <div class="container">
                     <div class="product-grid">
                         <div class="image-gallery">
-                            <img src="${product.imagePath}" alt="${product.name}">
+                            <img src="${product.imagePath}" alt="${product.name}"
+                                onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800';">
                         </div>
 
                         <div class="product-info">
@@ -334,7 +335,8 @@
                                             onmouseover="this.style.transform='translateY(-10px)'"
                                             onmouseout="this.style.transform='translateY(0)'">
                                             <img src="${rp.imagePath}"
-                                                style="width: 100%; height: 200px; object-fit: cover;">
+                                                style="width: 100%; height: 200px; object-fit: cover;"
+                                                onerror="this.src='https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800';">
                                             <div style="padding: 20px;">
                                                 <div style="font-weight: 700; margin-bottom: 10px;">${rp.name}</div>
                                                 <div style="color: var(--accent); font-weight: 800;">$${rp.price}</div>
