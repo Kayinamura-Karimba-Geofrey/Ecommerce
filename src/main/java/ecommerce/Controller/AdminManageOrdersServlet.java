@@ -21,7 +21,7 @@ public class AdminManageOrdersServlet extends HttpServlet {
                      HibernateUtil.getSessionFactory().openSession()) {
 
             List<Order> orders = session.createQuery(
-                            "FROM Order o ORDER BY o.orderDate DESC",
+                            "SELECT DISTINCT o FROM Order o LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.product ORDER BY o.orderDate DESC",
                             Order.class)
                     .list();
 

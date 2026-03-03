@@ -27,7 +27,11 @@ public class OrderSuccessServlet extends HttpServlet {
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             int id = Integer.parseInt(idStr);
-            Order order = session.get(Order.class, id);
+            Order order = session.createQuery(
+                            "SELECT o FROM Order o LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.product WHERE o.id = :id",
+                            Order.class)
+                    .setParameter("id", id)
+                    .uniqueResult();
 
             if (order == null) {
                 response.sendRedirect("products");

@@ -1,4 +1,4 @@
-package ecommerce.filter;
+package ecommerce.Filter;
 
 import ecommerce.Util.InputSanitizer;
 import jakarta.servlet.*;

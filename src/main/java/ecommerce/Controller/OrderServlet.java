@@ -32,14 +32,14 @@ public class OrderServlet extends HttpServlet {
             List<Order> orders;
 
             if ("ADMIN".equals(user.getRole())) {
-                // Admins see all orders, sorted newest first
+                // Admins see all orders, sorted newest first. Use JOIN FETCH to avoid LazyInitializationException in JSP
                 orders = hibernateSession
-                        .createQuery("FROM Order ORDER BY orderDate DESC", Order.class)
+                        .createQuery("SELECT DISTINCT o FROM Order o LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.product ORDER BY o.orderDate DESC", Order.class)
                         .list();
             } else {
-                // Users see only their own orders
+                // Users see only their own orders. Use JOIN FETCH for efficiency
                 orders = hibernateSession
-                        .createQuery("FROM Order WHERE user.id = :userId ORDER BY orderDate DESC", Order.class)
+                        .createQuery("SELECT DISTINCT o FROM Order o LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.product WHERE o.user.id = :userId ORDER BY o.orderDate DESC", Order.class)
                         .setParameter("userId", user.getId())
                         .list();
             }
@@ -73,8 +73,15 @@ public class OrderServlet extends HttpServlet {
                 String tracking = request.getParameter("trackingNumber");
                 String delivery = request.getParameter("estimatedDelivery");
                 if (tracking != null) order.setTrackingNumber(tracking);
-                if (delivery != null && !delivery.isEmpty()) {
-                    order.setEstimatedDelivery(java.time.LocalDateTime.parse(delivery));
+                if (delivery != null && !delivery.trim().isEmpty()) {
+                    try {
+                        // Handle potential format differences (T vs space, seconds vs no seconds)
+                        String formattedDate = delivery.replace(" ", "T");
+                        if (formattedDate.length() == 16) formattedDate += ":00"; 
+                        order.setEstimatedDelivery(java.time.LocalDateTime.parse(formattedDate));
+                    } catch (Exception e) {
+                        System.err.println("[OrderServlet] Failed to parse delivery date: " + delivery);
+                    }
                 }
                 hibernateSession.merge(order);
                 System.out.println("[OrderServlet] Updated order #" + orderId);

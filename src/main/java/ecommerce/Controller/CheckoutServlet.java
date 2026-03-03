@@ -23,6 +23,7 @@ import java.util.Map;
 public class CheckoutServlet extends HttpServlet {
 
     private OrderService orderService;
+    private ecommerce.Services.AuditService auditService;
 
     private static final String ATTR_LOGGED_USER = "loggedUser";
     private static final String ATTR_CART = "guestCart"; // same cart as CartItemServlet
@@ -30,6 +31,7 @@ public class CheckoutServlet extends HttpServlet {
     @Override
     public void init() {
         orderService = new OrderService();
+        auditService = new ecommerce.Services.AuditService();
     }
 
     @Override
@@ -201,6 +203,16 @@ public class CheckoutServlet extends HttpServlet {
                 session.removeAttribute(ATTR_CART);
 
                 System.out.println("[CheckoutServlet] Order created successfully: " + order.getId());
+                
+                // Log the action
+                ecommerce.Model.AuditLog log = new ecommerce.Model.AuditLog();
+                log.setAdmin(hibernateSession.get(User.class, user.getId()));
+                log.setAction("ORDER_PLACED");
+                log.setDetails("Order #" + order.getId() + " placed for $" + order.getTotalAmount());
+                log.setTargetId(String.valueOf(order.getId()));
+                log.setTimestamp(java.time.LocalDateTime.now());
+                auditService.logAction(log);
+
                 response.sendRedirect(request.getContextPath() + "/order-success?id=" + order.getId());
 
             } catch (Exception e) {

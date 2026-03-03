@@ -307,6 +307,23 @@
                         </div>
                     </header>
 
+                    <c:if test="${not empty param.error}">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #ef4444; padding: 15px; border-radius: 12px; margin-bottom: 25px; text-align: center; font-weight: 600;">
+                            <c:choose>
+                                <c:when test="${param.error == 'insufficient_stock'}">
+                                    One or more items in your cart do not have enough stock. Please adjust quantities.
+                                </c:when>
+                                <c:when test="${param.error == 'checkout_failed'}">
+                                    Something went wrong during checkout. Please try again.
+                                </c:when>
+                                <c:otherwise>
+                                    An error occurred: ${param.error}
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </c:if>
+
                     <div class="cart-card">
                         <c:choose>
                             <c:when test="${not empty cartItems}">

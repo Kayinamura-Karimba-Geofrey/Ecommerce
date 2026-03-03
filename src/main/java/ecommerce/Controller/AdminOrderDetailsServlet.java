@@ -20,7 +20,11 @@ public class AdminOrderDetailsServlet extends HttpServlet {
         try (Session session =
                      HibernateUtil.getSessionFactory().openSession()) {
 
-            Order order = session.get(Order.class, id);
+            Order order = session.createQuery(
+                            "SELECT o FROM Order o LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.product WHERE o.id = :id",
+                            Order.class)
+                    .setParameter("id", id)
+                    .uniqueResult();
 
             request.setAttribute("order", order);
 
