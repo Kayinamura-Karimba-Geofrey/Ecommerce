@@ -69,7 +69,7 @@
                     /* Grid Styles */
                     .products-grid {
                         display: grid;
-                        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                        grid-template-columns: repeat(3, 1fr);
                         gap: 20px;
                     }
 
@@ -97,7 +97,7 @@
                         }
 
                         .products-grid {
-                            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                            grid-template-columns: repeat(2, 1fr);
                             gap: 15px;
                         }
 
@@ -346,8 +346,7 @@
                                         style="background: var(--primary); color: white; padding: 10px; border-radius: 12px; font-size: 1.2rem;">✨</span>
                                     Special Offers & Featured
                                 </h2>
-                                <div
-                                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
                                     <c:forEach var="fp" items="${featuredProducts}">
                                         <div class="featured-card"
                                             style="position: relative; background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 20px; overflow: hidden; transition: 0.4s; height: 100%;">
