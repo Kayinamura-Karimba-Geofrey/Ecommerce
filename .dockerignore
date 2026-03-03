@@ -1,0 +1,16 @@
+.git
+.gitignore
+.idea
+.mvn
+target/
+*.log
+*.txt
+*.md
+docker-compose.yml
+railway.json
+build_*/
+current_build_*/
+mvnw
+mvnw.cmd
+pom.xml.versionsBackup
+/src/test/
