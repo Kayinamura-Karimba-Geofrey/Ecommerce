@@ -174,6 +174,30 @@
         @media (max-width: 900px) {
           .container {
             grid-template-columns: 1fr;
+            gap: 25px;
+          }
+        }
+
+        @media (max-width: 600px) {
+          body {
+            padding: 70px 15px 30px;
+          }
+
+          .container {
+            gap: 20px;
+          }
+
+          .checkout-header h1 {
+            font-size: 1.8rem;
+          }
+
+          .card {
+            padding: 20px;
+          }
+
+          .btn-confirm {
+            font-size: 1rem;
+            padding: 15px;
           }
         }
       </style>

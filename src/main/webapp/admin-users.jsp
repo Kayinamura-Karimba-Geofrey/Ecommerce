@@ -194,18 +194,36 @@
                 }
 
                 @media (max-width: 768px) {
+                    .admin-header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 12px;
+                    }
+
                     .admin-header h1 {
-                        font-size: 2rem;
+                        font-size: 1.8rem;
                     }
 
                     .admin-container {
-                        padding: 20px 15px;
+                        padding: 80px 12px 30px;
                     }
 
                     .admin-table th,
                     .admin-table td {
-                        padding: 12px 15px;
-                        font-size: 0.85rem;
+                        padding: 12px 10px;
+                        font-size: 0.82rem;
+                    }
+
+                    .action-btns {
+                        flex-wrap: wrap;
+                    }
+                }
+
+                @media (max-width: 600px) {
+
+                    .admin-table th:nth-child(1),
+                    .admin-table td:nth-child(1) {
+                        display: none;
                     }
                 }
             </style>

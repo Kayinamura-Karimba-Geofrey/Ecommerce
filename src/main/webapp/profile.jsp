@@ -190,6 +190,47 @@
                 .back-link:hover {
                     color: var(--primary);
                 }
+
+                /* ─── Responsive ─── */
+                @media (max-width: 768px) {
+                    .container {
+                        margin: 80px auto 40px;
+                        padding: 0 15px;
+                    }
+
+                    .profile-card {
+                        padding: 24px;
+                    }
+
+                    .profile-header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 16px;
+                        margin-bottom: 28px;
+                        padding-bottom: 20px;
+                    }
+
+                    .user-info h1 {
+                        font-size: 1.4rem;
+                    }
+
+                    .status-box {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 16px;
+                    }
+
+                    .status-info p {
+                        max-width: 100%;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .btn {
+                        width: 100%;
+                        text-align: center;
+                    }
+                }
             </style>
         </head>
 

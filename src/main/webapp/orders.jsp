@@ -231,6 +231,63 @@
                 .btn-shop:hover {
                     background: var(--primary-hover);
                 }
+
+                /* ─── Responsive ─── */
+                @media (max-width: 768px) {
+                    body {
+                        padding: 80px 12px 40px;
+                    }
+
+                    .page-title {
+                        font-size: 1.8rem;
+                        margin-bottom: 25px;
+                    }
+
+                    .order-header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 10px;
+                        padding: 15px 18px;
+                    }
+
+                    .order-items {
+                        padding: 15px 18px;
+                    }
+
+                    .order-footer {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        padding: 15px 18px;
+                        gap: 15px;
+                    }
+
+                    .order-footer form {
+                        flex-direction: column !important;
+                        width: 100%;
+                    }
+
+                    .order-footer form input,
+                    .order-footer form select,
+                    .order-footer form button {
+                        width: 100% !important;
+                    }
+
+                    .total-amount {
+                        font-size: 1.1rem;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .order-item-row {
+                        flex-wrap: wrap;
+                        gap: 8px;
+                    }
+
+                    .order-card {
+                        border-radius: 14px;
+                        margin-bottom: 16px;
+                    }
+                }
             </style>
         </head>
 

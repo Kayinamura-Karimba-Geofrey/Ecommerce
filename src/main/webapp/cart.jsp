@@ -200,6 +200,87 @@
                     justify-content: flex-end;
                     align-items: center;
                     gap: 40px;
+                    flex-wrap: wrap;
+                }
+
+                /* ─── Responsive Styles ─── */
+                @media (max-width: 768px) {
+                    body {
+                        padding: 70px 15px 30px;
+                    }
+
+                    .header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 15px;
+                    }
+
+                    .header h1 {
+                        font-size: 1.8rem;
+                    }
+
+                    .cart-card {
+                        padding: 18px;
+                    }
+
+                    /* Hide table headers on mobile */
+                    .cart-table thead {
+                        display: none;
+                    }
+
+                    /* Stack each row as a card */
+                    .cart-table,
+                    .cart-table tbody,
+                    .cart-table tr,
+                    .cart-table td {
+                        display: block;
+                        width: 100%;
+                    }
+
+                    .cart-item {
+                        border: 1px solid var(--glass-border);
+                        border-radius: 16px;
+                        padding: 16px;
+                        margin-bottom: 16px;
+                        background: rgba(15, 23, 42, 0.3);
+                    }
+
+                    .cart-item td {
+                        padding: 8px 0;
+                        border-bottom: none;
+                    }
+
+                    .cart-item td::before {
+                        content: attr(data-label);
+                        font-weight: 700;
+                        color: var(--text-muted);
+                        font-size: 0.75rem;
+                        text-transform: uppercase;
+                        display: block;
+                        margin-bottom: 4px;
+                    }
+
+                    .cart-footer {
+                        flex-direction: column;
+                        align-items: stretch;
+                        gap: 20px;
+                    }
+
+                    .grand-total {
+                        text-align: center;
+                    }
+
+                    .btn-checkout {
+                        text-align: center;
+                        width: 100%;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .product-info {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
                 }
 
                 .grand-total {

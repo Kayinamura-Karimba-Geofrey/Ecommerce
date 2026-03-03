@@ -160,6 +160,59 @@
                     color: white;
                     font-family: inherit;
                 }
+
+                /* ─── Responsive ─── */
+                @media (max-width: 768px) {
+                    body {
+                        padding-top: 80px;
+                    }
+
+                    .container {
+                        padding: 0 12px;
+                    }
+
+                    .header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 15px;
+                        margin-bottom: 25px;
+                    }
+
+                    .header h1 {
+                        font-size: 1.8rem;
+                    }
+
+                    .header .btn {
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    .card {
+                        padding: 15px;
+                        overflow-x: auto;
+                    }
+
+                    .ticket-list th,
+                    .ticket-list td {
+                        padding: 10px;
+                        font-size: 0.85rem;
+                    }
+
+                    .modal-content {
+                        padding: 25px 20px;
+                        margin: 0 12px;
+                    }
+                }
+
+                @media (max-width: 480px) {
+
+                    .ticket-list th:nth-child(1),
+                    .ticket-list td:nth-child(1),
+                    .ticket-list th:nth-child(4),
+                    .ticket-list td:nth-child(4) {
+                        display: none;
+                    }
+                }
             </style>
         </head>
 
