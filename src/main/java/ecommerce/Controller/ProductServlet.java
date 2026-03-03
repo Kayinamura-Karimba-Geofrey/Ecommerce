@@ -114,6 +114,12 @@ public class ProductServlet extends HttpServlet {
             request.setAttribute("selectedSort", sort);
             request.setAttribute("minPrice", minPrice);
             request.setAttribute("maxPrice", maxPrice);
+        } catch (Exception e) {
+            System.err.println("[ProductServlet] CRITICAL ERROR in doGet:");
+            e.printStackTrace();
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            return;
         }
         
         String path = request.getServletPath();

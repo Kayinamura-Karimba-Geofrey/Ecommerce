@@ -99,6 +99,14 @@
                 <p>The page you are looking for might have been removed, had its name changed, or is temporarily
                     unavailable.</p>
 
+                <c:if test="${not empty error or not empty exception.message}">
+                    <div
+                        style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; border-radius: 12px; padding: 15px; margin-bottom: 30px; text-align: left; font-family: monospace; font-size: 0.85rem; color: #ef4444; overflow-x: auto;">
+                        <strong>Error Details:</strong><br>
+                        ${not empty error ? error : exception.message}
+                    </div>
+                </c:if>
+
                 <a href="${pageContext.request.contextPath}/products" class="btn-home">Back to Store</a>
             </div>
         </body>

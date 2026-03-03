@@ -267,7 +267,7 @@
                     <div class="product-grid">
                         <div class="image-gallery">
                             <c:set var="pdImg"
-                                value="${product.imagePath.startsWith('http') ? product.imagePath : pageContext.request.contextPath.concat('/').concat(product.imagePath)}" />
+                                value="${not empty product.imagePath and product.imagePath.startsWith('http') ? product.imagePath : pageContext.request.contextPath.concat('/').concat(product.imagePath)}" />
                             <img src="${pdImg}" alt="${product.name}"
                                 onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800';">
                         </div>

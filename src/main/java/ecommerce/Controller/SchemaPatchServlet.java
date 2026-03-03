@@ -34,6 +34,20 @@ public class SchemaPatchServlet extends HttpServlet {
                         }
                     }
 
+                    out.println("\nExisting columns in 'products':");
+                    try (var rs = connection.getMetaData().getColumns(null, null, "products", null)) {
+                        while (rs.next()) {
+                            out.println("- " + rs.getString("COLUMN_NAME") + " (" + rs.getString("TYPE_NAME") + ")");
+                        }
+                    }
+
+                    out.println("\nExisting columns in 'orders':");
+                    try (var rs = connection.getMetaData().getColumns(null, null, "orders", null)) {
+                        while (rs.next()) {
+                            out.println("- " + rs.getString("COLUMN_NAME") + " (" + rs.getString("TYPE_NAME") + ")");
+                        }
+                    }
+
                     // 2. Run patches
                     String[] queries = {
                         "ALTER TABLE users ADD COLUMN IF NOT EXISTS is_blocked BOOLEAN DEFAULT FALSE;",

@@ -19,14 +19,14 @@ public class Product {
 
     private int stock;
 
-    @Column(name = "image_path")
+    @Column(name = "imagepath")
     private String imagePath;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
     
-    @Column(name = "is_deleted", nullable = false)
+    @Column(name = "isdeleted", nullable = false)
     private boolean isDeleted = false;
 
     @Column(name = "is_featured", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")

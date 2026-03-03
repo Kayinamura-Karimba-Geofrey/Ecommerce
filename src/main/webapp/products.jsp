@@ -358,7 +358,7 @@
                                                 style="text-decoration: none; color: inherit;">
                                                 <div style="height: 220px; overflow: hidden;">
                                                     <c:set var="fpImg"
-                                                        value="${fp.imagePath.startsWith('http') ? fp.imagePath : pageContext.request.contextPath.concat('/').concat(fp.imagePath)}" />
+                                                        value="${not empty fp.imagePath and fp.imagePath.startsWith('http') ? fp.imagePath : pageContext.request.contextPath.concat('/').concat(fp.imagePath)}" />
                                                     <img src="${fpImg}" alt="${fp.name}"
                                                         style="width: 100%; height: 100%; object-fit: cover; transition: 0.6s;"
                                                         onmouseover="this.style.transform='scale(1.1)'"
@@ -446,7 +446,7 @@
                                         <div class="image-container">
                                             <a href="product-details?id=${product.id}">
                                                 <c:set var="pImg"
-                                                    value="${product.imagePath.startsWith('http') ? product.imagePath : pageContext.request.contextPath.concat('/').concat(product.imagePath)}" />
+                                                    value="${not empty product.imagePath and product.imagePath.startsWith('http') ? product.imagePath : pageContext.request.contextPath.concat('/').concat(product.imagePath)}" />
                                                 <img src="${pImg}" alt="${product.name}"
                                                     onerror="this.src='https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800';">
                                                 <span class="category-badge">${product.category.name}</span>
