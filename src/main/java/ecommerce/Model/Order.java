@@ -16,18 +16,25 @@ public class Order {
 
     @Column(name = "totalamount")
     private double totalAmount;
+
+    @Column(name = "subtotal")
     private double subtotal;
+
+    @Column(name = "tax")
     private double tax;
+
     @Column(name = "shippingcost")
-    private double shippingCost;
+    private Double shippingCost;
+
     @Column(name = "discountamount")
-    private double discountAmount;
+    private Double discountAmount;
+
     @Column(name = "couponcode")
     private String couponCode;
-    
+
     @Column(name = "billingaddress", columnDefinition = "TEXT")
     private String billingAddress;
-    
+
     @Column(name = "shippingaddress", columnDefinition = "TEXT")
     private String shippingAddress;
 
@@ -37,10 +44,11 @@ public class Order {
     @Column(name = "orderdate")
     private java.time.LocalDateTime orderDate;
 
-    @Column(name = "trackingnumber")
+    // These columns were added via SchemaPatchServlet (with underscore)
+    @Column(name = "tracking_number")
     private String trackingNumber;
 
-    @Column(name = "estimateddelivery")
+    @Column(name = "estimated_delivery")
     private java.time.LocalDateTime estimatedDelivery;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
@@ -89,16 +97,16 @@ public class Order {
         this.tax = tax;
     }
 
-    public double getShippingCost() {
+    public Double getShippingCost() {
         return shippingCost;
     }
 
-    public void setShippingCost(double shippingCost) {
+    public void setShippingCost(Double shippingCost) {
         this.shippingCost = shippingCost;
     }
 
-    public double getDiscountAmount() { return discountAmount; }
-    public void setDiscountAmount(double discountAmount) { this.discountAmount = discountAmount; }
+    public Double getDiscountAmount() { return discountAmount; }
+    public void setDiscountAmount(Double discountAmount) { this.discountAmount = discountAmount; }
 
     public String getCouponCode() { return couponCode; }
     public void setCouponCode(String couponCode) { this.couponCode = couponCode; }

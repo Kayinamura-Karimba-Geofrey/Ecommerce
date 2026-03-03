@@ -31,17 +31,25 @@ public class OrderServlet extends HttpServlet {
 
             List<Order> orders;
 
-            if ("ADMIN".equals(user.getRole())) {
-                // Admins see all orders, sorted newest first. Use JOIN FETCH to avoid LazyInitializationException in JSP
-                orders = hibernateSession
-                        .createQuery("SELECT DISTINCT o FROM Order o LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.product ORDER BY o.orderDate DESC", Order.class)
-                        .list();
-            } else {
-                // Users see only their own orders. Use JOIN FETCH for efficiency
-                orders = hibernateSession
-                        .createQuery("SELECT DISTINCT o FROM Order o LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.product WHERE o.user.id = :userId ORDER BY o.orderDate DESC", Order.class)
-                        .setParameter("userId", user.getId())
-                        .list();
+            try {
+                if ("ADMIN".equals(user.getRole())) {
+                    // Admins see all orders, sorted newest first. Use JOIN FETCH to avoid LazyInitializationException in JSP
+                    orders = hibernateSession
+                            .createQuery("SELECT DISTINCT o FROM Order o LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.product ORDER BY o.orderDate DESC", Order.class)
+                            .list();
+                } else {
+                    // Users see only their own orders. Use JOIN FETCH for efficiency
+                    orders = hibernateSession
+                            .createQuery("SELECT DISTINCT o FROM Order o LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.product WHERE o.user.id = :userId ORDER BY o.orderDate DESC", Order.class)
+                            .setParameter("userId", user.getId())
+                            .list();
+                }
+            } catch (Exception e) {
+                System.err.println("[OrderServlet] Failed to fetch orders: " + e.getMessage());
+                e.printStackTrace();
+                request.setAttribute("error", "Failed to load orders: " + e.getMessage());
+                request.getRequestDispatcher("/error.jsp").forward(request, response);
+                return;
             }
 
             request.setAttribute("orders", orders);
