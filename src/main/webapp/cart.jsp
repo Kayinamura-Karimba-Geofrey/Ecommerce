@@ -316,6 +316,10 @@
                                 </c:when>
                                 <c:when test="${param.error == 'checkout_failed'}">
                                     Something went wrong during checkout. Please try again.
+                                    <c:if test="${not empty param.msg}">
+                                        <br /><span style="font-weight: 400; font-size: 0.85rem; opacity: 0.9;">Reason:
+                                            ${param.msg}</span>
+                                    </c:if>
                                 </c:when>
                                 <c:otherwise>
                                     An error occurred: ${param.error}

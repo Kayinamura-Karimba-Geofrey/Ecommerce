@@ -217,9 +217,10 @@ public class CheckoutServlet extends HttpServlet {
 
             } catch (Exception e) {
                 if (tx != null && tx.isActive()) tx.rollback();
-                System.err.println("[CheckoutServlet] Error during checkout: " + e.getMessage());
+                System.err.println("[CheckoutServlet] CRITICAL ERROR during checkout process:");
                 e.printStackTrace();
-                response.sendRedirect(request.getContextPath() + "/cart?error=checkout_failed");
+                session.setAttribute("lastCheckoutError", e.getMessage());
+                response.sendRedirect(request.getContextPath() + "/cart?error=checkout_failed&msg=" + java.net.URLEncoder.encode(e.getMessage() != null ? e.getMessage() : "Unknown Error", "UTF-8"));
             }
         }
     }

@@ -14,22 +14,27 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "total_amount")
     private double totalAmount;
     private double subtotal;
     private double tax;
+    @Column(name = "shipping_cost")
     private double shippingCost;
+    @Column(name = "discount_amount")
     private double discountAmount;
+    @Column(name = "coupon_code")
     private String couponCode;
     
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "billing_address", columnDefinition = "TEXT")
     private String billingAddress;
     
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "shipping_address", columnDefinition = "TEXT")
     private String shippingAddress;
 
     @Column(nullable = false)
     private String status;
 
+    @Column(name = "order_date")
     private java.time.LocalDateTime orderDate;
 
     @Column(name = "tracking_number")

@@ -29,6 +29,11 @@ public class DiagnosticServlet extends HttpServlet {
                 out.println("  Role in session: " + loggedUser.getRole());
                 out.println("  Name in session: " + loggedUser.getFullname());
 
+                String lastErr = (String) httpSession.getAttribute("lastCheckoutError");
+                if (lastErr != null) {
+                    out.println("  LAST CHECKOUT ERROR: " + lastErr);
+                }
+
 
                 User dbUser = session.get(User.class, loggedUser.getId());
                 if (dbUser != null) {
