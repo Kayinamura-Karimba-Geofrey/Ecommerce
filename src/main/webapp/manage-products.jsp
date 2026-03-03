@@ -565,7 +565,7 @@
                                                     </c:when>
                                                     <c:otherwise>
                                                         <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&auto=format&fit=crop&q=80"
-                                                             alt="${p.name}">
+                                                            alt="${p.name}">
                                                     </c:otherwise>
                                                 </c:choose>
                                             </div>
@@ -586,13 +586,17 @@
                                         <td>
                                             <div class="actions-cell">
                                                 <!-- Edit Logic -->
-                                                <button class="btn-icon btn-edit"
-                                                    onclick="openModal('edit', ${p.id}, '${p.name.replace('\'','\\\'')}', '${p.description.replace('\'','\\\'')}', ${p.price}, ${p.stock}, ${p.category.id})"
+                                                <button class="btn-icon btn-edit" data-id="${p.id}"
+                                                    data-name="<c:out value='${p.name}'/>"
+                                                    data-desc="<c:out value='${p.description}'/>"
+                                                    data-price="${p.price}" data-stock="${p.stock}"
+                                                    data-cat="${p.category.id}" onclick="openEditModal(this)"
                                                     title="Edit">✏️</button>
 
                                                 <!-- Delete Logic -->
                                                 <form action="/demo1/admin/products" method="post" style="margin:0;"
-                                                    onsubmit="return confirm('Are you sure you want to delete ${p.name.replace('\'','\\\'')}?');">
+                                                    data-name="<c:out value='${p.name}'/>"
+                                                    onsubmit="return confirm('Are you sure you want to delete ' + this.getAttribute('data-name') + '?');">
                                                     <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
                                                     <input type="hidden" name="action" value="delete">
                                                     <input type="hidden" name="id" value="${p.id}">
@@ -686,6 +690,16 @@
 
                 <script>
                     const modal = document.getElementById('productModal');
+
+                    function openEditModal(btn) {
+                        const id = btn.getAttribute('data-id');
+                        const name = btn.getAttribute('data-name');
+                        const desc = btn.getAttribute('data-desc');
+                        const price = btn.getAttribute('data-price');
+                        const stock = btn.getAttribute('data-stock');
+                        const catId = btn.getAttribute('data-cat');
+                        openModal('edit', id, name, desc, price, stock, catId);
+                    }
 
                     function openModal(mode, id, name, desc, price, stock, catId) {
                         modal.classList.add('active');
