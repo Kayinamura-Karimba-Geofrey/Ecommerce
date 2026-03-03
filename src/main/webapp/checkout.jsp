@@ -191,7 +191,6 @@
           <main>
             <form action="checkout" method="post" id="checkoutForm">
               <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
-              <input type="hidden" name="promoCode" value="${promoCode}">
               <div class="card">
                 <div class="section-title">
                   <span>📍</span> Delivery Information
@@ -243,34 +242,13 @@
                 </c:forEach>
               </div>
 
-              <div class="promo-section"
-                style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--glass-border);">
-                <form action="checkout" method="get" style="display: flex; gap: 10px;">
-                  <input type="text" name="promoCode" placeholder="Promo Code" value="${promoCode}"
-                    style="flex: 1; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">
-                  <button type="submit" class="btn-confirm"
-                    style="padding: 10px 20px; margin-top: 0; font-size: 0.9rem; width: auto;">Apply</button>
-                </form>
-                <c:if test="${not empty promoError}">
-                  <p style="color: #ef4444; font-size: 0.85rem; margin-top: 5px;">${promoError}</p>
-                </c:if>
-                <c:if test="${not empty coupon}">
-                  <p style="color: var(--accent); font-size: 0.85rem; margin-top: 5px;">Coupon "${coupon.code}" applied:
-                    ${coupon.discountPercent}% OFF</p>
-                </c:if>
-              </div>
+              <!-- Removed Promo Section -->
 
               <div class="summary-details">
                 <div class="summary-item">
                   <span>Subtotal</span>
                   <span>$${subtotal}</span>
                 </div>
-                <c:if test="${discountAmount > 0}">
-                  <div class="summary-item">
-                    <span>Discount</span>
-                    <span style="color: var(--accent)">-$${discountAmount}</span>
-                  </div>
-                </c:if>
                 <div class="summary-item">
                   <span>Tax (10%)</span>
                   <span>$${tax}</span>
