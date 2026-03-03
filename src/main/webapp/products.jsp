@@ -69,7 +69,7 @@
                     /* Grid Styles */
                     .products-grid {
                         display: grid;
-                        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                        grid-template-columns: repeat(3, 1fr);
                         gap: 30px;
                     }
 
@@ -97,7 +97,7 @@
                         }
 
                         .products-grid {
-                            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                            grid-template-columns: repeat(2, 1fr);
                             gap: 20px;
                         }
 
