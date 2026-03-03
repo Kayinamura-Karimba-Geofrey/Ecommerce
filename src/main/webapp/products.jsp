@@ -69,8 +69,8 @@
                     /* Grid Styles */
                     .products-grid {
                         display: grid;
-                        grid-template-columns: repeat(3, 1fr);
-                        gap: 30px;
+                        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                        gap: 20px;
                     }
 
                     /* Responsiveness */
@@ -97,8 +97,8 @@
                         }
 
                         .products-grid {
-                            grid-template-columns: repeat(2, 1fr);
-                            gap: 20px;
+                            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                            gap: 15px;
                         }
 
                         h1 {
@@ -203,7 +203,7 @@
 
                     .image-container {
                         position: relative;
-                        height: 220px;
+                        height: 180px;
                         overflow: hidden;
                     }
 
@@ -220,37 +220,37 @@
 
                     .category-badge {
                         position: absolute;
-                        top: 15px;
-                        right: 15px;
+                        top: 10px;
+                        right: 10px;
                         background: rgba(15, 23, 42, 0.6);
                         backdrop-filter: blur(5px);
-                        padding: 5px 12px;
+                        padding: 4px 10px;
                         border-radius: 20px;
-                        font-size: 0.75rem;
+                        font-size: 0.7rem;
                         font-weight: 600;
                         border: 1px solid var(--glass-border);
                         color: var(--text-main);
                     }
 
                     .content {
-                        padding: 24px;
+                        padding: 16px;
                         flex-grow: 1;
                         display: flex;
                         flex-direction: column;
                     }
 
                     .product-name {
-                        font-size: 1.25rem;
+                        font-size: 1.1rem;
                         font-weight: 600;
-                        margin-bottom: 10px;
+                        margin-bottom: 8px;
                         color: var(--text-main);
                     }
 
                     .product-desc {
                         color: var(--text-muted);
-                        font-size: 0.9rem;
-                        line-height: 1.5;
-                        margin-bottom: 20px;
+                        font-size: 0.85rem;
+                        line-height: 1.4;
+                        margin-bottom: 15px;
                     }
 
                     .footer-action {
@@ -261,7 +261,7 @@
                     }
 
                     .price {
-                        font-size: 1.4rem;
+                        font-size: 1.2rem;
                         font-weight: 700;
                         color: var(--accent);
                     }
@@ -270,12 +270,12 @@
                         background: var(--primary);
                         color: white;
                         border: none;
-                        padding: 10px 20px;
+                        padding: 8px 16px;
                         border-radius: 12px;
                         font-weight: 600;
                         cursor: pointer;
                         text-decoration: none;
-                        font-size: 0.9rem;
+                        font-size: 0.85rem;
                     }
 
                     .pagination {
@@ -347,16 +347,16 @@
                                     Special Offers & Featured
                                 </h2>
                                 <div
-                                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px;">
+                                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
                                     <c:forEach var="fp" items="${featuredProducts}">
                                         <div class="featured-card"
-                                            style="position: relative; background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 24px; overflow: hidden; transition: 0.4s; height: 100%;">
+                                            style="position: relative; background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 20px; overflow: hidden; transition: 0.4s; height: 100%;">
                                             <div
-                                                style="position: absolute; top: 15px; left: 15px; background: var(--primary); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; z-index: 10;">
+                                                style="position: absolute; top: 10px; left: 10px; background: var(--primary); color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; z-index: 10;">
                                                 FEATURED</div>
                                             <a href="product-details?id=${fp.id}"
                                                 style="text-decoration: none; color: inherit;">
-                                                <div style="height: 220px; overflow: hidden;">
+                                                <div style="height: 180px; overflow: hidden;">
                                                     <c:set var="fpImg"
                                                         value="${not empty fp.imagePath and fp.imagePath.startsWith('http') ? fp.imagePath : pageContext.request.contextPath.concat('/').concat(fp.imagePath)}" />
                                                     <img src="${fpImg}" alt="${fp.name}"
@@ -365,16 +365,16 @@
                                                         onmouseout="this.style.transform='scale(1)'"
                                                         onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800';">
                                                 </div>
-                                                <div style="padding: 25px;">
+                                                <div style="padding: 16px;">
                                                     <span
-                                                        style="color: var(--primary); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">${fp.category.name}</span>
-                                                    <h3 style="font-size: 1.25rem; margin: 10px 0;">${fp.name}</h3>
+                                                        style="color: var(--primary); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">${fp.category.name}</span>
+                                                    <h3 style="font-size: 1.15rem; margin: 8px 0;">${fp.name}</h3>
                                                     <div
                                                         style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
                                                         <span
-                                                            style="font-size: 1.5rem; font-weight: 800; color: var(--accent);">$${fp.price}</span>
+                                                            style="font-size: 1.3rem; font-weight: 800; color: var(--accent);">$${fp.price}</span>
                                                         <div
-                                                            style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                                                            style="background: rgba(255,255,255,0.05); padding: 6px 8px; border-radius: 10px; border: 1px solid var(--glass-border); font-size: 0.9rem;">
                                                             🛒</div>
                                                     </div>
                                                 </div>
