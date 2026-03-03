@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+        <c:if test="${empty sessionScope.loggedUser}">
+            <c:redirect url="/login.jsp" />
+        </c:if>
         <!DOCTYPE html>
         <html lang="en">
 

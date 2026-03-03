@@ -15,6 +15,8 @@ import dev.samstevens.totp.code.DefaultCodeGenerator;
 import dev.samstevens.totp.time.SystemTimeProvider;
 import dev.samstevens.totp.code.DefaultCodeVerifier;
 
+import ecommerce.Util.ReCaptchaValidator;
+
 import java.io.IOException;
 
 @WebServlet("/login")
@@ -67,6 +69,13 @@ public class LoginServlet extends HttpServlet {
         // Normal email/password login flow
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+
+        if (!ReCaptchaValidator.verify(gRecaptchaResponse)) {
+            request.setAttribute("error", "Please complete the reCAPTCHA verification to proceed.");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            return;
+        }
 
         User user = (email == null || email.isBlank()) ? null : userDAO.findByEmail(email);
 

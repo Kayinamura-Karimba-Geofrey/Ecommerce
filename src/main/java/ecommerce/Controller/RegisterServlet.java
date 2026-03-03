@@ -8,6 +8,8 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.*;
 import org.mindrot.jbcrypt.BCrypt;
 
+import ecommerce.Util.ReCaptchaValidator;
+
 import java.io.IOException;
 import java.util.List;
 @WebServlet("/register")
@@ -28,8 +30,15 @@ public class RegisterServlet extends HttpServlet {
         String email      = ecommerce.Util.InputSanitizer.sanitizeLine(request.getParameter("email"));
         String rawPassword = request.getParameter("password");
         String role = "USER";
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 
         // ── Input Validation ─────────────────────────────────────────────────
+        if (!ReCaptchaValidator.verify(gRecaptchaResponse)) {
+            request.setAttribute("error", "Please complete the reCAPTCHA verification to proceed.");
+            request.getRequestDispatcher("/register.jsp").forward(request, response);
+            return;
+        }
+
         if (name.isBlank()) {
             request.setAttribute("error", "Full name is required.");
             request.getRequestDispatcher("/register.jsp").forward(request, response);

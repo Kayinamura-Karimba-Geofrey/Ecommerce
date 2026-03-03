@@ -177,22 +177,6 @@
                         border: 1px solid var(--glass-border);
                     }
 
-                    .btn-wishlist {
-                        background: rgba(255, 255, 255, 0.05);
-                        color: white;
-                        border: 1px solid var(--glass-border);
-                        flex: 0 0 60px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        font-size: 1.4rem;
-                    }
-
-                    .btn-wishlist.active {
-                        color: #ef4444;
-                        border-color: #ef4444;
-                        background: rgba(239, 68, 68, 0.1);
-                    }
 
                     /* Reviews Section */
                     .reviews-section {
@@ -294,11 +278,6 @@
                                         Cart</button>
                                 </form>
 
-                                <a href="wishlist?action=${isInWishlist ? 'remove' : 'add'}&id=${product.id}"
-                                    class="btn btn-wishlist ${isInWishlist ? 'active' : ''}"
-                                    title="${isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}">
-                                    ${isInWishlist ? '❤️' : '🤍'}
-                                </a>
                             </div>
                         </div>
                     </div>

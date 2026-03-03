@@ -14,33 +14,33 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "total_amount")
+    @Column(name = "totalamount")
     private double totalAmount;
     private double subtotal;
     private double tax;
-    @Column(name = "shipping_cost")
+    @Column(name = "shippingcost")
     private double shippingCost;
-    @Column(name = "discount_amount")
+    @Column(name = "discountamount")
     private double discountAmount;
-    @Column(name = "coupon_code")
+    @Column(name = "couponcode")
     private String couponCode;
     
-    @Column(name = "billing_address", columnDefinition = "TEXT")
+    @Column(name = "billingaddress", columnDefinition = "TEXT")
     private String billingAddress;
     
-    @Column(name = "shipping_address", columnDefinition = "TEXT")
+    @Column(name = "shippingaddress", columnDefinition = "TEXT")
     private String shippingAddress;
 
     @Column(nullable = false)
     private String status;
 
-    @Column(name = "order_date")
+    @Column(name = "orderdate")
     private java.time.LocalDateTime orderDate;
 
-    @Column(name = "tracking_number")
+    @Column(name = "trackingnumber")
     private String trackingNumber;
 
-    @Column(name = "estimated_delivery")
+    @Column(name = "estimateddelivery")
     private java.time.LocalDateTime estimatedDelivery;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

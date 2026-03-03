@@ -45,17 +45,11 @@ public class ProductDetailsServlet extends HttpServlet {
             var reviews = discoveryService.getReviewsByProduct(id);
             double avgRating = productService.getAverageRating(id);
 
-            ecommerce.Model.User user = (ecommerce.Model.User) request.getSession().getAttribute("loggedUser");
-            boolean isInWishlist = false;
-            if (user != null) {
-                isInWishlist = discoveryService.isInWishlist(user.getId(), id);
-            }
 
             request.setAttribute("product", product);
             request.setAttribute("relatedProducts", relatedProducts);
             request.setAttribute("reviews", reviews);
             request.setAttribute("avgRating", avgRating);
-            request.setAttribute("isInWishlist", isInWishlist);
             request.getRequestDispatcher("product-details.jsp").forward(request, response);
         }
     }

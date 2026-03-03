@@ -185,7 +185,6 @@
                         <a href="${pageContext.request.contextPath}/products" class="nav-link">Store</a>
                         <c:if test="${not empty loggedUser}">
                             <a href="${pageContext.request.contextPath}/orders" class="nav-link">Orders</a>
-                            <a href="${pageContext.request.contextPath}/wishlist" class="nav-link">Wishlist</a>
                         </c:if>
                         <c:if test="${loggedUser.role == 'ADMIN'}">
                             <a href="${pageContext.request.contextPath}/admin/dashboard" class="nav-link"
