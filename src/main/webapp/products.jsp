@@ -74,17 +74,6 @@
                     }
 
                     /* Responsiveness */
-                    @media (max-width: 1024px) {
-                        .main-layout {
-                            grid-template-columns: 220px 1fr;
-                            gap: 25px;
-                        }
-
-                        .container {
-                            padding: 0 20px;
-                        }
-                    }
-
                     @media (max-width: 768px) {
                         .main-layout {
                             grid-template-columns: 1fr;
@@ -97,8 +86,48 @@
                         }
 
                         .products-grid {
-                            grid-template-columns: repeat(2, 1fr);
-                            gap: 15px;
+                            grid-template-columns: repeat(3, 1fr);
+                            gap: 10px;
+                        }
+
+                        .product-card .image-container {
+                            height: 120px;
+                        }
+
+                        .product-card .content {
+                            padding: 10px;
+                        }
+
+                        .product-card .product-name {
+                            font-size: 0.95rem;
+                            margin-bottom: 4px;
+                        }
+
+                        .product-card .product-desc {
+                            font-size: 0.75rem;
+                            margin-bottom: 10px;
+                        }
+
+                        .product-card .price {
+                            font-size: 1.0rem;
+                        }
+
+                        .product-card .btn-buy {
+                            padding: 6px 12px;
+                            font-size: 0.75rem;
+                        }
+
+                        .featured-section>div {
+                            grid-template-columns: repeat(3, 1fr) !important;
+                            gap: 10px !important;
+                        }
+
+                        .featured-card>a>div:first-child {
+                            height: 120px !important;
+                        }
+
+                        .featured-card>a>div:last-child {
+                            padding: 10px !important;
                         }
 
                         h1 {
