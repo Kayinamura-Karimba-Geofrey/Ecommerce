@@ -58,17 +58,29 @@ A robust, full-stack Java web application built for modern e-commerce. This proj
    ```
    *Note: To run locally, deploy the generated `.war` file in `target/` to a local Tomcat 10+ server.*
 
-## 🐳 Docker Production Deployment
+## ▲ Vercel Deployment
 
-This project includes a production-ready `Dockerfile` optimized for free cloud hosts like Render or Koyeb.
+This project can be deployed to Vercel using the `vercel-java` community runtime.
 
-1. Connect your repository to your cloud provider.
-2. The `Dockerfile` handles a multi-stage build: compiling the app via Maven and deploying it into a lightweight `tomcat:10.1-jdk21` container.
-3. Ensure the following Environment Variables are injected into your host:
-   - `DB_URL` (e.g., `jdbc:postgresql://<host>:5432/<dbname>`)
+1. **Install Vercel CLI:**
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Deploy:**
+   ```bash
+   vercel
+   ```
+
+3. **Environment Variables:**
+   Ensure you add the following secrets in your Vercel project settings:
+   - `DB_URL`
    - `DB_USERNAME`
    - `DB_PASSWORD`
    - `CLOUDINARY_URL`
+
+> [!NOTE]
+> For the best experience with traditional Java/JSP applications, dedicated Java hosting like **Railway** or **Render** is recommended.
 
 ---
 *Built by Geofrey Kayinamura*
