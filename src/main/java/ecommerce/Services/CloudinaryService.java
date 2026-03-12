@@ -13,24 +13,29 @@ public class CloudinaryService {
 
     public CloudinaryService() {
         try {
-            // In a real app, these would come from environment variables or a properties file
-            // String cloudName = System.getenv("CLOUDINARY_NAME");
-            // String apiKey = System.getenv("CLOUDINARY_API_KEY");
-            // String apiSecret = System.getenv("CLOUDINARY_API_SECRET");
+            // Priority 1: CLOUDINARY_URL (standard for Cloudinary)
+            String cloudinaryUrl = System.getenv("CLOUDINARY_URL");
             
-            // For now, we'll check if a placeholder is replaced or if we should use local fallback
-            String cloudName = null; 
-            String apiKey = null;
-            String apiSecret = null;
-
-            if (cloudName != null && apiKey != null && apiSecret != null) {
-                cloudinary = new Cloudinary(ObjectUtils.asMap(
-                    "cloud_name", cloudName,
-                    "api_key", apiKey,
-                    "api_secret", apiSecret,
-                    "secure", true
-                ));
+            if (cloudinaryUrl != null && !cloudinaryUrl.isEmpty()) {
+                cloudinary = new Cloudinary(cloudinaryUrl);
                 isConfigured = true;
+                System.out.println("Cloudinary configured via CLOUDINARY_URL");
+            } else {
+                // Priority 2: Individual variables
+                String cloudName = System.getenv("CLOUDINARY_NAME");
+                String apiKey = System.getenv("CLOUDINARY_API_KEY");
+                String apiSecret = System.getenv("CLOUDINARY_API_SECRET");
+
+                if (cloudName != null && apiKey != null && apiSecret != null) {
+                    cloudinary = new Cloudinary(ObjectUtils.asMap(
+                        "cloud_name", cloudName,
+                        "api_key", apiKey,
+                        "api_secret", apiSecret,
+                        "secure", true
+                    ));
+                    isConfigured = true;
+                    System.out.println("Cloudinary configured via individual variables");
+                }
             }
         } catch (Exception e) {
             System.err.println("Cloudinary configuration failed: " + e.getMessage());
