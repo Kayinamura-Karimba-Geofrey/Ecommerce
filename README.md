@@ -60,7 +60,7 @@ A robust, full-stack Java web application built for modern e-commerce. This proj
 
 ## ▲ Vercel Deployment
 
-This project can be deployed to Vercel using the `vercel-java` community runtime.
+This project can be deployed to Vercel using the `vercel-community-java` community runtime.
 
 1. **Install Vercel CLI:**
    ```bash
